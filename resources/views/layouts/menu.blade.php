@@ -47,3 +47,10 @@
         <p>Personas</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('casoFamiliarJuicioEtapas.index') }}" class="nav-link {{ Request::is('casoFamiliarJuicioEtapas*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Caso  Familiar  Juicio  Etapas</p>
+    </a>
+</li>
