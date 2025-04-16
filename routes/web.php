@@ -100,3 +100,5 @@ Route::group(['prefix' => ''], function () {
 
 Route::resource('contactos', App\Http\Controllers\contactosController::class);
 Route::resource('contactos', App\Http\Controllers\ContactoController::class);
+
+Route::resource('tareaEstados', App\Http\Controllers\Tarea_EstadoController::class);
