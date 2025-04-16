@@ -106,3 +106,4 @@ Route::resource('tareaPrioridads', App\Http\Controllers\Tarea_PrioridadControlle
 Route::resource('casoPenalEtapas', App\Http\Controllers\Caso_Penal_EtapaController::class);
 Route::resource('casoPenalDelitos', App\Http\Controllers\Caso_Penal_DelitoController::class);
 Route::resource('casoTipos', App\Http\Controllers\Caso_TipoController::class);
+Route::resource('personas', App\Http\Controllers\PersonaController::class);
