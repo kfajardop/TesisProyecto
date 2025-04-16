@@ -33,3 +33,10 @@
         <p>Caso  Penal  Delitos</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('casoTipos.index') }}" class="nav-link {{ Request::is('casoTipos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Caso  Tipos</p>
+    </a>
+</li>
