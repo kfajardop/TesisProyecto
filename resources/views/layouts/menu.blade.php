@@ -26,3 +26,10 @@
         <p>Caso Penal Etapas</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('casoPenalDelitos.index') }}" class="nav-link {{ Request::is('casoPenalDelitos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Caso Penal Delitos</p>
+    </a>
+</li>

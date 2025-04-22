@@ -103,3 +103,4 @@ Route::resource('contactos', App\Http\Controllers\ContactoController::class);
 Route::resource('tareaEstados', App\Http\Controllers\TareaEstadoController::class);
 Route::resource('tareaPrioridads', App\Http\Controllers\TareaPrioridadController::class);
 Route::resource('casoPenalEtapas', App\Http\Controllers\CasoPenalEtapaController::class);
+Route::resource('casoPenalDelitos', App\Http\Controllers\CasoPenalDelitoController::class);
