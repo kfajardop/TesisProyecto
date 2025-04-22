@@ -75,3 +75,10 @@
         <p>Documento Estados</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('doctoPrivadoContratos.index') }}" class="nav-link {{ Request::is('doctoPrivadoContratos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Docto Privado Contratos</p>
+    </a>
+</li>
