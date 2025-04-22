@@ -19,3 +19,10 @@
         <p>Tarea Prioridads</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('casoPenalEtapas.index') }}" class="nav-link {{ Request::is('casoPenalEtapas*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Caso Penal Etapas</p>
+    </a>
+</li>
