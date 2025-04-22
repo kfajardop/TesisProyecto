@@ -61,3 +61,10 @@
         <p>Caso Estados</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('doctoPublicoEscrituras.index') }}" class="nav-link {{ Request::is('doctoPublicoEscrituras*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Docto Publico Escrituras</p>
+    </a>
+</li>
