@@ -82,3 +82,10 @@
         <p>Docto Privado Contratos</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('doctoActaNotarials.index') }}" class="nav-link {{ Request::is('doctoActaNotarials*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Docto Acta Notarials</p>
+    </a>
+</li>
