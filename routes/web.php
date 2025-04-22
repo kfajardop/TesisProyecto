@@ -109,3 +109,4 @@ Route::resource('personas', App\Http\Controllers\PersonaController::class);
 Route::resource('casoFamiliarJuicioEtapas', App\Http\Controllers\CasoFamiliarJuicioEtapaController::class);
 Route::resource('casoEstados', App\Http\Controllers\CasoEstadoController::class);
 Route::resource('doctoPublicoEscrituras', App\Http\Controllers\DoctoPublicoEscrituraController::class);
+Route::resource('documentoEstados', App\Http\Controllers\DocumentoEstadoController::class);

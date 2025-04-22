@@ -68,3 +68,10 @@
         <p>Docto Publico Escrituras</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('documentoEstados.index') }}" class="nav-link {{ Request::is('documentoEstados*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Documento Estados</p>
+    </a>
+</li>
