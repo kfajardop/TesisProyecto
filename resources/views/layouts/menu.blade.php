@@ -54,3 +54,10 @@
         <p>Caso Familiar Juicio Etapas</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('casoEstados.index') }}" class="nav-link {{ Request::is('casoEstados*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Caso Estados</p>
+    </a>
+</li>
