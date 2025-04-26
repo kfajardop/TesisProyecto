@@ -23,16 +23,36 @@
 </div>
 
 <!-- Prioridad Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('prioridad_id', 'Prioridad Id:') !!}
-    {!! Form::number('prioridad_id', null, ['class' => 'form-control', 'required']) !!}
-</div>
+{{--<div class="form-group col-sm-6">--}}
+{{--    {!! Form::label('prioridad_id', 'Prioridad Id:') !!}--}}
+{{--    {!! Form::number('prioridad_id', null, ['class' => 'form-control', 'required']) !!}--}}
+{{--</div>--}}
 
 <!-- Estado Id Field -->
 <div class="form-group col-sm-6">
-    {!! Form::label('estado_id', 'Estado Id:') !!}
-    {!! Form::number('estado_id', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::label('estado_id', 'Estado:') !!}
+    <select name="estado_id" class="form-control" required>
+        <option value="">Seleccione un estado</option>
+        @foreach (\App\Models\TareaEstado::all() as $estado)
+            <option value="{{ $estado->id }}" {{ old('estado_id') == $estado->id ? 'selected' : '' }}>
+                {{ $estado->nombre }}
+            </option>
+        @endforeach
+    </select>
 </div>
+
+<div class="form-group col-sm-6">
+    {!! Form::label('prioridad_id', 'Prioridad:') !!}
+    <select name="prioridad_id" class="form-control" required>
+        <option value="">Seleccione una prioridad</option>
+        @foreach (\App\Models\TareaPrioridad::all() as $prioridad)
+            <option value="{{ $prioridad->id }}" {{ old('prioridad_id') == $prioridad->id ? 'selected' : '' }}>
+                {{ $prioridad->nombre }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
 <!-- Descripcion Field -->
 <div class="form-group col-sm-12 col-lg-12">

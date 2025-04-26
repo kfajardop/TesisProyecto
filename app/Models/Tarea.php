@@ -52,6 +52,6 @@ class Tarea extends Model
 
     public function prioridad(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\TareaPrioridade::class, 'prioridad_id');
+        return $this->belongsTo(\App\Models\TareaPrioridad::class, 'prioridad_id');
     }
 }

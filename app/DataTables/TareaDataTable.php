@@ -20,13 +20,18 @@ class TareaDataTable extends DataTable
 
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function(Tarea $tarea){
+            ->addColumn('action', function (Tarea $tarea) {
                 $id = $tarea->id;
-                return view('tareas.datatables_actions',compact('tarea','id'));
+                return view('tareas.datatables_actions', compact('tarea', 'id'));
             })
-            ->editColumn('id',function (Tarea $tarea){
+            ->editColumn('id', function (Tarea $tarea) {
 
                 return $tarea->id;
+
+            })
+            ->editColumn('fecha', function (Tarea $tarea) {
+
+                return $tarea->fecha->format('d-m-Y');
 
             })
             ->rawColumns(['action']);
@@ -40,7 +45,9 @@ class TareaDataTable extends DataTable
      */
     public function query(Tarea $model)
     {
-        return $model->newQuery()->select($model->getTable().'.*');
+        return $model->newQuery()
+            ->with(['estado', 'prioridad'])
+            ->select($model->getTable() . '.*');
     }
 
     /**
@@ -51,17 +58,17 @@ class TareaDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                ->columns($this->getColumns())
-                ->minifiedAjax()
-                ->ajax([
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->ajax([
                 'data' => "function(data) { formatDataDataTables($('#formFiltersDatatables').serializeArray(), data);   }"
-                ])
-                ->info(true)
-                ->language(['url' => asset('js/SpanishDataTables.json')])
-                ->responsive(true)
-                ->stateSave(false)
-                ->orderBy(1,'desc')
-                ->dom('
+            ])
+            ->info(true)
+            ->language(['url' => asset('js/SpanishDataTables.json')])
+            ->responsive(true)
+            ->stateSave(false)
+            ->orderBy(1, 'desc')
+            ->dom('
                     <"row mb-2"
                     <"col-sm-12 col-md-6" B>
                     <"col-sm-12 col-md-6" f>
@@ -72,31 +79,31 @@ class TareaDataTable extends DataTable
                     <"col-sm-6 order-1 order-sm-2 text-right" l>
                     >
                 ')
-                ->buttons(
+            ->buttons(
 
-                    Button::make('reset')
-                        ->addClass('')
-                        ->text('<i class="fa fa-undo"></i> <span class="d-none d-sm-inline">Reiniciar</span>'),
+                Button::make('reset')
+                    ->addClass('')
+                    ->text('<i class="fa fa-undo"></i> <span class="d-none d-sm-inline">Reiniciar</span>'),
 
-                    Button::make('export')
-                        ->extend('collection')
-                        ->addClass('')
-                        ->text('<i class="fa fa-download"></i> <span class="d-none d-sm-inline">Exportar</span>')
-                        ->buttons([
-                            Button::make('print')
-                                ->addClass('dropdown-item')
-                                ->text('<i class="fa fa-print"></i> <span class="d-none d-sm-inline"> Imprimir</span>'),
-                            Button::make('csv')
-                                ->addClass('dropdown-item')
-                                ->text('<i class="fa fa-file-csv"></i> <span class="d-none d-sm-inline"> Csv</span>'),
-                            Button::make('pdf')
-                                ->addClass('dropdown-item')
-                                ->text('<i class="fa fa-file-pdf"></i> <span class="d-none d-sm-inline"> Pdf</span>'),
-                            Button::make('excel')
-                                ->addClass('dropdown-item')
-                                ->text('<i class="fa fa-file-excel"></i> <span class="d-none d-sm-inline"> Excel</span>'),
-                        ]),
-                );
+                Button::make('export')
+                    ->extend('collection')
+                    ->addClass('')
+                    ->text('<i class="fa fa-download"></i> <span class="d-none d-sm-inline">Exportar</span>')
+                    ->buttons([
+                        Button::make('print')
+                            ->addClass('dropdown-item')
+                            ->text('<i class="fa fa-print"></i> <span class="d-none d-sm-inline"> Imprimir</span>'),
+                        Button::make('csv')
+                            ->addClass('dropdown-item')
+                            ->text('<i class="fa fa-file-csv"></i> <span class="d-none d-sm-inline"> Csv</span>'),
+                        Button::make('pdf')
+                            ->addClass('dropdown-item')
+                            ->text('<i class="fa fa-file-pdf"></i> <span class="d-none d-sm-inline"> Pdf</span>'),
+                        Button::make('excel')
+                            ->addClass('dropdown-item')
+                            ->text('<i class="fa fa-file-excel"></i> <span class="d-none d-sm-inline"> Excel</span>'),
+                    ]),
+            );
     }
 
     /**
@@ -111,8 +118,8 @@ class TareaDataTable extends DataTable
             Column::make('fecha'),
             Column::make('hora'),
             Column::make('descripcion'),
-            Column::make('prioridad_id'),
-            Column::make('estado_id'),
+            Column::make('prioridad.nombre'),
+            Column::make('estado.nombre'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
