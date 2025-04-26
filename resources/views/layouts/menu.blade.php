@@ -89,3 +89,10 @@
         <p>Docto Acta Notarials</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('tareas.index') }}" class="nav-link {{ Request::is('tareas*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Tareas</p>
+    </a>
+</li>
