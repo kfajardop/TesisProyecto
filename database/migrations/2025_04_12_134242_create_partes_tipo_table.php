@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('partes_tipo', function (Blueprint $table) {
+        Schema::create('parte_tipos', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('nombre', 55);
             $table->timestamps();
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('partes_tipo');
+        Schema::dropIfExists('parte_tipos');
     }
 };

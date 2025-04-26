@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('documento_tipos', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('nombre', 55);
-            $table->timestamp('created-at')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            $table->timestamps();
             $table->softDeletes();
         });
     }

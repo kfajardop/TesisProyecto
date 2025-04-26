@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('parte_involucrada_casos', function (Blueprint $table) {
             $table->foreign(['caso_id'], 'fk_partes_involucradas_casos1')->references(['id'])->on('casos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['tipo_id'], 'fk_partes_involucradas_partes_tipo1')->references(['id'])->on('partes_tipo')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['tipo_id'], 'fk_partes_involucradas_partes_tipo1')->references(['id'])->on('parte_tipos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 

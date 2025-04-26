@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('parte_involucrada_documentos', function (Blueprint $table) {
             $table->foreign(['documento_id'], 'fk_partes_involucradas_copy1_documentos1')->references(['id'])->on('documentos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['tipo_id'], 'fk_partes_involucradas_partes_tipo10')->references(['id'])->on('partes_tipo')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['tipo_id'], 'fk_partes_involucradas_partes_tipo10')->references(['id'])->on('parte_tipos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
