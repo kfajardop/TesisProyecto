@@ -114,3 +114,4 @@ Route::resource('doctoPrivadoContratos', App\Http\Controllers\DoctoPrivadoContra
 Route::resource('doctoActaNotarials', App\Http\Controllers\DoctoActaNotarialController::class);
 Route::resource('tareas', App\Http\Controllers\TareaController::class);
 Route::resource('documentoTipos', App\Http\Controllers\DocumentoTipoController::class);
+Route::resource('parteTipos', App\Http\Controllers\ParteTipoController::class);

@@ -103,3 +103,10 @@
         <p>Documento Tipos</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('parteTipos.index') }}" class="nav-link {{ Request::is('parteTipos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Parte Tipos</p>
+    </a>
+</li>
