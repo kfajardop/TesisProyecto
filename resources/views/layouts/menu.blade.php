@@ -96,3 +96,10 @@
         <p>Tareas</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('documentoTipos.index') }}" class="nav-link {{ Request::is('documentoTipos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Documento Tipos</p>
+    </a>
+</li>
