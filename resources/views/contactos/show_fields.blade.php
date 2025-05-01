@@ -6,7 +6,7 @@
 
 <!-- Telefono Field -->
 <div class="col-sm-12">
-    {!! Form::label('telefono', 'Telefono:') !!}
+    {!! Form::label('telefono', 'Teléfono:') !!}
     <p>{{ $contacto->telefono }}</p>
 </div>
 
