@@ -56,6 +56,6 @@
 
 <!-- Descripcion Field -->
 <div class="form-group col-sm-12 col-lg-12">
-    {!! Form::label('descripcion', 'Descripcion:') !!}
+    {!! Form::label('descripcion', 'Descripción:') !!}
     {!! Form::textarea('descripcion', null, ['class' => 'form-control', 'maxlength' => 65535, 'maxlength' => 65535]) !!}
 </div>

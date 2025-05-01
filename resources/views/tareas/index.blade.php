@@ -17,7 +17,7 @@
                             <a class="btn btn-outline-success"
                                href="{{ route('tareas.create') }}">
                                 <i class="fa fa-plus"></i>
-                                <span class="d-none d-sm-inline">Nuevo</span>
+                                <span class="d-none d-sm-inline">Nueva Tarea</span>
                             </a>
                         </li>
                     </ol>
