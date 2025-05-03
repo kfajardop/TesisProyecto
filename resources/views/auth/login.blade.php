@@ -23,7 +23,8 @@
 
                         <input id="login" type="text"
                                class="form-control{{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"
-                               name="login" value="{{ old('username') ?: old('email') }}" required autofocus>
+                               name="login" value="{{ old('username') ?: old('email') }}" required autofocus
+                               placeholder="{{__('Username')}}">
 
                         <div class="input-group-append">
                             <div class="input-group-text">
