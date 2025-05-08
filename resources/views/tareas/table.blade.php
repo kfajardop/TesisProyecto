@@ -7,6 +7,15 @@
 @push('scripts')
 
     {!! $dataTable->scripts() !!}
+    <style>
+        thead tr:first-child th:first-child {
+            border-top-left-radius: 0.3rem;
+        }
+        thead tr:first-child th:last-child {
+            border-top-right-radius: 0.3rem;
+        }
+    </style>
+
     <script>
         $(function () {
             var dt = window.LaravelDataTables["dataTableBuilder"];
@@ -14,6 +23,10 @@
             //Cuando dibuja la tabla
             dt.on( 'draw.dt', function () {
                 $(this).addClass('table-sm table-striped table-bordered table-hover');
+
+                // Agrega estilo al encabezado
+                $(this).find('thead').addClass('bg-gradient-primary text-white');
+
                 $('[data-toggle="tooltip"]').tooltip();
             });
 
