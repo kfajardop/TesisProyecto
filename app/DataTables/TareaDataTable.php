@@ -117,10 +117,10 @@ class TareaDataTable extends DataTable
             Column::make('nombre'),
             Column::make('fecha'),
             Column::make('hora'),
-            Column::make('descripcion'),
-            Column::make('prioridad.nombre'),
-            Column::make('estado.nombre'),
-            Column::computed('action')
+            //Column::make('descripcion'),
+            Column::make('prioridad.nombre')->title('Prioridad'),
+            Column::make('estado.nombre')->title('Estado'),
+            Column::computed('action')->title('Acciones')
                 ->exportable(false)
                 ->printable(false)
                 ->width('20%')
