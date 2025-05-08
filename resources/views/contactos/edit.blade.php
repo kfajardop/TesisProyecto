@@ -14,7 +14,7 @@
                     </h1>
                 </div>
                 <div class="col ">
-                    <a class="btn btn-outline-secondary float-right"
+                    <a class="btn btn-outline-info float-right"
                        href="{{ route('contactos.index') }}"
                     >
                         <i class="fa fa-arrow-left"></i>
