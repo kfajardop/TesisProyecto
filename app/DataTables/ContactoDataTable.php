@@ -108,9 +108,9 @@ class ContactoDataTable extends DataTable
     {
         return [
             Column::make('nombre'),
-            Column::make('telefono'),
-            Column::make('comentario'),
-            Column::computed('action')
+            Column::make('telefono')->title('Teléfono'),
+            //Column::make('comentario'),
+            Column::computed('action')->title('Acciones')
                 ->exportable(false)
                 ->printable(false)
                 ->width('20%')

@@ -1,4 +1,4 @@
-<div class="card shadow-sm">
+<div class="card shadow-sm w-100">
     <!-- Encabezado -->
     <div class="card-header bg-gradient-primary text-white font-weight-medium rounded-top text-center"
          style="font-size: 20px;"> DETALLE DE LA TAREA
