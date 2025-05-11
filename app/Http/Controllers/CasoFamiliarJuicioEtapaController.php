@@ -7,6 +7,7 @@ use App\Http\Requests\CreateCasoFamiliarJuicioEtapaRequest;
 use App\Http\Requests\UpdateCasoFamiliarJuicioEtapaRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\CasoFamiliarJuicioEtapa;
+use App\Models\CasoFamiliarJuicioTipo;
 use Illuminate\Http\Request;
 
 class CasoFamiliarJuicioEtapaController extends AppBaseController
@@ -33,7 +34,10 @@ class CasoFamiliarJuicioEtapaController extends AppBaseController
      */
     public function create()
     {
-        return view('caso_familiar_juicio_etapas.create');
+        // ✅ Obtener listado de tipos de juicio
+        $tiposJuicio = CasoFamiliarJuicioTipo::pluck('nombre', 'id');
+
+        return view('caso_familiar_juicio_etapas.create', compact('tiposJuicio'));
     }
 
     /**
@@ -73,17 +77,17 @@ class CasoFamiliarJuicioEtapaController extends AppBaseController
      */
     public function edit($id)
     {
-        /** @var CasoFamiliarJuicioEtapa $casoFamiliarJuicioEtapa */
         $casoFamiliarJuicioEtapa = CasoFamiliarJuicioEtapa::find($id);
 
         if (empty($casoFamiliarJuicioEtapa)) {
             flash()->error('Caso Familiar Juicio Etapa no encontrado');
-
             return redirect(route('casoFamiliarJuicioEtapas.index'));
         }
 
-        return view('caso_familiar_juicio_etapas.edit')->with('casoFamiliarJuicioEtapa', $casoFamiliarJuicioEtapa);
+        $tiposJuicio = CasoFamiliarJuicioTipo::pluck('nombre', 'id'); // ← Añadido
+        return view('caso_familiar_juicio_etapas.edit', compact('casoFamiliarJuicioEtapa', 'tiposJuicio'));
     }
+
 
     /**
      * Update the specified CasoFamiliarJuicioEtapa in storage.

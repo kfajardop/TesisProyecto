@@ -10,7 +10,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-                        Editar Caso Familiar Juicio Etapa
+                        Editar Etapa de Juicios
                     </h1>
                 </div>
                 <div class="col ">

@@ -108,7 +108,7 @@ class CasoFamiliarJuicioTipoDataTable extends DataTable
     {
         return [
             Column::make('nombre'),
-            Column::computed('action')
+            Column::computed('action')->title('Acciones')
                 ->exportable(false)
                 ->printable(false)
                 ->width('20%')

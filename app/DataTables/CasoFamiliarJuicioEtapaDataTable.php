@@ -20,6 +20,17 @@ class CasoFamiliarJuicioEtapaDataTable extends DataTable
 
         return datatables()
             ->eloquent($query)
+
+            ->addColumn('tipo_juicio', function (CasoFamiliarJuicioEtapa $row) {
+                return $row->tipoJuicio->nombre ?? 'No definido';
+            })
+
+            ->filterColumn('tipo_juicio', function($query, $keyword) {
+                $query->whereHas('tipoJuicio', function($q) use ($keyword) {
+                    $q->where('nombre', 'LIKE', "%{$keyword}%");
+                });
+            })
+
             ->addColumn('action', function(CasoFamiliarJuicioEtapa $casoFamiliarJuicioEtapa){
                 $id = $casoFamiliarJuicioEtapa->id;
                 return view('caso_familiar_juicio_etapas.datatables_actions',compact('casoFamiliarJuicioEtapa','id'));
@@ -40,7 +51,10 @@ class CasoFamiliarJuicioEtapaDataTable extends DataTable
      */
     public function query(CasoFamiliarJuicioEtapa $model)
     {
-        return $model->newQuery()->select($model->getTable().'.*');
+        return $model->newQuery()
+            ->with('tipoJuicio')
+
+            ->select($model->getTable().'.*');
     }
 
     /**
@@ -108,7 +122,8 @@ class CasoFamiliarJuicioEtapaDataTable extends DataTable
     {
         return [
             Column::make('nombre'),
-            Column::computed('action')
+            Column::make('tipo_juicio')->title('Tipo de Juicio'),
+            Column::computed('action')->title('Acciones')
                 ->exportable(false)
                 ->printable(false)
                 ->width('20%')
