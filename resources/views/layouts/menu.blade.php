@@ -110,3 +110,10 @@
         <p>Parte Tipos</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('casoFamiliarJuicioTipos.index') }}" class="nav-link {{ Request::is('casoFamiliarJuicioTipos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Caso Familiar Juicio Tipos</p>
+    </a>
+</li>
