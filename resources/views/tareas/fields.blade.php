@@ -7,7 +7,7 @@
 <!-- Fecha Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('fecha', 'Fecha:') !!}
-    {!! Form::date('fecha', null, ['class' => 'form-control','id'=>'fecha']) !!}
+    {!! Form::date('fecha', old('fecha', optional($tarea ?? null)->fecha ? optional($tarea)->fecha->format('Y-m-d') : null), ['class' => 'form-control', 'id'=>'fecha']) !!}
 </div>
 
 @push('page_scripts')
@@ -34,7 +34,7 @@
     <select name="estado_id" class="form-control" required>
         <option value="">Seleccione un estado</option>
         @foreach (\App\Models\TareaEstado::all() as $estado)
-            <option value="{{ $estado->id }}" {{ old('estado_id') == $estado->id ? 'selected' : '' }}>
+            <option value="{{ $estado->id }}" {{ old('estado_id', optional($tarea ?? null)->estado_id) == $estado->id ? 'selected' : '' }}>
                 {{ $estado->nombre }}
             </option>
         @endforeach
@@ -46,7 +46,7 @@
     <select name="prioridad_id" class="form-control" required>
         <option value="">Seleccione una prioridad</option>
         @foreach (\App\Models\TareaPrioridad::all() as $prioridad)
-            <option value="{{ $prioridad->id }}" {{ old('prioridad_id') == $prioridad->id ? 'selected' : '' }}>
+            <option value="{{ $prioridad->id }}" {{ old('prioridad_id', optional($tarea ?? null)->prioridad_id) == $prioridad->id ? 'selected' : '' }}>
                 {{ $prioridad->nombre }}
             </option>
         @endforeach
