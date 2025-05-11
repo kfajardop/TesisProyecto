@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('caso_familiar_detalles', function (Blueprint $table) {
-            $table->foreign(['caso_id'], 'fk_caso_familiar_detalles_casos1')->references(['id'])->on('casos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        Schema::create('caso_familiar_juicio_tipos', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->string('nombre');
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('caso_familiar_detalles', function (Blueprint $table) {
-            $table->dropForeign('fk_caso_familiar_detalles_casos1');
-        });
+        Schema::dropIfExists('caso_familiar_juicio_tipos');
     }
 };

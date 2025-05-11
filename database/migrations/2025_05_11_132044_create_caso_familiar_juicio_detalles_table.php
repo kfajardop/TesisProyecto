@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('caso_familiar_detalles', function (Blueprint $table) {
+        Schema::create('caso_familiar_juicio_detalles', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('caso_id')->index('fk_caso_familiar_detalles_casos1_idx');
+            $table->string('nombre')->nullable();
+            $table->integer('juicio_etapa_id')->index('fk_caso_familiar_juicios_caso_familiar_juicio_etapas1_idx');
+            $table->integer('caso_id')->index('fk_caso_familiar_juicios_casos1_idx');
+            $table->integer('tipo_juicio_id')->index('fk_caso_familiar_juicios_caso_familiar_juicio_tipos1_idx');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('caso_familiar_detalles');
+        Schema::dropIfExists('caso_familiar_juicio_detalles');
     }
 };

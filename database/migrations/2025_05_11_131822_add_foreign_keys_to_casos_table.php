@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::table('casos', function (Blueprint $table) {
-            $table->foreign(['bitacora_caso_id'], 'fk_casos_bitacora_casos1')->references(['id'])->on('bitacora_casos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['estado_id'], 'fk_casos_caso_estados1')->references(['id'])->on('caso_estados')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['tipo_id'], 'fk_casos_tipos_casos1')->references(['id'])->on('caso_tipos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['usuario_id'], 'fk_casos_usuarios1')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -29,7 +28,6 @@ return new class extends Migration
     public function down()
     {
         Schema::table('casos', function (Blueprint $table) {
-            $table->dropForeign('fk_casos_bitacora_casos1');
             $table->dropForeign('fk_casos_caso_estados1');
             $table->dropForeign('fk_casos_tipos_casos1');
             $table->dropForeign('fk_casos_usuarios1');

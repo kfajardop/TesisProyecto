@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('caso_familiar_juicios', function (Blueprint $table) {
+        Schema::create('tareas', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->string('nombre');
-            $table->integer('detalles_id')->index('fk_caso_familiar_juicios_caso_familiar_detalles1_idx');
-            $table->integer('juicio_etapas_id')->index('fk_caso_familiar_juicios_caso_familiar_juicio_etapas1_idx');
+            $table->string('nombre', 55);
+            $table->date('fecha')->nullable();
+            $table->time('hora')->nullable();
+            $table->text('descripcion')->nullable();
+            $table->integer('prioridad_id')->index('fk_tareas_tarea_prioridades1_idx');
+            $table->integer('estado_id')->index('fk_tareas_tarea_estados1_idx');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('caso_familiar_juicios');
+        Schema::dropIfExists('tareas');
     }
 };

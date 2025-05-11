@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('caso_familiar_juicio_etapas', function (Blueprint $table) {
+        Schema::create('bitacora_casos', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->string('nombre');
+            $table->text('descripcion');
+            $table->unsignedBigInteger('usuario_id')->index('fk_bitacora_casos_usuarios1_idx');
+            $table->integer('caso_id')->index('fk_bitacora_casos_casos1_idx');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('caso_familiar_juicio_etapas');
+        Schema::dropIfExists('bitacora_casos');
     }
 };
