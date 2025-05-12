@@ -5,7 +5,7 @@
 @section('content')
 
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header px-4">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -31,8 +31,10 @@
             <div class="clearfix"></div>
 
             <div class="clearfix"></div>
-            <div class="card card-primary">
-                <div class="card-body">
+            <div class="card card-primary" style="box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+            border-radius: 8px; margin: 1rem;">
+
+            <div class="card-body">
 
                     @include('caso_familiar_juicio_etapas.table')
 

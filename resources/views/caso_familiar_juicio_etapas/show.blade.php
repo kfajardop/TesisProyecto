@@ -5,12 +5,12 @@
 @section('content')
 
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header px-4">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-                        Detalle de Etapa de Juicio
+                        Etapa de Juicio
                     </h1>
                 </div>
                 <div class="col ">
@@ -32,7 +32,8 @@
                 <div class="col-12">
 
 
-                    <div class="card">
+                    <div class="card" style="box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+                     border-radius: 8px; margin: 1rem;">
 
 
                         <div class="card-body">

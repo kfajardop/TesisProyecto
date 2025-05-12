@@ -5,7 +5,7 @@
 @section('content')
 
 
-    <section class="content-header">
+    <section class="content-header px-4">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -14,7 +14,7 @@
                     </h1>
                 </div>
                 <div class="col ">
-                    <a class="btn btn-outline-secondary float-right"
+                    <a class="btn btn-outline-info float-right"
                        href="{{ route('casoFamiliarJuicioEtapas.index') }}"
                     >
                         <i class="fa fa-arrow-left"></i>
@@ -33,7 +33,8 @@
 
                     @include('layouts.partials.request_errors')
 
-                    <div class="card">
+                    <div class="card" style="box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+                     border-radius: 8px; margin: 1rem;">
 
                         {!! Form::model($casoFamiliarJuicioEtapa, ['route' => ['casoFamiliarJuicioEtapas.update', $casoFamiliarJuicioEtapa->id], 'method' => 'patch','class' => 'esperar']) !!}
 

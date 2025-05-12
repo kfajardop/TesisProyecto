@@ -6,7 +6,7 @@
 
 
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <section class="content-header px-4">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -24,7 +24,7 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    <div class="content">
+    <div class="content ">
         <div class="container-fluid">
 
             <div class="row">
@@ -32,7 +32,8 @@
 
                     @include('layouts.partials.request_errors')
 
-                    <div class="card">
+                    <div class="card" style="box-shadow: 0 2px 20px rgba(0, 0, 0, 0.25);
+                     border-radius: 8px; margin: 1rem;">
 
                         {!! Form::open(['route' => 'casoFamiliarJuicioEtapas.store','class' => 'esperar']) !!}
 
