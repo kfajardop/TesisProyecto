@@ -75,18 +75,23 @@ class CasoFamiliarJuicioEtapaDataTable extends DataTable
                 ->responsive(true)
                 ->stateSave(false)
                 ->orderBy(1,'desc')
+
                 ->dom('
-                    <"row mb-2"
-                    <"col-sm-12 col-md-6" B>
-                    <"col-sm-12 col-md-6" f>
-                    >
-                    rt
-                    <"row"
-                    <"col-sm-6 order-2 order-sm-1" ip>
-                    <"col-sm-6 order-1 order-sm-2 text-right" l>
-                    >
-                ')
-                ->buttons(
+                        <"row mb-3"
+                            <"col-12" B>
+                        >
+                        <"row mb-3"
+                            <"col-12 col-md-6 mb-2 mb-md-0" l>
+                            <"col-12 col-md-6 text-md-right" f>
+                        >
+                        rt
+                        <"d-flex flex-wrap justify-content-between align-items-center mt-2"
+                            <"dataTables_info" i>
+                            <"dataTables_paginate" p>
+                        >
+                    ')
+
+            ->buttons(
 
                     Button::make('reset')
                         ->addClass('')
