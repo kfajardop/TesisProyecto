@@ -29,6 +29,15 @@ class ClienteDataTable extends DataTable
                 return $cliente->id;
 
             })
+            ->editColumn('nombre_completo',function (Cliente $cliente){
+                return $cliente->nombre_completo;
+            })
+            ->editColumn('telefono',function (Cliente $cliente){
+                return $cliente->telefono;
+            })
+            ->editColumn('direccion_completa',function (Cliente $cliente){
+                return $cliente->direccion->direccion_completa;
+            })
             ->rawColumns(['action']);
     }
 
@@ -107,13 +116,15 @@ class ClienteDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('primer_nombre'),
-            Column::make('segundo_nombre'),
-            Column::make('primer_apellido'),
-            Column::make('segundo_apellido'),
-            Column::make('dpi'),
+            Column::make('nombre_completo')
+                ->title('Nombre completo')
+                ->searchable(true)
+                ->orderable(false),
             Column::make('telefono'),
-            Column::make('direccion_id'),
+            Column::make('direccion_completa')
+                ->title('Dirección')
+                ->searchable(true)
+                ->orderable(false),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

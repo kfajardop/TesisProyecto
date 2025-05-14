@@ -34,6 +34,9 @@ class Direccion extends Model
     public static $messages = [
 
     ];
+    protected $appends = [
+        'direccion_completa'
+    ];
 
     public function municipio(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -43,5 +46,11 @@ class Direccion extends Model
     public function clientes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Cliente::class, 'direccion_id');
+    }
+
+    public function getDireccionCompletaAttribute()
+    {
+        return $this->direccion . ', ' . $this->municipio->nombre . ', ' . $this->municipio->departamento->nombre;
+
     }
 }

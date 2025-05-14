@@ -50,8 +50,19 @@ class Cliente extends Model
 
     ];
 
+    protected $appends = [
+        'nombre_completo'
+    ];
+
     public function direccion(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Direccion::class, 'direccion_id');
+    }
+
+    public function getNombreCompletoAttribute()
+    {
+
+        return $this->dpi . '-' . $this->primer_nombre . ' ' . $this->segundo_nombre . ' ' . $this->primer_apellido . ' ' . $this->segundo_apellido;
+
     }
 }
