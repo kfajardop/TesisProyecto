@@ -40,6 +40,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ParteTiposTableSeeder::class);
 
 
+        //Seeders para direcciones
+        $this->call(DepartamentosTableSeeder::class);
+        $this->call(MunicipiosTableSeeder::class);
+
 
         //Seeders con datos de prueba
         $this->call(PersonasTableSeeder::class);
