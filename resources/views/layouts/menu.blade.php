@@ -138,3 +138,10 @@
         <p>Parte Involucrada Casos</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('casoPenalDetalles.index') }}" class="nav-link {{ Request::is('casoPenalDetalles*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Caso Penal Detalles</p>
+    </a>
+</li>

@@ -119,3 +119,4 @@ Route::resource('casoFamiliarJuicioTipos', App\Http\Controllers\CasoFamiliarJuic
 Route::resource('casos', App\Http\Controllers\CasoController::class);
 Route::resource('casoFamiliarJuicioDetalles', App\Http\Controllers\CasoFamiliarJuicioDetalleController::class);
 Route::resource('parteInvolucradaCasos', App\Http\Controllers\ParteInvolucradaCasosController::class);
+Route::resource('casoPenalDetalles', App\Http\Controllers\CasoPenalDetalleController::class);

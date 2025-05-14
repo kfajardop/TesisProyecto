@@ -92,7 +92,7 @@ class CasoController extends AppBaseController
             $caso->penalDetalles()
                 ->create([
                     'no_causa' => $request->no_causa,
-                    'no_expendiente' => $request->no_expediente,
+                    'no_expediente' => $request->no_expediente,
                     'delito_id' => $request->delito_id,
                     'etapa_id' => CasoPenalEtapa::PREPARATORIA,
                 ]);
