@@ -71,6 +71,74 @@
             </div>
         </div>
     </div>
+
+    <div class="form-group col-sm-12" v-if="casoTipo?.id === CasoTipoPenal">
+        <div class="form-row">
+            <div class="form-group col-sm-6">
+                <label for="tipo_id">No. Causa:</label>
+                <input class="form-control" type="text" name="no_causa">
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="tipo_id">No. Expediente:</label>
+                <input type="text" class="form-control" name="no_expediente">
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="tipo_id">Delito:</label>
+                <multiselect
+                    v-model="CasoPenalDelito"
+                    :options="CasoPenalDelitos"
+                    :multiple="false"
+                    placeholder="Selecciona un delito"
+                    label="nombre"
+                    track-by="id"
+                    :preselect-first="false">
+                </multiselect>
+                <input type="hidden" name="delito_id" :value="CasoPenalDelito ? CasoPenalDelito.id : ''" v-if="CasoPenalDelito">
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="tipo_id">víctimas:</label>
+                <multiselect
+                    v-model="victimas"
+                    :options="personas"
+                    :multiple="true"
+                    placeholder="Selecciona una víctima"
+                    label="nombre_completo"
+                    track-by="id"
+                    :preselect-first="false">
+                </multiselect>
+                <input type="hidden" name="victimas" :value="JSON.stringify(victimas)">
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="tipo_id">Víctimarios:</label>
+                <multiselect
+                    v-model="victimarios"
+                    :options="personas"
+                    :multiple="true"
+                    placeholder="Selecciona victimarios"
+                    label="nombre_completo"
+                    track-by="id"
+                    :preselect-first="false">
+                </multiselect>
+                <input type="hidden" name="victimarios" :value="JSON.stringify(victimarios)">
+            </div>
+
+            <div class="form-group col-sm-6">
+                <label for="tipo_id">Etapa:</label>
+                <multiselect
+                    v-model="CasoPenalEtapa"
+                    :options="CasoPenalEtapas"
+                    :multiple="false"
+                    placeholder="Selecciona una etapa"
+                    label="nombre"
+                    track-by="id"
+                    :preselect-first="false">
+                </multiselect>
+                <input type="hidden" name="etapa_id" :value="CasoPenalEtapa ? CasoPenalEtapa.id : ''" v-if="CasoPenalEtapa">
+            </div>
+        </div>
+    </div>
+
+
     <div class="form-group col-sm-12">
         <label for="personas_demandadas">Observaciones:</label>
         <Textarea
@@ -82,17 +150,6 @@
         </Textarea>
         <input type="hidden" name="observaciones" :value="observaciones">
     </div>
-
-    <!-- Hidden inputs para enviar los valores seleccionados al backend -->
-
-
-
-
-    <!-- Como personasDemandantes y personasDemandadas son múltiples, los enviamos como arrays -->
-
-
-
-
 
 </div>
 
@@ -112,9 +169,18 @@
                 CasoTipoFamiliar: @json(\App\Models\CasoTipo::FAMILIAR),
                 CasoTipoPenal: @json(\App\Models\CasoTipo::PENAL),
 
+                CasoPenalEtapas: @json(\App\Models\CasoPenalEtapa::all()),
+                CasoPenalEtapa: null,
+
+                CasoPenalDelitos: @json(\App\Models\CasoPenalDelito::all()),
+                CasoPenalDelito: null,
+
                 personas: @json($personas),
                 personasDemandantes: null,
                 personasDemandadas: null,
+
+                victimas: null,
+                victimarios: null,
 
                 observaciones: null,
             },
@@ -125,10 +191,6 @@
                     }
                     return [];
                 },
-            },
-
-            mounted() {
-                console.log(this.personas);
             },
         });
     </script>

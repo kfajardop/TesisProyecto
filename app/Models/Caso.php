@@ -67,9 +67,9 @@ class Caso extends Model
         return $this->hasMany(\App\Models\CasoFamiliarJuicioDetalle::class, 'caso_id');
     }
 
-    public function casoPenalDetalles(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function penalDetalles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\CasoPenalDetalle::class, 'caso_id');
+        return $this->hasMany(\App\Models\CasoPenal::class, 'caso_id');
     }
 
     public function partesInvolucradas(): \Illuminate\Database\Eloquent\Relations\HasMany

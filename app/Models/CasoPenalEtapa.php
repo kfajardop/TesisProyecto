@@ -33,6 +33,13 @@ class CasoPenalEtapa extends Model
 
     ];
 
+
+    const PREPARATORIA = 1;
+    const INTERMEDIA = 2;
+    const JUICIO = 3;
+    const IMPUGNACION = 4;
+    const EJECUCION = 5;
+
     public function casoPenalDetalles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\CasoPenalDetalle::class, 'etapa_id');

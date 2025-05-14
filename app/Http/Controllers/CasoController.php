@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCasoRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Caso;
 use App\Models\CasoFamiliarJuicioDetalle;
+use App\Models\CasoPenalEtapa;
 use App\Models\CasoTipo;
 use App\Models\ParteInvolucradaCasos;
 use App\Models\ParteTipo;
@@ -85,6 +86,38 @@ class CasoController extends AppBaseController
                     'tipo_id' => ParteTipo::DEMANDADO,
                 ]);
             }
+        }
+
+        if ($request->tipo_id == CasoTipo::PENAL){
+            $caso->penalDetalles()
+                ->create([
+                    'no_causa' => $request->no_causa,
+                    'no_expendiente' => $request->no_expediente,
+                    'delito_id' => $request->delito_id,
+                    'etapa_id' => CasoPenalEtapa::PREPARATORIA,
+                ]);
+
+            $visctimas = json_decode($request->input('victimas'), true);
+            $victimarios = json_decode($request->input('victimarios'), true);
+
+            foreach ($visctimas as $index => $victima) {
+                ParteInvolucradaCasos::create([
+                    'caso_id' => $caso->id,
+                    'model_type' => $victima['model_type'],
+                    'model_id' => $victima['id'],
+                    'tipo_id' => ParteTipo::VICTIMA,
+                ]);
+            }
+
+            foreach ($victimarios as $index => $victimario) {
+                ParteInvolucradaCasos::create([
+                    'caso_id' => $caso->id,
+                    'model_type' => $victimario['model_type'],
+                    'model_id' => $victimario['id'],
+                    'tipo_id' => ParteTipo::VICTIMARIO,
+                ]);
+            }
+
         }
 
         flash()->success('Caso guardado.');

@@ -27,8 +27,14 @@ class DatabaseSeeder extends Seeder
         //Seeders para los casos
         $this->call(CasoTiposTableSeeder::class);
         $this->call(CasoEstadosTableSeeder::class);
+
+        //Seeders para los casos familiares
         $this->call(CasoFamiliarJuicioTiposTableSeeder::class);
         $this->call(CasoFamiliarJuicioEtapasTableSeeder::class);
+
+        //Seeders para casos penales
+        $this->call(CasoPenalDelitosTableSeeder::class);
+        $this->call(CasoPenalEtapasTableSeeder::class);
 
         //Seeders para las partes involucradas
         $this->call(ParteTiposTableSeeder::class);

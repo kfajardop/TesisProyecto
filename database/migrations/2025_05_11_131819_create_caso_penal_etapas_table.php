@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('caso_penal_etapas', function (Blueprint $table) {
             $table->integer('id', true);
             $table->string('nombre', 55);
+            $table->integer('orden')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
