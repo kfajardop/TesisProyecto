@@ -159,3 +159,10 @@
         <p>Departamentos</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('municipios.index') }}" class="nav-link {{ Request::is('municipios*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Municipios</p>
+    </a>
+</li>
