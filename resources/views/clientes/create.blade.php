@@ -38,11 +38,11 @@
 
                         <div class="card-body">
 
-                            <div class="form-row">
+
 
                                 @include('clientes.fields')
 
-                            </div>
+
                         </div>
 
                         <div class="card-footer text-right bg-white border-top">

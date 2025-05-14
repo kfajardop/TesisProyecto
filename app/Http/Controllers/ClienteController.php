@@ -27,7 +27,6 @@ class ClienteController extends AppBaseController
     return $clienteDataTable->render('clientes.index');
     }
 
-
     /**
      * Show the form for creating a new Cliente.
      */
