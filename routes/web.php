@@ -116,3 +116,6 @@ Route::resource('tareas', App\Http\Controllers\TareaController::class);
 Route::resource('documentoTipos', App\Http\Controllers\DocumentoTipoController::class);
 Route::resource('parteTipos', App\Http\Controllers\ParteTipoController::class);
 Route::resource('casoFamiliarJuicioTipos', App\Http\Controllers\CasoFamiliarJuicioTipoController::class);
+Route::resource('casos', App\Http\Controllers\CasoController::class);
+Route::resource('casoFamiliarJuicioDetalles', App\Http\Controllers\CasoFamiliarJuicioDetalleController::class);
+Route::resource('parteInvolucradaCasos', App\Http\Controllers\ParteInvolucradaCasosController::class);

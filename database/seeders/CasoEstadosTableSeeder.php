@@ -15,9 +15,15 @@ class CasoEstadosTableSeeder extends Seeder
     public function run()
     {
 
-        CasoEstado::create([
-            'nombre' => 'Activo',
-        ]);
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        \DB::table('caso_estados')->truncate();
+
+        CasoEstado::create(['nombre' => 'Creado']);
+        CasoEstado::create(['nombre' => 'Finalizado']);
+        CasoEstado::create(['nombre' => 'Cancelado']);
+
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
     }
 }

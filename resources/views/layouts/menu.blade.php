@@ -117,3 +117,24 @@
         <p>Caso Familiar Juicio Tipos</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('casos.index') }}" class="nav-link {{ Request::is('casos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Casos</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('casoFamiliarJuicioDetalles.index') }}" class="nav-link {{ Request::is('casoFamiliarJuicioDetalles*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Caso Familiar Juicio Detalles</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('parteInvolucradaCasos.index') }}" class="nav-link {{ Request::is('parteInvolucradaCasos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Parte Involucrada Casos</p>
+    </a>
+</li>

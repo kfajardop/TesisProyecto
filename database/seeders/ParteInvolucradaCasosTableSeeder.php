@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Persona;
 use Illuminate\Database\Seeder;
 
-class PersonasTableSeeder extends Seeder
+class ParteInvolucradaCasosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,8 +14,5 @@ class PersonasTableSeeder extends Seeder
     public function run()
     {
 
-        Persona::factory()
-            ->count(10)
-            ->create();
     }
 }

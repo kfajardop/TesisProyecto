@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->string('nombre');
             $table->integer('tipo_juicio_id')->index('fk_caso_familiar_juicio_etapas_caso_familiar_juicio_tipos1_idx');
+            $table->integer('orden');
             $table->timestamps();
             $table->softDeletes();
         });

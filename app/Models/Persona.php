@@ -38,6 +38,11 @@ class Persona extends Model
         'deleted_at' => 'nullable'
     ];
 
+    protected $appends = [
+        'nombre_completo',
+        'model_type'
+    ];
+
     public static $messages = [
 
     ];
@@ -45,5 +50,17 @@ class Persona extends Model
     public function documentos(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(\App\Models\Documento::class, 'personas_has_documentos');
+    }
+
+    public function getNombreCompletoAttribute()
+    {
+        return $this->primer_nombre . ' ' . $this->segundo_nombre . ' ' . $this->primer_apellido . ' ' . $this->segundo_apellido;
+    }
+
+    public function getModelTypeAttribute()
+    {
+        //Retornar el model type de esta clase
+        return 'App\\Models\\Persona';
+
     }
 }

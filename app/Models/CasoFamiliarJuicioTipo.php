@@ -33,6 +33,15 @@ class CasoFamiliarJuicioTipo extends Model
 
     ];
 
+    const JUICIO_POR_DIVORCIO_VOLUNTARIO = 1;
+    const JUICIO_ORAL_DE_DIVORCIO = 2;
+    const JUICIO_ORAL_DE_AUMENTO_DE_PENSION_ALIMENTICIA = 3;
+    const JUICIO_ORAL_DE_EXTINCION_DE_PENSION_ALIMENTICIA = 4;
+    const JUICIO_ORAL_DE_FIJACION_DE_PENSION_ALIMENTICIA = 5;
+    const JUICIO_ORAL_DE_FILIACION_Y_PATERNIDAD = 6;
+    const JUICIO_EJECUTIVO_EN_LA_VIA_DE_APREMIO = 7;
+    const JUICIO_ORAL_DE_RELACIONES_FAMILIARES = 8;
+
     public function casoFamiliarJuicioDetalles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\CasoFamiliarJuicioDetalle::class, 'tipo_juicio_id');

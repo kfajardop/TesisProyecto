@@ -33,6 +33,9 @@ class CasoTipo extends Model
 
     ];
 
+    const FAMILIAR = 1;
+    const PENAL = 2;
+
     public function casos(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Caso::class, 'tipo_id');

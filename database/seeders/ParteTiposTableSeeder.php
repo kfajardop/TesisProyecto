@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ParteTipo;
 use Illuminate\Database\Seeder;
 
 class ParteTiposTableSeeder extends Seeder
@@ -13,6 +14,15 @@ class ParteTiposTableSeeder extends Seeder
      */
     public function run()
     {
+
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
+        \DB::table('parte_tipos')->truncate();
+
+        ParteTipo::create(['nombre' => 'Demandante']);
+        ParteTipo::create(['nombre' => 'Demandado']);
+
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
     }
 }

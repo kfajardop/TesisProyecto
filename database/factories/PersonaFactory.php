@@ -22,15 +22,14 @@ class PersonaFactory extends Factory
      */
     public function definition()
     {
-        
+
         return [
-            'primer_nombre' => $this->faker->text($this->faker->numberBetween(5, 55)),
-            'segundo_nombre' => $this->faker->text($this->faker->numberBetween(5, 55)),
-            'primer_apellido' => $this->faker->text($this->faker->numberBetween(5, 55)),
-            'segundo_apellido' => $this->faker->text($this->faker->numberBetween(5, 55)),
+            'primer_nombre' => $this->faker->text($this->faker->numberBetween(5, 20)),
+            'segundo_nombre' => $this->faker->text($this->faker->numberBetween(5, 20)),
+            'primer_apellido' => $this->faker->text($this->faker->numberBetween(5, 20)),
+            'segundo_apellido' => $this->faker->text($this->faker->numberBetween(5, 20)),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
-            'deleted_at' => $this->faker->date('Y-m-d H:i:s')
         ];
     }
 }
