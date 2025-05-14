@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Caso;
+use App\Models\CasoTipo;
 use App\Models\ParteTipo;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Button;
@@ -30,34 +31,76 @@ class CasoDataTable extends DataTable
                 return $caso->id;
 
             })
-            ->editColumn('demandantes', function (Caso $caso) {
-                $lista = '<ul style="padding-left: 18px; margin: 0">';
-                foreach ($caso->partesInvolucradas as $parte) {
-                    if ($parte->tipo_id == ParteTipo::DEMANDANTE && $parte->modelable) {
-                        $lista .= '<li>' . e($parte->modelable->nombre_completo) . '</li>';
+
+            ->editColumn('partes_involucradas', function (Caso $caso) {
+                $html = '<div style="padding-left: 10px">';
+
+                if ($caso->tipo_id == CasoTipo::FAMILIAR) {
+                    $demandantes = $caso->partesInvolucradas->filter(fn($p) => $p->tipo_id == ParteTipo::DEMANDANTE);
+                    $demandados = $caso->partesInvolucradas->filter(fn($p) => $p->tipo_id == ParteTipo::DEMANDADO);
+
+                    if ($demandantes->count()) {
+                        $html .= '<strong>Demandantes:</strong><ul>';
+                        foreach ($demandantes as $parte) {
+                            if ($parte->modelable) {
+                                $html .= '<li>' . e($parte->modelable->nombre_completo) . '</li>';
+                            }
+                        }
+                        $html .= '</ul>';
+                    }
+
+                    if ($demandados->count()) {
+                        $html .= '<strong>Demandados:</strong><ul>';
+                        foreach ($demandados as $parte) {
+                            if ($parte->modelable) {
+                                $html .= '<li>' . e($parte->modelable->nombre_completo) . '</li>';
+                            }
+                        }
+                        $html .= '</ul>';
+                    }
+
+                } elseif ($caso->tipo_id == CasoTipo::PENAL) {
+                    $victimas = $caso->partesInvolucradas->filter(fn($p) => $p->tipo_id == ParteTipo::VICTIMA);
+                    $victimarios = $caso->partesInvolucradas->filter(fn($p) => $p->tipo_id == ParteTipo::VICTIMARIO);
+
+                    if ($victimas->count()) {
+                        $html .= '<strong>Víctimas:</strong><ul>';
+                        foreach ($victimas as $parte) {
+                            if ($parte->modelable) {
+                                $html .= '<li>' . e($parte->modelable->nombre_completo) . '</li>';
+                            }
+                        }
+                        $html .= '</ul>';
+                    }
+
+                    if ($victimarios->count()) {
+                        $html .= '<strong>Victimarios:</strong><ul>';
+                        foreach ($victimarios as $parte) {
+                            if ($parte->modelable) {
+                                $html .= '<li>' . e($parte->modelable->nombre_completo) . '</li>';
+                            }
+                        }
+                        $html .= '</ul>';
                     }
                 }
-                $lista .= '</ul>';
-                return $lista;
+
+                $html .= '</div>';
+                return $html;
             })
 
-            ->editColumn('demandados', function (Caso $caso) {
-                $lista = '<ul style="padding-left: 18px; margin: 0">';
-                foreach ($caso->partesInvolucradas as $parte) {
-                    if ($parte->tipo_id == ParteTipo::DEMANDADO && $parte->modelable) {
-                        $lista .= '<li>' . e($parte->modelable->nombre_completo) . '</li>';
-                    }
-                }
-                $lista .= '</ul>';
-                return $lista;
-            })
 
             ->editColumn('etapa',function (Caso $caso){
 
-                return $caso->familiarJuicioDetalles()->first()->etapa->nombre;
+                if ($caso->tipo_id == CasoTipo::FAMILIAR) {
+                    return $caso->familiarJuicioDetalles()->first()->etapa->nombre;
+                }
+                if ($caso->tipo_id == CasoTipo::PENAL) {
+                    return $caso->penalDetalles()->first()->etapa->nombre;
+                }
+
 
             })
-            ->rawColumns(['action', 'demandantes', 'demandados']);
+            ->rawColumns(['action','partes_involucradas']);
     }
 
     /**
@@ -148,15 +191,8 @@ class CasoDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
 
-            Column::make('demandantes')
-                ->title('Demandantes')
-                ->exportable(false)
-                ->printable(false)
-                ->orderable(false)
-                ->searchable(false),
-
-            Column::make('demandados')
-                ->title('Demandados')
+            Column::make('partes_involucradas')
+                ->title('Partes Involucradas')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
