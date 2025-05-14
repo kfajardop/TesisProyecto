@@ -120,3 +120,5 @@ Route::resource('casos', App\Http\Controllers\CasoController::class);
 Route::resource('casoFamiliarJuicioDetalles', App\Http\Controllers\CasoFamiliarJuicioDetalleController::class);
 Route::resource('parteInvolucradaCasos', App\Http\Controllers\ParteInvolucradaCasosController::class);
 Route::resource('casoPenalDetalles', App\Http\Controllers\CasoPenalDetalleController::class);
+Route::resource('clientes', App\Http\Controllers\ClienteController::class);
+Route::resource('departamentos', App\Http\Controllers\DepartamentoController::class);
