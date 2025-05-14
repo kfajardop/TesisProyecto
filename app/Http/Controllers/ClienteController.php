@@ -7,6 +7,7 @@ use App\Http\Requests\CreateClienteRequest;
 use App\Http\Requests\UpdateClienteRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Cliente;
+use App\Models\Direccion;
 use Illuminate\Http\Request;
 
 class ClienteController extends AppBaseController
@@ -38,9 +39,16 @@ class ClienteController extends AppBaseController
     /**
      * Store a newly created Cliente in storage.
      */
-    public function store(CreateClienteRequest $request)
+    public function store(Request $request)
     {
         $input = $request->all();
+
+        $direccion = Direccion::create([
+            'direccion' => $input['direccion'],
+            'municipio_id' => $input['municipio_id'],
+        ]);
+
+        $input['direccion_id'] = $direccion->id;
 
         /** @var Cliente $cliente */
         $cliente = Cliente::create($input);

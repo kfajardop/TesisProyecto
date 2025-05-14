@@ -166,3 +166,10 @@
         <p>Municipios</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('direccions.index') }}" class="nav-link {{ Request::is('direccions*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Direccions</p>
+    </a>
+</li>

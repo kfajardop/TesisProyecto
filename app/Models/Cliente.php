@@ -52,6 +52,6 @@ class Cliente extends Model
 
     public function direccion(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\Direccione::class, 'direccion_id');
+        return $this->belongsTo(\App\Models\Direccion::class, 'direccion_id');
     }
 }
