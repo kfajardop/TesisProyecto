@@ -95,7 +95,7 @@ class ClienteController extends AppBaseController
     /**
      * Update the specified Cliente in storage.
      */
-    public function update($id, UpdateClienteRequest $request)
+    public function update($id, Request $request)
     {
         /** @var Cliente $cliente */
         $cliente = Cliente::find($id);
@@ -105,6 +105,19 @@ class ClienteController extends AppBaseController
 
             return redirect(route('clientes.index'));
         }
+
+        $direccion = Direccion::find($cliente->direccion_id);
+
+        if (empty($direccion)) {
+            flash()->error('Direccion no encontrada');
+
+            return redirect(route('clientes.index'));
+        }
+
+        $direccion->update([
+            'direccion' => $request->input('direccion'),
+            'municipio_id' => $request->input('municipio_id'),
+        ]);
 
         $cliente->fill($request->all());
         $cliente->save();
