@@ -10,6 +10,7 @@ use App\Models\Caso;
 use App\Models\CasoFamiliarJuicioDetalle;
 use App\Models\CasoPenalEtapa;
 use App\Models\CasoTipo;
+use App\Models\Cliente;
 use App\Models\ParteInvolucradaCasos;
 use App\Models\ParteTipo;
 use App\Models\Persona;
@@ -41,7 +42,10 @@ class CasoController extends AppBaseController
      */
     public function create()
     {
-        $personas = Persona::all();
+        $noClientes = Persona::all();
+        $clientes = Cliente::all();
+
+        $personas = $clientes->concat($noClientes);
 
         return view('casos.create', compact('personas'));
     }

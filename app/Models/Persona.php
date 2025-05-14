@@ -59,8 +59,6 @@ class Persona extends Model
 
     public function getModelTypeAttribute()
     {
-        //Retornar el model type de esta clase
         return 'App\\Models\\Persona';
-
     }
 }

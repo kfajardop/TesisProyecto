@@ -51,7 +51,8 @@ class Cliente extends Model
     ];
 
     protected $appends = [
-        'nombre_completo'
+        'nombre_completo',
+        'model_type'
     ];
 
     public function direccion(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -61,8 +62,10 @@ class Cliente extends Model
 
     public function getNombreCompletoAttribute()
     {
-
         return $this->dpi . '-' . $this->primer_nombre . ' ' . $this->segundo_nombre . ' ' . $this->primer_apellido . ' ' . $this->segundo_apellido;
-
+    }
+    public function getModelTypeAttribute()
+    {
+        return 'App\\Models\\Cliente';
     }
 }
