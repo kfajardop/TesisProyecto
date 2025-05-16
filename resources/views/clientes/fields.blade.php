@@ -71,7 +71,9 @@
 
     <div class="form-group col-sm-6"  v-if="Municipio">
         <label for="tipo_id">Dirección:</label>
-        <input type="text" name="direccion" class="form-control" value="{{$cliente->direccion->direccion}}">
+        <input type="text" name="direccion" class="form-control"
+               value="{{ isset($cliente) ? optional($cliente->direccion)->direccion : '' }}">
+
     </div>
 </div>
 
@@ -84,7 +86,8 @@
                 Departamentos: @json(\App\Models\Departamento::with('municipios')->get()),
                 Departamento: @json($cliente->direccion->municipio->departamento ?? null),
 
-                Municipio: @json($cliente->direccion->municipio ?? null),
+                Municipio: @json(isset($cliente) && $cliente->direccion && $cliente->direccion->municipio ? $cliente->direccion->municipio : null)
+
             },
         });
     </script>
