@@ -40,9 +40,10 @@
 
                 </div>
             </div>
-            <div class="modal fade" id="modal-create-token" >
+            <div class="modal fade" id="modal-create-token">
                 <div class="modal-dialog modal-xl">
-                    <form action="">
+                    <form action="{{route('casos.cambiar.etapa')}}" method="post">
+                        @csrf
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title">
@@ -56,42 +57,45 @@
 
                                 <div class="form-row">
 
-                                <div class="form-group col-sm-6">
-                                    <label for="tipo_id">Etapa Actual:</label>
-                                    <multiselect
-                                        v-model="etapaActual"
-                                        :options="etapas"
-                                        :multiple="false"
-                                        placeholder="Selecciona una etapa"
-                                        label="nombre"
-                                        track-by="id"
-                                        disabled
-                                        :preselect-first="false">
-                                    </multiselect>
-                                </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="tipo_id">Etapa Actual:</label>
+                                        <multiselect
+                                            v-model="etapaActual"
+                                            :options="etapas"
+                                            :multiple="false"
+                                            placeholder="Selecciona una etapa"
+                                            label="nombre"
+                                            track-by="id"
+                                            disabled
+                                            :preselect-first="false">
+                                        </multiselect>
+                                    </div>
 
-                                <div class="form-group col-sm-6">
-                                    <label for="tipo_id">Nueva Etapa:</label>
-                                    <multiselect
-                                        v-model="nuevaEtapa"
-                                        :options="etapaSinEtapaActual"
-                                        :multiple="false"
-                                        placeholder="Selecciona una etapa"
-                                        label="nombre"
-                                        track-by="id"
-                                        :preselect-first="false">
-                                    </multiselect>
-                                    <input type="hidden" name="nueva_etapa_id" :value="nuevaEtapa ? nuevaEtapa.id : ''" v-if="nuevaEtapa">
-                                </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="tipo_id">Nueva Etapa:</label>
+                                        <multiselect
+                                            v-model="nuevaEtapa"
+                                            :options="etapaSinEtapaActual"
+                                            :multiple="false"
+                                            placeholder="Selecciona una etapa"
+                                            label="nombre"
+                                            track-by="id"
+                                            :preselect-first="false">
+                                        </multiselect>
+                                        <input type="hidden" name="nueva_etapa_id"
+                                               :value="nuevaEtapa ? nuevaEtapa.id : ''" v-if="nuevaEtapa">
+                                    </div>
 
-                                <div class="form-group col-sm-12">
-                                    <label for="tipo_id">Observaciones:</label>
-                                    <textarea
-                                        class="form-control"
-                                        rows="3"
-                                        placeholder="Observaciones"
-                                    ></textarea>
-                                </div>
+                                    <div class="form-group col-sm-12">
+                                        <label for="tipo_id">Observaciones:</label>
+                                        <textarea
+                                            class="form-control"
+                                            rows="3"
+                                            placeholder="Observaciones"
+                                            name="observaciones"
+                                        ></textarea>
+                                    </div>
+                                    <input type="hidden" :value="caso?.id" name="caso_id">
                                 </div>
                             </div>
 
@@ -99,7 +103,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-success">
                                     Cambiar de Etapa
                                 </button>
                             </div>
@@ -137,16 +141,16 @@
             methods: {},
             computed: {
                 etapas() {
-                    if(!this.caso) return [];
+                    if (!this.caso) return [];
 
                     return this.caso.tipo_id === this.idCasoPenal ? this.etapasCasoPenal : this.etapasCasoFamiliar;
                 },
                 etapaSinEtapaActual() {
-                    if(!this.caso) return [];
+                    if (!this.caso) return [];
                     return this.etapas.filter(etapa => etapa.id !== this.caso.etapa_actual_id);
                 },
                 etapaActual() {
-                    if(!this.caso) return null;
+                    if (!this.caso) return null;
                     return this.etapas.find(etapa => etapa.id === this.caso.etapa_actual_id);
                 }
             }

@@ -112,11 +112,12 @@ class Caso extends Model
             ->values();
     }
 
-    public function guardarEnBitacora($mensaje)
+    public function guardarEnBitacora($titulo, $mensaje)
     {
         $this->bitacoras()
             ->create([
                 'usuario_id' => auth()->user()->id,
+                'titulo' => $titulo,
                 'descripcion' => $mensaje,
             ]);
     }

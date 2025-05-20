@@ -97,7 +97,7 @@ Route::group(['prefix' => ''], function () {
 
 });
 
-
+Route::post('casos/cambiar/etapa', [App\Http\Controllers\CasoController::class, 'cambiarEtapaCaso'])->name('casos.cambiar.etapa');
 Route::resource('contactos', App\Http\Controllers\contactosController::class);
 Route::resource('contactos', App\Http\Controllers\ContactoController::class);
 Route::resource('tareaEstados', App\Http\Controllers\TareaEstadoController::class);

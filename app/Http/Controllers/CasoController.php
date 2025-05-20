@@ -72,7 +72,7 @@ class CasoController extends AppBaseController
                     'tipo_juicio_id' => $request->tipo_juicio_id,
                 ]);
 
-            $caso->guardarEnBitacora('Caso Familiar Creado, etapa: '.$detalle->etapa->nombre);
+            $caso->guardarEnBitacora('Caso Familiar Creado, etapa: '.$detalle->etapa->nombre, $request->observaciones);
 
             $personasDemandantes = json_decode($request->input('personas_demandantes'), true);
             $personasDemandadas = json_decode($request->input('personas_demandadas'), true);
@@ -105,7 +105,7 @@ class CasoController extends AppBaseController
                     'etapa_id' => CasoPenalEtapa::PREPARATORIA,
                 ]);
 
-            $caso->guardarEnBitacora('Caso Penal Creado, etapa: '.$detalle->etapa->nombre);
+            $caso->guardarEnBitacora('Caso Penal Creado, etapa: '.$detalle->etapa->nombre, $request->observaciones);
 
             $visctimas = json_decode($request->input('victimas'), true);
             $victimarios = json_decode($request->input('victimarios'), true);
@@ -196,7 +196,7 @@ class CasoController extends AppBaseController
                     ]
                 );
 
-            $caso->guardarEnBitacora('Caso Familiar Actualizado, etapa: '.$caso->familiarJuicioDetalles->etapa->nombre);
+            $caso->guardarEnBitacora('Caso Familiar Actualizado, etapa: '.$caso->familiarJuicioDetalles()->first()->etapa->nombre, $request->observaciones);
 
             $this->syncPersonas($caso, ParteTipo::DEMANDANTE,
                 json_decode($request->input('personas_demandantes'), true));
@@ -214,7 +214,7 @@ class CasoController extends AppBaseController
                 ]
             );
 
-            $caso->guardarEnBitacora('Caso Penal Actualizado, etapa: '.$caso->penalDetalles()->first()->etapa->nombre);
+            $caso->guardarEnBitacora('Caso Penal Actualizado, etapa: '.$caso->penalDetalles()->first()->etapa->nombre, $request->observaciones);
 
             $this->syncPersonas($caso, ParteTipo::VICTIMA, json_decode($request->input('victimas'), true));
             $this->syncPersonas($caso, ParteTipo::VICTIMARIO, json_decode($request->input('victimarios'), true));
@@ -224,7 +224,6 @@ class CasoController extends AppBaseController
 
         return redirect(route('casos.index'));
     }
-
 
     /**
      * Remove the specified Caso from storage.
@@ -277,5 +276,40 @@ class CasoController extends AppBaseController
                 ]);
             }
         }
+    }
+
+    public function cambiarEtapaCaso(Request $request)
+    {
+        $caso = Caso::findOrFail($request->caso_id);
+
+        $request->validate([
+            'nueva_etapa_id' => 'required|integer',
+            'observaciones' => 'nullable|string|max:65535',
+        ]);
+
+        if($caso->tipo_id == CasoTipo::FAMILIAR) {
+            $caso->familiarJuicioDetalles()->updateOrCreate(
+                ['caso_id' => $caso->id],
+                [
+                    'juicio_etapa_id' => $request->nueva_etapa_id,
+                ]
+            );
+
+            $caso->guardarEnBitacora('Caso Familiar Actualizado, etapa: '.$caso->familiarJuicioDetalles()->first()->etapa->nombre, $request->observaciones);
+        }
+        if($caso->tipo_id == CasoTipo::PENAL) {
+            $caso->penalDetalles()->updateOrCreate(
+                ['caso_id' => $caso->id],
+                [
+                    'etapa_id' => $request->nueva_etapa_id,
+                ]
+            );
+
+            $caso->guardarEnBitacora('Caso Penal Actualizado, etapa: '.$caso->penalDetalles()->first()->etapa->nombre, $request->observaciones);
+        }
+
+        flash()->success('Caso actualizado.');
+
+        return redirect(route('casos.index'));
     }
 }

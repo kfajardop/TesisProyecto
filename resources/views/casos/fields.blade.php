@@ -153,6 +153,7 @@
             class="form-control"
             rows="3"
             placeholder="Observaciones"
+            name="observaciones"
         >
         </Textarea>
         <input type="hidden" name="observaciones" :value="observaciones">

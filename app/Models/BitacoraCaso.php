@@ -15,6 +15,7 @@ class BitacoraCaso extends Model
     public $table = 'bitacora_casos';
 
     public $fillable = [
+        'titulo',
         'descripcion',
         'usuario_id',
         'caso_id'

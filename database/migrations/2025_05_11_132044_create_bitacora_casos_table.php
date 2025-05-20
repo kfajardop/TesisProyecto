@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('bitacora_casos', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->string('titulo', 255);
             $table->text('descripcion');
             $table->unsignedBigInteger('usuario_id')->index('fk_bitacora_casos_usuarios1_idx');
             $table->integer('caso_id')->index('fk_bitacora_casos_casos1_idx');
