@@ -8,6 +8,7 @@
             :multiple="false"
             placeholder="Selecciona un tipo de caso"
             label="nombre"
+            :disabled="puedeEditarElTipo"
             :preselect-first="false">
         </multiselect>
         <input type="hidden" name="tipo_id" :value="casoTipo ? casoTipo.id : ''">
@@ -76,11 +77,17 @@
         <div class="form-row">
             <div class="form-group col-sm-6">
                 <label for="tipo_id">No. Causa:</label>
-                <input class="form-control" type="text" name="no_causa" value="{{ $caso->penalDetalles()->first()->no_expediente ?? '' }}">
+                <input class="form-control" type="text" name="no_causa"
+                       value="{{ isset($caso) ? $caso->penalDetalles->first()?->no_causa : '' }}">
+
             </div>
             <div class="form-group col-sm-6">
                 <label for="tipo_id">No. Expediente:</label>
-                <input type="text" class="form-control" name="no_expediente" value=" {{ $caso->penalDetalles()->first()->no_expediente ?? '' }}">
+                <input
+                    type="text"
+                    class="form-control"
+                    name="no_expediente"
+                    value="{{ isset($caso) ? $caso->penalDetalles->first()?->no_expediente : '' }}">
             </div>
             <div class="form-group col-sm-6">
                 <label for="tipo_id">Delito:</label>
@@ -183,6 +190,7 @@
                 victimarios: @json($caso->victimarios() ?? []),
 
                 observaciones: null,
+                puedeEditarElTipo: @json(!$caso->id ? false : true),
             },
             computed: {
                 etapasSegunJuicioSeleccionado() {

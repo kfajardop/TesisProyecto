@@ -109,4 +109,44 @@ class Caso extends Model
             ->values();
     }
 
+    public function guardarEnBitacora($mensaje)
+    {
+        $this->bitacoras()
+            ->create([
+            'usuario_id' => auth()->user()->id,
+            'descripcion' => $mensaje,
+        ]);
+    }
+
+    private function syncPersonas(Caso $caso, int $tipoParte, array $personas)
+    {
+        $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'] . '|' . $p['id'])->toArray();
+
+        $personasActuales = ParteInvolucradaCasos::where('caso_id', $caso->id)
+            ->where('tipo_id', $tipoParte)
+            ->get();
+
+        $clavesActuales = $personasActuales->map(fn($p) => $p->model_type . '|' . $p->model_id)->toArray();
+
+        foreach ($personasActuales as $persona) {
+            $clave = $persona->model_type . '|' . $persona->model_id;
+            if (!in_array($clave, $nuevasClaves)) {
+                $persona->delete();
+            }
+        }
+
+        foreach ($personas as $persona) {
+            $clave = $persona['model_type'] . '|' . $persona['id'];
+            if (!in_array($clave, $clavesActuales)) {
+                ParteInvolucradaCasos::create([
+                    'caso_id' => $caso->id,
+                    'model_type' => $persona['model_type'],
+                    'model_id' => $persona['id'],
+                    'tipo_id' => $tipoParte,
+                ]);
+            }
+        }
+    }
+
+
 }

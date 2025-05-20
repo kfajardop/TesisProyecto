@@ -47,7 +47,9 @@ class CasoController extends AppBaseController
 
         $personas = $clientes->concat($noClientes);
 
-        return view('casos.create', compact('personas'));
+        $caso = new Caso();
+
+        return view('casos.create', compact('personas', 'caso'));
     }
 
     /**
@@ -63,12 +65,14 @@ class CasoController extends AppBaseController
         ]);
 
         if ($request->tipo_id == CasoTipo::FAMILIAR) {
-            $caso->familiarJuicioDetalles()
+            $detalle = $caso->familiarJuicioDetalles()
                 ->create([
-                'nombre' => '', //Preguntar que se guardara aca
-                'juicio_etapa_id' => $request->etapa_id,
-                'tipo_juicio_id' => $request->tipo_juicio_id,
-            ]);
+                    'nombre' => '', //Preguntar que se guardara aca
+                    'juicio_etapa_id' => $request->etapa_id,
+                    'tipo_juicio_id' => $request->tipo_juicio_id,
+                ]);
+
+            $caso->guardarEnBitacora('Caso Familiar Creado, etapa: '.$detalle->etapa->nombre);
 
             $personasDemandantes = json_decode($request->input('personas_demandantes'), true);
             $personasDemandadas = json_decode($request->input('personas_demandadas'), true);
@@ -92,14 +96,16 @@ class CasoController extends AppBaseController
             }
         }
 
-        if ($request->tipo_id == CasoTipo::PENAL){
-            $caso->penalDetalles()
+        if ($request->tipo_id == CasoTipo::PENAL) {
+            $detalle = $caso->penalDetalles()
                 ->create([
                     'no_causa' => $request->no_causa,
                     'no_expediente' => $request->no_expediente,
                     'delito_id' => $request->delito_id,
                     'etapa_id' => CasoPenalEtapa::PREPARATORIA,
                 ]);
+
+            $caso->guardarEnBitacora('Caso Penal Creado, etapa: '.$detalle->etapa->nombre);
 
             $visctimas = json_decode($request->input('victimas'), true);
             $victimarios = json_decode($request->input('victimarios'), true);
@@ -170,24 +176,55 @@ class CasoController extends AppBaseController
     /**
      * Update the specified Caso in storage.
      */
-    public function update($id, UpdateCasoRequest $request)
+    public function update(Request $request, $id)
     {
-        /** @var Caso $caso */
-        $caso = Caso::find($id);
+        $caso = Caso::findOrFail($id);
 
-        if (empty($caso)) {
-            flash()->error('Caso no encontrado');
+//        $caso->update([
+//            'tipo_id' => $request->tipo_id,
+//        ]);
 
-            return redirect(route('casos.index'));
+        if ($request->tipo_id == CasoTipo::FAMILIAR) {
+
+            $caso->familiarJuicioDetalles()
+                ->updateOrCreate(
+                    ['caso_id' => $caso->id], // criterios de búsqueda
+                    [
+                        'nombre' => '', // aún pendiente definir
+                        'juicio_etapa_id' => $request->etapa_id,
+                        'tipo_juicio_id' => $request->tipo_juicio_id,
+                    ]
+                );
+
+            $caso->guardarEnBitacora('Caso Familiar Actualizado, etapa: '.$caso->familiarJuicioDetalles->etapa->nombre);
+
+            $this->syncPersonas($caso, ParteTipo::DEMANDANTE,
+                json_decode($request->input('personas_demandantes'), true));
+            $this->syncPersonas($caso, ParteTipo::DEMANDADO, json_decode($request->input('personas_demandadas'), true));
         }
 
-        $caso->fill($request->all());
-        $caso->save();
+        if ($request->tipo_id == CasoTipo::PENAL) {
+            $caso->penalDetalles()->updateOrCreate(
+                ['caso_id' => $caso->id],
+                [
+                    'no_causa' => $request->no_causa,
+                    'no_expediente' => $request->no_expediente,
+                    'delito_id' => $request->delito_id,
+                    'etapa_id' => $request->etapa_id,
+                ]
+            );
+
+            $caso->guardarEnBitacora('Caso Penal Actualizado, etapa: '.$caso->penalDetalles()->first()->etapa->nombre);
+
+            $this->syncPersonas($caso, ParteTipo::VICTIMA, json_decode($request->input('victimas'), true));
+            $this->syncPersonas($caso, ParteTipo::VICTIMARIO, json_decode($request->input('victimarios'), true));
+        }
 
         flash()->success('Caso actualizado.');
 
         return redirect(route('casos.index'));
     }
+
 
     /**
      * Remove the specified Caso from storage.
@@ -210,5 +247,35 @@ class CasoController extends AppBaseController
         flash()->success('Caso eliminado.');
 
         return redirect(route('casos.index'));
+    }
+
+    private function syncPersonas(Caso $caso, int $tipoParte, array $personas)
+    {
+        $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'] . '|' . $p['id'])->toArray();
+
+        $personasActuales = ParteInvolucradaCasos::where('caso_id', $caso->id)
+            ->where('tipo_id', $tipoParte)
+            ->get();
+
+        $clavesActuales = $personasActuales->map(fn($p) => $p->model_type . '|' . $p->model_id)->toArray();
+
+        foreach ($personasActuales as $persona) {
+            $clave = $persona->model_type . '|' . $persona->model_id;
+            if (!in_array($clave, $nuevasClaves)) {
+                $persona->delete();
+            }
+        }
+
+        foreach ($personas as $persona) {
+            $clave = $persona['model_type'] . '|' . $persona['id'];
+            if (!in_array($clave, $clavesActuales)) {
+                ParteInvolucradaCasos::create([
+                    'caso_id' => $caso->id,
+                    'model_type' => $persona['model_type'],
+                    'model_id' => $persona['id'],
+                    'tipo_id' => $tipoParte,
+                ]);
+            }
+        }
     }
 }
