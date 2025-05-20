@@ -57,7 +57,7 @@ class Caso extends Model
         return $this->hasMany(\App\Models\Audiencia::class, 'caso_id');
     }
 
-    public function bitacoraCasos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function bitacoras(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\BitacoraCaso::class, 'caso_id');
     }
@@ -76,4 +76,37 @@ class Caso extends Model
     {
         return $this->hasMany(\App\Models\ParteInvolucradaCasos::class, 'caso_id');
     }
+
+    public function personasDemandantes()
+    {
+        return $this->partesInvolucradas
+            ->where('tipo_id', ParteTipo::DEMANDANTE)
+            ->map(fn($parte) => $parte->modelable)
+            ->values();
+    }
+
+    public function personasDemandadas()
+    {
+        return $this->partesInvolucradas
+            ->where('tipo_id', ParteTipo::DEMANDADO)
+            ->map(fn($parte) => $parte->modelable)
+            ->values();
+    }
+
+    public function victimas()
+    {
+        return $this->partesInvolucradas
+            ->where('tipo_id', ParteTipo::VICTIMA)
+            ->map(fn($parte) => $parte->modelable)
+            ->values();
+    }
+
+    public function victimarios()
+    {
+        return $this->partesInvolucradas
+            ->where('tipo_id', ParteTipo::VICTIMARIO)
+            ->map(fn($parte) => $parte->modelable)
+            ->values();
+    }
+
 }

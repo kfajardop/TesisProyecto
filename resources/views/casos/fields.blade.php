@@ -76,11 +76,11 @@
         <div class="form-row">
             <div class="form-group col-sm-6">
                 <label for="tipo_id">No. Causa:</label>
-                <input class="form-control" type="text" name="no_causa">
+                <input class="form-control" type="text" name="no_causa" value="{{ $caso->penalDetalles()->first()->no_expediente ?? '' }}">
             </div>
             <div class="form-group col-sm-6">
                 <label for="tipo_id">No. Expediente:</label>
-                <input type="text" class="form-control" name="no_expediente">
+                <input type="text" class="form-control" name="no_expediente" value=" {{ $caso->penalDetalles()->first()->no_expediente ?? '' }}">
             </div>
             <div class="form-group col-sm-6">
                 <label for="tipo_id">Delito:</label>
@@ -159,28 +159,28 @@
             el: '#fields',
             data: {
                 casoTipos: @json(\App\Models\CasoTipo::all()),
-                casoTipo: null,
+                casoTipo: @json($caso->tipo ?? null),
                 TiposJuicio: @json(\App\Models\CasoFamiliarJuicioTipo::all()),
-                TipoJuicio: null,
+                TipoJuicio: @json($caso->familiarJuicioDetalles()->first()->tipoJuicio ?? null),
 
                 CasoJucioEtapas: @json(\App\Models\CasoFamiliarJuicioEtapa::all()),
-                CasoJucioEtapa: null,
+                CasoJucioEtapa: @json($caso?->familiarJuicioDetalles()->first()?->etapa ?? null),
 
                 CasoTipoFamiliar: @json(\App\Models\CasoTipo::FAMILIAR),
                 CasoTipoPenal: @json(\App\Models\CasoTipo::PENAL),
 
                 CasoPenalEtapas: @json(\App\Models\CasoPenalEtapa::all()),
-                CasoPenalEtapa: null,
+                CasoPenalEtapa: @json($caso?->penalDetalles()->first()?->etapa ?? null),
 
                 CasoPenalDelitos: @json(\App\Models\CasoPenalDelito::all()),
-                CasoPenalDelito: null,
+                CasoPenalDelito: @json($caso?->penalDetalles()->first()?->delito ?? null),
 
                 personas: @json($personas),
-                personasDemandantes: null,
-                personasDemandadas: null,
+                personasDemandantes: @json($caso->personasDemandantes() ?? []),
+                personasDemandadas: @json($caso->personasDemandadas() ?? []),
 
-                victimas: null,
-                victimarios: null,
+                victimas: @json($caso->victimas() ?? []),
+                victimarios: @json($caso->victimarios() ?? []),
 
                 observaciones: null,
             },

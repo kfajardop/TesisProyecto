@@ -159,8 +159,12 @@ class CasoController extends AppBaseController
 
             return redirect(route('casos.index'));
         }
+        $noClientes = Persona::all();
+        $clientes = Cliente::all();
 
-        return view('casos.edit')->with('caso', $caso);
+        $personas = $clientes->concat($noClientes);
+
+        return view('casos.edit', compact('caso', 'personas'));
     }
 
     /**
