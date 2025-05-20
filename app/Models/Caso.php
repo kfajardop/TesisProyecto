@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
- use Illuminate\Database\Eloquent\SoftDeletes;
- use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Caso extends Model
 {
@@ -37,6 +37,9 @@ class Caso extends Model
 
     ];
 
+    protected $appends = [
+        'etapa_actual_id'
+    ];
     public function estado(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\CasoEstado::class, 'estado_id');
@@ -113,30 +116,30 @@ class Caso extends Model
     {
         $this->bitacoras()
             ->create([
-            'usuario_id' => auth()->user()->id,
-            'descripcion' => $mensaje,
-        ]);
+                'usuario_id' => auth()->user()->id,
+                'descripcion' => $mensaje,
+            ]);
     }
 
     private function syncPersonas(Caso $caso, int $tipoParte, array $personas)
     {
-        $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'] . '|' . $p['id'])->toArray();
+        $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'].'|'.$p['id'])->toArray();
 
         $personasActuales = ParteInvolucradaCasos::where('caso_id', $caso->id)
             ->where('tipo_id', $tipoParte)
             ->get();
 
-        $clavesActuales = $personasActuales->map(fn($p) => $p->model_type . '|' . $p->model_id)->toArray();
+        $clavesActuales = $personasActuales->map(fn($p) => $p->model_type.'|'.$p->model_id)->toArray();
 
         foreach ($personasActuales as $persona) {
-            $clave = $persona->model_type . '|' . $persona->model_id;
+            $clave = $persona->model_type.'|'.$persona->model_id;
             if (!in_array($clave, $nuevasClaves)) {
                 $persona->delete();
             }
         }
 
         foreach ($personas as $persona) {
-            $clave = $persona['model_type'] . '|' . $persona['id'];
+            $clave = $persona['model_type'].'|'.$persona['id'];
             if (!in_array($clave, $clavesActuales)) {
                 ParteInvolucradaCasos::create([
                     'caso_id' => $caso->id,
@@ -145,6 +148,15 @@ class Caso extends Model
                     'tipo_id' => $tipoParte,
                 ]);
             }
+        }
+    }
+
+    public function getEtapaActualIdAttribute()
+    {
+        if ($this->tipo_id == CasoTipo::PENAL) {
+            return $this->penalDetalles()->first()->etapa->id;
+        } else {
+            return $this->familiarJuicioDetalles()->first()->etapa->id;
         }
     }
 

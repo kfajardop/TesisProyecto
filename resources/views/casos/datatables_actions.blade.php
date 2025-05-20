@@ -10,6 +10,17 @@
     </a>
 @endcan
 
+@can('Cambiar Etapa Caso')
+    <a
+        data-toggle="tooltip"
+        title="Editar"
+        class='btn btn-sm btn-outline-info'
+        onclick="mostrarModalCambioEtapa({{ $caso }})"
+    >
+        <i class="fa fa-react"></i>
+    </a>
+@endcan
+
 @can('Eliminar Casos')
     <a href="#" onclick="deleteItemDt(this)" data-id="{{ $id }}" data-toggle="tooltip" title="Eliminar" class='btn btn-sm btn-outline-danger'>
         <i class="fa fa-trash-alt"></i>
