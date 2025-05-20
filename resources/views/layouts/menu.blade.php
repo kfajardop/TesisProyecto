@@ -173,3 +173,10 @@
         <p>Direccions</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('bitacoraCasos.index') }}" class="nav-link {{ Request::is('bitacoraCasos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Bitacora Casos</p>
+    </a>
+</li>
