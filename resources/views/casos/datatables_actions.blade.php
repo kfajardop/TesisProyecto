@@ -13,11 +13,12 @@
 @can('Cambiar Etapa Caso')
     <a
         data-toggle="tooltip"
-        title="Editar"
-        class='btn btn-sm btn-outline-info'
+        title="Cambiar Etapa"
+        class='btn btn-sm btn-outline-warning'
         onclick="mostrarModalCambioEtapa({{ $caso }})"
     >
-        <i class="fa fa-react"></i>
+        <i class="fas fa-exchange-alt"></i>
+
     </a>
 @endcan
 

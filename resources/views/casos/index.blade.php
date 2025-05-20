@@ -101,9 +101,13 @@
 
                             <!-- Modal Actions -->
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    <i class="fa fa-ban"></i>
+                                    Close
+                                </button>
 
                                 <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-save"></i>
                                     Cambiar de Etapa
                                 </button>
                             </div>

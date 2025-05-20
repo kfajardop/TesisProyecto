@@ -87,3 +87,7 @@
     </div>
 
 @endif
+
+<hr style="border: 0.01px solid #c5c4c4; width: 98%">
+
+<x-bitacora-time-line :caso-id="$caso->id" />
