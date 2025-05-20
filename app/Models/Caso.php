@@ -47,7 +47,7 @@ class Caso extends Model
         return $this->belongsTo(\App\Models\CasoTipo::class, 'tipo_id');
     }
 
-    public function usuario(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'usuario_id');
     }
