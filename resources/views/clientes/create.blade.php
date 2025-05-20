@@ -38,10 +38,7 @@
 
                         <div class="card-body">
 
-
-
                                 @include('clientes.fields')
-
 
                         </div>
 

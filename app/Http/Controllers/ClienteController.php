@@ -33,7 +33,8 @@ class ClienteController extends AppBaseController
      */
     public function create()
     {
-        return view('clientes.create');
+        $cliente = new Cliente();
+        return view('clientes.create', compact('cliente'));
     }
 
     /**

@@ -59,7 +59,7 @@
         <label for="tipo_id">Municipio:</label>
         <multiselect
             v-model="Municipio"
-            :options="Departamento?.length > 0 ? Departamento.municipios : []"
+            :options="municipios"
             :multiple="false"
             placeholder="Selecciona un municipio"
             label="nombre"
@@ -71,7 +71,7 @@
 
     <div class="form-group col-sm-6"  v-if="Municipio">
         <label for="tipo_id">Dirección:</label>
-        <input type="text" name="direccion" class="form-control" value="{{$cliente->direccion->direccion}}">
+        <input type="text" name="direccion" class="form-control" value="{{$cliente?->direccion?->direccion}}">
     </div>
 </div>
 
@@ -82,9 +82,17 @@
             el: '#fields',
             data: {
                 Departamentos: @json(\App\Models\Departamento::with('municipios')->get()),
-                Departamento: @json($cliente->direccion->municipio->departamento ?? null),
+                Departamento: @json($cliente?->direccion?->municipio?->departamento()->with('municipios')->first() ?? null),
 
-                Municipio: @json($cliente->direccion->municipio ?? null),
+                Municipio: @json($cliente?->direccion?->municipio ?? null),
+            },
+            created() {
+                console.log(this.Departamento);
+            },
+            computed: {
+                municipios() {
+                    return this.Departamento ? this.Departamento.municipios : [];
+                }
             },
         });
     </script>
