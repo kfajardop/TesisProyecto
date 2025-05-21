@@ -215,3 +215,10 @@
         <p>Documento Privado Detalles</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('documentoActaDetalles.index') }}" class="nav-link {{ Request::is('documentoActaDetalles*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Documento Acta Detalles</p>
+    </a>
+</li>

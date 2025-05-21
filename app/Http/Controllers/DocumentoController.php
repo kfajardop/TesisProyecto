@@ -250,7 +250,7 @@ class DocumentoController extends AppBaseController
                 'usuario_id' => Auth::user()->id,
             ]);
 
-            $documento->actaNotarialDetalles()->create([
+            $documento->doctoActaDetalles()->create([
                 'notarial_id' => $request->notarial_id,
                 'fecha' => $request->fecha_documento,
                 'comentario' => $request->observaciones,

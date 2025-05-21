@@ -59,12 +59,12 @@ class Documento extends Model
 
     public function doctoActaDetalles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\DoctoActaDetalle::class, 'documento_id');
+        return $this->hasMany(\App\Models\DocumentoActaDetalle::class, 'documento_id');
     }
 
     public function doctoPrivadoDetalles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\DoctoPrivadoDetalle::class, 'documento_id');
+        return $this->hasMany(\App\Models\DocumentoPrivadoDetalle::class, 'documento_id');
     }
 
     public function doctoPublicoDetalles(): \Illuminate\Database\Eloquent\Relations\HasMany
