@@ -145,11 +145,11 @@ class DocumentoController extends AppBaseController
         return redirect(route('documentos.index'));
     }
 
-    private function syncPersonas(Caso $caso, int $tipoParte, array $personas)
+    private function syncPersonas(Documento $documento, int $tipoParte, array $personas)
     {
         $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'] . '|' . $p['id'])->toArray();
 
-        $personasActuales = ParteInvolucradaDocumento::where('caso_id', $caso->id)
+        $personasActuales = ParteInvolucradaDocumento::where('documento_id', $documento->id)
             ->where('tipo_id', $tipoParte)
             ->get();
 
@@ -165,8 +165,8 @@ class DocumentoController extends AppBaseController
         foreach ($personas as $persona) {
             $clave = $persona['model_type'] . '|' . $persona['id'];
             if (!in_array($clave, $clavesActuales)) {
-                ParteInvolucradaCasos::create([
-                    'caso_id' => $caso->id,
+                ParteInvolucradaDocumento::create([
+                    'documento_id' => $documento->id,
                     'model_type' => $persona['model_type'],
                     'model_id' => $persona['id'],
                     'tipo_id' => $tipoParte,
@@ -183,12 +183,15 @@ class DocumentoController extends AppBaseController
                 'estado_id' => $request->estado_id,
                 'usuario_id' => Auth::user()->id,
             ]);
+
             $documento->doctoPublicoDetalles()->create([
                 'no_escritura' => $request->no_escritura,
                 'fecha_escritura' => $request->no_escritura,
                 'escritura_id' => $request->tipo_escritura_id,
                 'comentario' => $request->observaciones,
             ]);
+
+
             $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
             $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
 

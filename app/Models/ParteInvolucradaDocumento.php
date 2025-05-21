@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class ParteInvolucradaDocumento extends Model
 {
 
-    use SoftDeletes;
     use HasFactory;
 
     public $table = 'parte_involucrada_documentos';
@@ -35,6 +34,7 @@ class ParteInvolucradaDocumento extends Model
     public static $messages = [
 
     ];
+    public $timestamps = false;
 
     public function documento(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
