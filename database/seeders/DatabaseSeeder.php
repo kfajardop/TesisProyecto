@@ -45,6 +45,8 @@ class DatabaseSeeder extends Seeder
         $this->call(DocumentoEstadosTableSeeder::class);
         $this->call(DocumentoTiposTableSeeder::class);
         $this->call(DoctoPublicoEscriturasTableSeeder::class);
+        $this->call(DoctoPrivadoContratosTableSeeder::class);
+        $this->call(DoctoActaNotarialsTableSeeder::class);
 
 
 

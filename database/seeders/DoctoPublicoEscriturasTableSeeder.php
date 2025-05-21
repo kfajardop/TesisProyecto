@@ -21,13 +21,13 @@ class DoctoPublicoEscriturasTableSeeder extends Seeder
         DB::table('docto_publico_escrituras')->delete();
 
         DoctoPublicoEscritura::create([
-            'nombre' => 'Acta de nacimiento',
+            'nombre' => 'Escritura pública',
         ]);
         DoctoPublicoEscritura::create([
-            'nombre' => 'Acta de matrimonio',
+            'nombre' => 'Resolución judicial',
         ]);
         DoctoPublicoEscritura::create([
-            'nombre' => 'Acta de defunción',
+            'nombre' => 'Escritura de constitución de sociedad',
         ]);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
