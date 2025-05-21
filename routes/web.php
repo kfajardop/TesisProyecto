@@ -124,3 +124,5 @@ Route::resource('clientes', App\Http\Controllers\ClienteController::class);
 Route::resource('departamentos', App\Http\Controllers\DepartamentoController::class);
 Route::resource('municipios', App\Http\Controllers\MunicipioController::class);
 Route::resource('direccions', App\Http\Controllers\DireccionController::class);
+
+Route::resource('documentos', App\Http\Controllers\DocumentoController::class);
