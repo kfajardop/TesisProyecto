@@ -72,7 +72,7 @@ class Documento extends Model
         return $this->hasMany(\App\Models\DocumentoPublicoDetalle::class, 'documento_id');
     }
 
-    public function parteInvolucradaDocumentos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function partesInvolucradas(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\ParteInvolucradaDocumento::class, 'documento_id');
     }
@@ -80,5 +80,15 @@ class Documento extends Model
     public function personas(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(\App\Models\Persona::class, 'personas_has_documentos');
+    }
+
+    public function guardarEnBitacora($titulo, $mensaje)
+    {
+        $this->bitacoras()
+            ->create([
+                'usuario_id' => auth()->user()->id,
+                'titulo' => $titulo,
+                'descripcion' => $mensaje,
+            ]);
     }
 }

@@ -75,7 +75,7 @@
             :preselect-first="false"
         >
         </multiselect>
-        <input type="hidden" name="personas_demandantes" :value="JSON.stringify(conparecientes)">
+        <input type="hidden" name="comparecientes" :value="JSON.stringify(conparecientes)">
 
     </div>
 
@@ -90,7 +90,7 @@
             :preselect-first="false"
         >
         </multiselect>
-        <input type="hidden" name="personas_intervinientes" :value="JSON.stringify(intervinientes)">
+        <input type="hidden" name="intervinientes" :value="JSON.stringify(intervinientes)">
     </div>
 
     <div class="form-group col-sm-6">

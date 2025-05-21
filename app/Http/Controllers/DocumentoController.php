@@ -11,9 +11,12 @@ use App\Models\Cliente;
 use App\Models\Documento;
 use App\Models\DocumentoTipo;
 use App\Models\ParteInvolucradaCasos;
+use App\Models\ParteInvolucradaDocumento;
+use App\Models\ParteTipo;
 use App\Models\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DocumentoController extends AppBaseController
 {
@@ -146,7 +149,7 @@ class DocumentoController extends AppBaseController
     {
         $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'] . '|' . $p['id'])->toArray();
 
-        $personasActuales = ParteInvolucradaCasos::where('caso_id', $caso->id)
+        $personasActuales = ParteInvolucradaDocumento::where('caso_id', $caso->id)
             ->where('tipo_id', $tipoParte)
             ->get();
 
@@ -174,23 +177,27 @@ class DocumentoController extends AppBaseController
     private function guardarDocumentoPublico(Request $request)
     {
         try {
+            DB::beginTransaction();
             $documento = Documento::create([
                 'tipo_id' => $request->tipo_id,
                 'estado_id' => $request->estado_id,
                 'usuario_id' => Auth::user()->id,
             ]);
-
             $documento->doctoPublicoDetalles()->create([
                 'no_escritura' => $request->no_escritura,
                 'fecha_escritura' => $request->no_escritura,
                 'escritura_id' => $request->tipo_escritura_id,
                 'comentario' => $request->observaciones,
             ]);
+            $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
+            $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
 
+            $documento->guardarEnBitacora('Documento creado', 'Se ha creado un nuevo documento público con ID: ' . $documento->id);
+
+            DB::commit();
         } catch (\Exception $e) {
+            DB::rollBack();
             flash()->error('Error al guardar el documento: ' . $e->getMessage());
         }
-
     }
-
 }

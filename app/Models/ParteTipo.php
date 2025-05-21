@@ -37,6 +37,8 @@ class ParteTipo extends Model
     const DEMANDADO = 2;
     const VICTIMA = 3;
     const VICTIMARIO = 4;
+    const COMPARECIENTE = 5;
+    const INTERVINIENTE = 5;
     public function parteInvolucradaCasos(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\ParteInvolucradaCaso::class, 'tipo_id');

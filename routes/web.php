@@ -127,3 +127,4 @@ Route::resource('direccions', App\Http\Controllers\DireccionController::class);
 
 Route::resource('documentos', App\Http\Controllers\DocumentoController::class);
 Route::resource('documentoPublicoDetalles', App\Http\Controllers\DocumentoPublicoDetalleController::class);
+Route::resource('parteInvolucradaDocumentos', App\Http\Controllers\ParteInvolucradaDocumentoController::class);

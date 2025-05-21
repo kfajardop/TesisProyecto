@@ -194,3 +194,10 @@
         <p>Documento Publico Detalles</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('parteInvolucradaDocumentos.index') }}" class="nav-link {{ Request::is('parteInvolucradaDocumentos*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Parte Involucrada Documentos</p>
+    </a>
+</li>
