@@ -45,7 +45,7 @@
             :preselect-first="false"
         >
         </multiselect>
-        <input type="hidden" name="documento_privado_tipo_id"
+        <input type="hidden" name="contrato_id"
                :value="documentoPrivadoContrato ? documentoPrivadoContrato.id : ''">
     </div>
 
@@ -60,7 +60,7 @@
             :preselect-first="false"
         >
         </multiselect>
-        <input type="hidden" name="acta_notarial_tipo_id"
+        <input type="hidden" name="notarial_id"
                :value="actaNotarial ? actaNotarial.id : ''">
     </div>
 
@@ -94,8 +94,8 @@
     </div>
 
     <div class="form-group col-sm-6">
-        {!! Form::label('fecha_escritura', 'Fecha Escritura:') !!}
-        {!! Form::date('fecha_escritura', null, ['class' => 'form-control', 'required']) !!}
+        {!! Form::label('fecha_escritura', 'Fecha Documento:') !!}
+        {!! Form::date('fecha_documento', null, ['class' => 'form-control', 'required']) !!}
     </div>
 
     <div class="form-group col-sm-6">

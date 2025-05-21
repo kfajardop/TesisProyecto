@@ -208,3 +208,10 @@
         <p>Bitacora Documentos</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('documentoPrivadoDetalles.index') }}" class="nav-link {{ Request::is('documentoPrivadoDetalles*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Documento Privado Detalles</p>
+    </a>
+</li>

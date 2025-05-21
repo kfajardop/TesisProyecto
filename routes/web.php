@@ -129,3 +129,4 @@ Route::resource('documentos', App\Http\Controllers\DocumentoController::class);
 Route::resource('documentoPublicoDetalles', App\Http\Controllers\DocumentoPublicoDetalleController::class);
 Route::resource('parteInvolucradaDocumentos', App\Http\Controllers\ParteInvolucradaDocumentoController::class);
 Route::resource('bitacoraDocumentos', App\Http\Controllers\BitacoraDocumentoController::class);
+Route::resource('documentoPrivadoDetalles', App\Http\Controllers\DocumentoPrivadoDetalleController::class);

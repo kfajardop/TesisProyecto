@@ -24,16 +24,17 @@ class DocumentoController extends AppBaseController
     public function __construct()
     {
         $this->middleware('permission:Ver Documentos')->only('show');
-        $this->middleware('permission:Crear Documentos')->only(['create','store']);
-        $this->middleware('permission:Editar Documentos')->only(['edit','update']);
+        $this->middleware('permission:Crear Documentos')->only(['create', 'store']);
+        $this->middleware('permission:Editar Documentos')->only(['edit', 'update']);
         $this->middleware('permission:Eliminar Documentos')->only('destroy');
     }
+
     /**
      * Display a listing of the Documento.
      */
     public function index(DocumentoDataTable $documentoDataTable)
     {
-    return $documentoDataTable->render('documentos.index');
+        return $documentoDataTable->render('documentos.index');
     }
 
 
@@ -59,6 +60,14 @@ class DocumentoController extends AppBaseController
         if ($request->tipo_id == DocumentoTipo::PUBLICO) {
 
             $this->guardarDocumentoPublico($request);
+        }
+        if ($request->tipo_id == DocumentoTipo::PRIVADO) {
+
+            $this->guardarDocumentoPrivado($request);
+        }
+        if ($request->tipo_id == DocumentoTipo::ACTA_NOTARIAL) {
+
+            $this->guardarActaNotarial($request);
         }
 
         flash()->success('Documento guardado.');
@@ -147,23 +156,23 @@ class DocumentoController extends AppBaseController
 
     private function syncPersonas(Documento $documento, int $tipoParte, array $personas)
     {
-        $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'] . '|' . $p['id'])->toArray();
+        $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'].'|'.$p['id'])->toArray();
 
         $personasActuales = ParteInvolucradaDocumento::where('documento_id', $documento->id)
             ->where('tipo_id', $tipoParte)
             ->get();
 
-        $clavesActuales = $personasActuales->map(fn($p) => $p->model_type . '|' . $p->model_id)->toArray();
+        $clavesActuales = $personasActuales->map(fn($p) => $p->model_type.'|'.$p->model_id)->toArray();
 
         foreach ($personasActuales as $persona) {
-            $clave = $persona->model_type . '|' . $persona->model_id;
+            $clave = $persona->model_type.'|'.$persona->model_id;
             if (!in_array($clave, $nuevasClaves)) {
                 $persona->delete();
             }
         }
 
         foreach ($personas as $persona) {
-            $clave = $persona['model_type'] . '|' . $persona['id'];
+            $clave = $persona['model_type'].'|'.$persona['id'];
             if (!in_array($clave, $clavesActuales)) {
                 ParteInvolucradaDocumento::create([
                     'documento_id' => $documento->id,
@@ -174,6 +183,7 @@ class DocumentoController extends AppBaseController
             }
         }
     }
+
     private function guardarDocumentoPublico(Request $request)
     {
         try {
@@ -186,7 +196,7 @@ class DocumentoController extends AppBaseController
 
             $documento->doctoPublicoDetalles()->create([
                 'no_escritura' => $request->no_escritura,
-                'fecha_escritura' => $request->no_escritura,
+                'fecha_escritura' => $request->fecha_documento,
                 'escritura_id' => $request->tipo_escritura_id,
                 'comentario' => $request->observaciones,
             ]);
@@ -195,12 +205,64 @@ class DocumentoController extends AppBaseController
             $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
             $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
 
-            $documento->guardarEnBitacora('Documento creado', 'Se ha creado un nuevo documento público con ID: ' . $documento->id);
+            $documento->guardarEnBitacora('Documento creado', 'Se ha creado un nuevo documento público con ID: '.$documento->id);
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            flash()->error('Error al guardar el documento: ' . $e->getMessage());
+            flash()->error('Error al guardar el documento: '.$e->getMessage());
+        }
+    }
+
+    private function guardarDocumentoPrivado(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $documento = Documento::create([
+                'tipo_id' => $request->tipo_id,
+                'estado_id' => $request->estado_id,
+                'usuario_id' => Auth::user()->id,
+            ]);
+
+            $documento->doctoPrivadoDetalles()->create([
+                'fecha' => $request->fecha_documento,
+                'contrato_id' => $request->contrato_id,
+                'comentario' => $request->observaciones,
+            ]);
+            $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
+            $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
+
+            $documento->guardarEnBitacora('Documento creado', 'Se ha creado un nuevo documento privado con ID: '.$documento->id);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash()->error('Error al guardar el documento: '.$e->getMessage());
+        }
+    }
+
+    private function guardarActaNotarial(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $documento = Documento::create([
+                'tipo_id' => $request->tipo_id,
+                'estado_id' => $request->estado_id,
+                'usuario_id' => Auth::user()->id,
+            ]);
+
+            $documento->actaNotarialDetalles()->create([
+                'notarial_id' => $request->notarial_id,
+                'fecha' => $request->fecha_documento,
+                'comentario' => $request->observaciones,
+            ]);
+            $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
+            $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
+
+            $documento->guardarEnBitacora('Documento creado', 'Se ha creado un nuevo acta notarial con ID: '.$documento->id);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash()->error('Error al guardar el documento: '.$e->getMessage());
         }
     }
 }
