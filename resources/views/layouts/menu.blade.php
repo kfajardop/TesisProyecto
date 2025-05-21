@@ -187,3 +187,10 @@
         <p>Documentos</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('documentoPublicoDetalles.index') }}" class="nav-link {{ Request::is('documentoPublicoDetalles*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Documento Publico Detalles</p>
+    </a>
+</li>

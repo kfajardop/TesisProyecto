@@ -6,10 +6,14 @@ use App\DataTables\DocumentoDataTable;
 use App\Http\Requests\CreateDocumentoRequest;
 use App\Http\Requests\UpdateDocumentoRequest;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Caso;
 use App\Models\Cliente;
 use App\Models\Documento;
+use App\Models\DocumentoTipo;
+use App\Models\ParteInvolucradaCasos;
 use App\Models\Persona;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DocumentoController extends AppBaseController
 {
@@ -46,12 +50,13 @@ class DocumentoController extends AppBaseController
     /**
      * Store a newly created Documento in storage.
      */
-    public function store(CreateDocumentoRequest $request)
+    public function store(Request $request)
     {
-        $input = $request->all();
 
-        /** @var Documento $documento */
-        $documento = Documento::create($input);
+        if ($request->tipo_id == DocumentoTipo::PUBLICO) {
+
+            $this->guardarDocumentoPublico($request);
+        }
 
         flash()->success('Documento guardado.');
 
@@ -136,4 +141,56 @@ class DocumentoController extends AppBaseController
 
         return redirect(route('documentos.index'));
     }
+
+    private function syncPersonas(Caso $caso, int $tipoParte, array $personas)
+    {
+        $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'] . '|' . $p['id'])->toArray();
+
+        $personasActuales = ParteInvolucradaCasos::where('caso_id', $caso->id)
+            ->where('tipo_id', $tipoParte)
+            ->get();
+
+        $clavesActuales = $personasActuales->map(fn($p) => $p->model_type . '|' . $p->model_id)->toArray();
+
+        foreach ($personasActuales as $persona) {
+            $clave = $persona->model_type . '|' . $persona->model_id;
+            if (!in_array($clave, $nuevasClaves)) {
+                $persona->delete();
+            }
+        }
+
+        foreach ($personas as $persona) {
+            $clave = $persona['model_type'] . '|' . $persona['id'];
+            if (!in_array($clave, $clavesActuales)) {
+                ParteInvolucradaCasos::create([
+                    'caso_id' => $caso->id,
+                    'model_type' => $persona['model_type'],
+                    'model_id' => $persona['id'],
+                    'tipo_id' => $tipoParte,
+                ]);
+            }
+        }
+    }
+    private function guardarDocumentoPublico(Request $request)
+    {
+        try {
+            $documento = Documento::create([
+                'tipo_id' => $request->tipo_id,
+                'estado_id' => $request->estado_id,
+                'usuario_id' => Auth::user()->id,
+            ]);
+
+            $documento->doctoPublicoDetalles()->create([
+                'no_escritura' => $request->no_escritura,
+                'fecha_escritura' => $request->no_escritura,
+                'escritura_id' => $request->tipo_escritura_id,
+                'comentario' => $request->observaciones,
+            ]);
+
+        } catch (\Exception $e) {
+            flash()->error('Error al guardar el documento: ' . $e->getMessage());
+        }
+
+    }
+
 }

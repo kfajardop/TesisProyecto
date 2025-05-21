@@ -25,8 +25,8 @@
             :preselect-first="false"
         >
         </multiselect>
-        <input type="hidden" name="documento_publico_tipo_id"
-               :value="documentoPublicoTipo ? documentoPublicoTipo.id : ''">
+        <input type="hidden" name="tipo_escritura_id"
+               :value="documentoPublicoEscritura ? documentoPublicoEscritura.id : ''">
     </div>
 
     <div class="form-group col-sm-6" v-if="documentoTipo?.id === constDocumentoPublicoId">
@@ -46,7 +46,7 @@
         >
         </multiselect>
         <input type="hidden" name="documento_privado_tipo_id"
-               :value="documentoPrivadoTipo ? documentoPrivadoTipo.id : ''">
+               :value="documentoPrivadoContrato ? documentoPrivadoContrato.id : ''">
     </div>
 
    <div class="form-group col-sm-6" v-if="documentoTipo?.id === constActaNotarialId">
@@ -67,7 +67,7 @@
     <div class="form-group col-sm-6">
         {!! Form::label('persona_id', 'Comparecientes:') !!}
         <multiselect
-            v-model="conpareciente"
+            v-model="conparecientes"
             :options="personas"
             :multiple="true"
             placeholder="Selecciona un compadeciente"
@@ -75,8 +75,8 @@
             :preselect-first="false"
         >
         </multiselect>
-        <input type="hidden" name="persona_id"
-               :value="conpareciente ? conpareciente.map(p => p.id).join(',') : ''">
+        <input type="hidden" name="personas_demandantes" :value="JSON.stringify(conparecientes)">
+
     </div>
 
     <div class="form-group col-sm-6">
@@ -90,8 +90,7 @@
             :preselect-first="false"
         >
         </multiselect>
-        <input type="hidden" name="intervinientes"
-               :value="intervinientes ? intervinientes.map(p => p.id).join(',') : ''">
+        <input type="hidden" name="personas_intervinientes" :value="JSON.stringify(intervinientes)">
     </div>
 
     <div class="form-group col-sm-6">
@@ -141,7 +140,7 @@
 
                 personas: @json($personas ?? null),
 
-                conpareciente: null,
+                conparecientes: null,
                 intervinientes: null,
 
                 constDocumentoPublicoId: @json(\App\Models\DocumentoTipo::PUBLICO),

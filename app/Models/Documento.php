@@ -69,7 +69,7 @@ class Documento extends Model
 
     public function doctoPublicoDetalles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(\App\Models\DoctoPublicoDetalle::class, 'documento_id');
+        return $this->hasMany(\App\Models\DocumentoPublicoDetalle::class, 'documento_id');
     }
 
     public function parteInvolucradaDocumentos(): \Illuminate\Database\Eloquent\Relations\HasMany
