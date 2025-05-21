@@ -2,13 +2,12 @@
 
 namespace App\DataTables;
 
-use App\Models\Documento;
-use App\Models\DocumentoTipo;
+use App\Models\DocumentoActaDetalle;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Services\DataTable;
 
-class DocumentoDataTable extends DataTable
+class DocumentoActaDetalleDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -21,32 +20,14 @@ class DocumentoDataTable extends DataTable
 
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function(Documento $documento){
-                $id = $documento->id;
-                return view('documentos.datatables_actions',compact('documento','id'));
+            ->addColumn('action', function(DocumentoActaDetalle $documentoActaDetalle){
+                $id = $documentoActaDetalle->id;
+                return view('documento_acta_detalles.datatables_actions',compact('documentoActaDetalle','id'));
             })
-            ->editColumn('id',function (Documento $documento){
+            ->editColumn('id',function (DocumentoActaDetalle $documentoActaDetalle){
 
-                return $documento->id;
+                return $documentoActaDetalle->id;
 
-            })
-            ->editColumn('tipo',function (Documento $documento){
-                return $documento->tipo->nombre;
-            })
-            ->editColumn('estado',function (Documento $documento){
-                return $documento->estado->nombre;
-            })
-            ->editColumn('fecha_documento',function (Documento $documento){
-
-                if($documento->tipo_id == DocumentoTipo::PUBLICO){
-                    return $documento->doctoPublicoDetalles()->first()->fecha_escritura;
-                }
-                if($documento->tipo_id == DocumentoTipo::PRIVADO){
-                    return $documento->doctoPrivadoDetalles()->first()->fecha;
-                }
-                if($documento->tipo_id == DocumentoTipo::ACTA_NOTARIAL){
-                    return $documento->doctoActaDetalles()->first()->fecha;
-                }
             })
             ->rawColumns(['action']);
     }
@@ -54,10 +35,10 @@ class DocumentoDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Documento $model
+     * @param \App\Models\DocumentoActaDetalle $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Documento $model)
+    public function query(DocumentoActaDetalle $model)
     {
         return $model->newQuery()->select($model->getTable().'.*');
     }
@@ -126,26 +107,10 @@ class DocumentoDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('tipo')
-                ->title('Tipo')
-                ->exportable(false)
-                ->printable(false)
-                ->orderable(false)
-                ->searchable(false),
-
-            Column::make('estado')
-                ->title('Estado')
-                ->exportable(false)
-                ->printable(false)
-                ->orderable(false)
-                ->searchable(false),
-            Column::make('fecha_documento')
-                ->title('Fecha')
-                ->exportable(false)
-                ->printable(false)
-                ->orderable(false)
-                ->searchable(false),
-
+            Column::make('fecha'),
+            Column::make('comentario'),
+            Column::make('documento_id'),
+            Column::make('notarial_id'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -161,7 +126,6 @@ class DocumentoDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'documentos_datatable_' . time();
+        return 'documento_acta_detalles_datatable_' . time();
     }
-
 }

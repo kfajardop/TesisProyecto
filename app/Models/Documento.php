@@ -20,9 +20,6 @@ class Documento extends Model
         'usuario_id'
     ];
 
-    protected $casts = [
-
-    ];
 
     public static $rules = [
         'tipo_id' => 'required',
