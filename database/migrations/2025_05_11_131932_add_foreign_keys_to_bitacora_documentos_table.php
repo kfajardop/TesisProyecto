@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('bitacora_documentos', function (Blueprint $table) {
             $table->foreign(['usuario_id'], 'fk_bitacora_documentos_usuarios1')->references(['id'])->on('users')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['documento_id'], 'fk_bitacora_documentos_documentos1')->references(['id'])->on('documentos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('bitacora_documentos', function (Blueprint $table) {
             $table->dropForeign('fk_bitacora_documentos_usuarios1');
+            $table->dropForeign('fk_bitacora_documentos_documentos1');
         });
     }
 };

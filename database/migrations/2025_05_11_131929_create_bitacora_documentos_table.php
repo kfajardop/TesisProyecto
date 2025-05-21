@@ -15,8 +15,12 @@ return new class extends Migration
     {
         Schema::create('bitacora_documentos', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->string('titulo',255);
             $table->string('descripcion');
-            $table->unsignedBigInteger('usuario_id')->index('fk_bitacora_documentos_usuarios1_idx');
+            $table->unsignedBigInteger('usuario_id')
+                ->index('fk_bitacora_documentos_usuarios1_idx');
+            $table->integer('documento_id')
+                ->index('fk_bitacora_documentos_documentos1_idx');
             $table->timestamps();
             $table->softDeletes();
         });

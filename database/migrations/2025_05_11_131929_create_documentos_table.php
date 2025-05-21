@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('tipo_id')->index('fk_documentos_documento_tipos1_idx');
             $table->integer('estado_id')->index('fk_documentos_documento_estados1_idx');
             $table->unsignedBigInteger('usuario_id')->index('fk_documentos_usuarios1_idx');
-            $table->integer('bitacora_documento_id')->index('fk_documentos_bitacora_documentos1_idx');
             $table->timestamps();
             $table->softDeletes();
         });
