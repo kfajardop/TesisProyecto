@@ -21,7 +21,7 @@ class Documento extends Model
     ];
 
     protected $casts = [
-        
+
     ];
 
     public static $rules = [
@@ -52,7 +52,7 @@ class Documento extends Model
         return $this->belongsTo(\App\Models\User::class, 'usuario_id');
     }
 
-    public function bitacoraDocumentos(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function bitacoras(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\BitacoraDocumento::class, 'documento_id');
     }

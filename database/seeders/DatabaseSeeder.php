@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\ParteTipo;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -46,6 +44,8 @@ class DatabaseSeeder extends Seeder
         //Seeders para los documentos
         $this->call(DocumentoEstadosTableSeeder::class);
         $this->call(DocumentoTiposTableSeeder::class);
+        $this->call(DoctoPublicoEscriturasTableSeeder::class);
+
 
 
         //Seeders con datos de prueba

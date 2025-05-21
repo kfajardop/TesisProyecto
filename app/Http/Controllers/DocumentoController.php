@@ -6,7 +6,9 @@ use App\DataTables\DocumentoDataTable;
 use App\Http\Requests\CreateDocumentoRequest;
 use App\Http\Requests\UpdateDocumentoRequest;
 use App\Http\Controllers\AppBaseController;
+use App\Models\Cliente;
 use App\Models\Documento;
+use App\Models\Persona;
 use Illuminate\Http\Request;
 
 class DocumentoController extends AppBaseController
@@ -33,7 +35,12 @@ class DocumentoController extends AppBaseController
      */
     public function create()
     {
-        return view('documentos.create');
+        $noClientes = Persona::all();
+        $clientes = Cliente::all();
+
+        $personas = $clientes->concat($noClientes);
+
+        return view('documentos.create', compact('personas'));
     }
 
     /**

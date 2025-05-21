@@ -33,6 +33,10 @@ class DocumentoTipo extends Model
 
     ];
 
+    const PUBLICO = 1;
+    const PRIVADO = 2;
+    const ACTA_NOTARIAL = 3;
+
     public function documentos(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(\App\Models\Documento::class, 'tipo_id');

@@ -38,9 +38,7 @@
                         {!! Form::model($documento, ['route' => ['documentos.update', $documento->id], 'method' => 'patch','class' => 'esperar']) !!}
 
                         <div class="card-body">
-                            <div class="form-row">
                                 @include('documentos.fields')
-                            </div>
                         </div>
 
                         <div class="card-footer text-right bg-white border-top">
