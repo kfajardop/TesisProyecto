@@ -27,6 +27,8 @@ class ParteTiposTableSeeder extends Seeder
         ParteTipo::create(['nombre' => 'Compareciente']);
         ParteTipo::create(['nombre' => 'Intervinientes']);
 
+        ParteTipo::create(['nombre' => 'Participante en Audiencia']);
+
         \DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
     }

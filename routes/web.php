@@ -133,3 +133,5 @@ Route::resource('parteInvolucradaDocumentos', App\Http\Controllers\ParteInvolucr
 Route::resource('bitacoraDocumentos', App\Http\Controllers\BitacoraDocumentoController::class);
 Route::resource('documentoPrivadoDetalles', App\Http\Controllers\DocumentoPrivadoDetalleController::class);
 Route::resource('documentoActaDetalles', App\Http\Controllers\DocumentoActaDetalleController::class);
+
+Route::resource('audiencias', App\Http\Controllers\AudienciaController::class);

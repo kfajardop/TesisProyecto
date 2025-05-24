@@ -222,3 +222,10 @@
         <p>Documento Acta Detalles</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('audiencias.index') }}" class="nav-link {{ Request::is('audiencias*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Audiencias</p>
+    </a>
+</li>
