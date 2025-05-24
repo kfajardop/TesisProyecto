@@ -37,12 +37,7 @@
                         {!! Form::open(['route' => 'audiencias.store','class' => 'esperar']) !!}
 
                         <div class="card-body">
-
-                            <div class="form-row">
-
                                 @include('audiencias.fields')
-
-                            </div>
                         </div>
 
                         <div class="card-footer text-right bg-white border-top">

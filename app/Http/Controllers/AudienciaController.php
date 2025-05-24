@@ -7,6 +7,8 @@ use App\Http\Requests\CreateAudienciaRequest;
 use App\Http\Requests\UpdateAudienciaRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Audiencia;
+use App\Models\Cliente;
+use App\Models\Persona;
 use Illuminate\Http\Request;
 
 class AudienciaController extends AppBaseController
@@ -33,7 +35,11 @@ class AudienciaController extends AppBaseController
      */
     public function create()
     {
-        return view('audiencias.create');
+        $noClientes = Persona::all();
+        $clientes = Cliente::all();
+
+        $personas = $clientes->concat($noClientes);
+        return view('audiencias.create', compact('personas'));
     }
 
     /**
@@ -82,7 +88,12 @@ class AudienciaController extends AppBaseController
             return redirect(route('audiencias.index'));
         }
 
-        return view('audiencias.edit')->with('audiencia', $audiencia);
+        $noClientes = Persona::all();
+        $clientes = Cliente::all();
+
+        $personas = $clientes->concat($noClientes);
+
+        return view('audiencias.edit')->with(['audiencia' => $audiencia, 'personas' => $personas]);
     }
 
     /**

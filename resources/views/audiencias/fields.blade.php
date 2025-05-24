@@ -1,7 +1,8 @@
+<div class="form-row" id="fields">
 <!-- Fecha Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('fecha', 'Fecha:') !!}
-    {!! Form::text('fecha', null, ['class' => 'form-control','id'=>'fecha']) !!}
+    {!! Form::date('fecha', null, ['class' => 'form-control','id'=>'fecha']) !!}
 </div>
 
 @push('page_scripts')
@@ -13,7 +14,7 @@
 <!-- Hora Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('hora', 'Hora:') !!}
-    {!! Form::text('hora', null, ['class' => 'form-control', 'required']) !!}
+    {!! Form::time('hora', null, ['class' => 'form-control', 'required']) !!}
 </div>
 
 <!-- Lugar Field -->
@@ -23,7 +24,52 @@
 </div>
 
 <!-- Caso Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('caso_id', 'Caso Id:') !!}
-    {!! Form::number('caso_id', null, ['class' => 'form-control', 'required']) !!}
+    <div class="form-group col-sm-6">
+        <label for="tipo_id">Caso:</label>
+        <multiselect
+            v-model="caso"
+            :options="casos"
+            :multiple="false"
+            placeholder="Selecciona victimarios"
+            label="nombre_caso"
+            track-by="id"
+            :preselect-first="false">
+        </multiselect>
+        <input type="hidden" name="caso_id" :value="caso ? caso.id : ''" v-if="caso">
+    </div>
+
+    <div class="form-group col-sm-6">
+        <label for="tipo_id">Participantes:</label>
+        <multiselect
+            v-model="participantes"
+            :options="personas"
+            :multiple="true"
+            placeholder="Selecciona un participante"
+            label="nombre_completo"
+            track-by="id"
+            :preselect-first="false">
+        </multiselect>
+        <input type="hidden" name="victimas" :value="JSON.stringify(participantes)">
+    </div>
+
 </div>
+
+
+@push('scripts')
+    <script>
+        const app = new Vue({
+            el: '#fields',
+            data: {
+                personas: @json($personas),
+                participantes: @json($audiencia->participantes ?? []),
+
+                casos: @json(\App\Models\Caso::all()),
+                caso: @json($audiencia->caso ?? null),
+
+            },
+            computed: {
+
+            },
+        });
+    </script>
+@endpush

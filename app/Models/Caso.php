@@ -38,7 +38,8 @@ class Caso extends Model
     ];
 
     protected $appends = [
-        'etapa_actual_id'
+        'etapa_actual_id',
+        'nombre_caso'
     ];
     public function estado(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -159,6 +160,12 @@ class Caso extends Model
         } else {
             return $this->familiarJuicioDetalles()->first()->etapa->id;
         }
+    }
+
+    public function getNombreCasoAttribute()
+    {
+        return $this->id . ' - ' . $this->tipo->nombre . ' - ' . $this->estado->nombre;
+
     }
 
 
