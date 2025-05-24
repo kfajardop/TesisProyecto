@@ -382,4 +382,22 @@ class DocumentoController extends AppBaseController
         }
     }
 
+    public function cambiarEstadoDocumento(Request $request)
+    {
+        $documento = Documento::find($request->documento_id);
+
+        if (!$documento) {
+            flash()->error('Documento no encontrado');
+            return redirect()->back();
+        }
+
+        $documento->estado_id = $request->nuevo_estado_id;
+        $documento->save();
+
+        $documento->guardarEnBitacora('Cambio de estado Documento', $request->observaciones);
+
+        flash()->success('Estado del documento actualizado.');
+        return redirect()->back();
+    }
+
 }

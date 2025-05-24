@@ -71,7 +71,9 @@ class DocumentoDataTable extends DataTable
      */
     public function query(Documento $model)
     {
-        return $model->newQuery()->select($model->getTable().'.*');
+        return $model->newQuery()
+            ->with('estado')
+            ->select($model->getTable().'.*');
     }
 
     /**

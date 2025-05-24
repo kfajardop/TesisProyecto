@@ -4,9 +4,22 @@
     </a>
     @endcan
 
+
 @can('Editar Documentos')
     <a href="{{ route('documentos.edit', $id) }}" data-toggle="tooltip" title="Editar" class='btn btn-sm btn-outline-info'>
         <i class="fa fa-edit"></i>
+    </a>
+@endcan
+
+@can('Cambiar Estado Documentos')
+    <a
+        data-toggle="tooltip"
+        title="Cambiar Etapa"
+        class='btn btn-sm btn-outline-warning'
+        onclick="mostrarModalCambiarEstado({{ $documento }})"
+    >
+        <i class="fas fa-exchange-alt"></i>
+
     </a>
 @endcan
 

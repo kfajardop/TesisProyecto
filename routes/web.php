@@ -125,6 +125,7 @@ Route::resource('departamentos', App\Http\Controllers\DepartamentoController::cl
 Route::resource('municipios', App\Http\Controllers\MunicipioController::class);
 Route::resource('direccions', App\Http\Controllers\DireccionController::class);
 
+Route::post('documentos/cambiar/estado', [App\Http\Controllers\DocumentoController::class, 'cambiarEstadoDocumento'])->name('documentos.cambiar.estado');
 Route::resource('documentos', App\Http\Controllers\DocumentoController::class);
 Route::resource('documentoPublicoDetalles', App\Http\Controllers\DocumentoPublicoDetalleController::class);
 Route::resource('parteInvolucradaDocumentos', App\Http\Controllers\ParteInvolucradaDocumentoController::class);
