@@ -2,12 +2,12 @@
 
 namespace App\DataTables;
 
-use App\Models\Audiencia;
+use App\Models\ParteInvolucradaAudiencia;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Services\DataTable;
 
-class AudienciaDataTable extends DataTable
+class ParteInvolucradaAudienciaDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -20,23 +20,13 @@ class AudienciaDataTable extends DataTable
 
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function(Audiencia $audiencia){
-                $id = $audiencia->id;
-                return view('audiencias.datatables_actions',compact('audiencia','id'));
+            ->addColumn('action', function(ParteInvolucradaAudiencia $parteInvolucradaAudiencia){
+                $id = $parteInvolucradaAudiencia->id;
+                return view('parte_involucrada_audiencias.datatables_actions',compact('parteInvolucradaAudiencia','id'));
             })
-            ->editColumn('nombre_caso',function (Audiencia $audiencia){
+            ->editColumn('id',function (ParteInvolucradaAudiencia $parteInvolucradaAudiencia){
 
-                return $audiencia->caso->nombre_caso;
-
-            })
-            ->editColumn('fecha',function (Audiencia $audiencia){
-
-                return $audiencia->fecha->format('d/m/Y');
-
-            })
-            ->editColumn('id',function (Audiencia $audiencia){
-
-                return $audiencia->id;
+                return $parteInvolucradaAudiencia->id;
 
             })
             ->rawColumns(['action']);
@@ -45,10 +35,10 @@ class AudienciaDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Audiencia $model
+     * @param \App\Models\ParteInvolucradaAudiencia $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Audiencia $model)
+    public function query(ParteInvolucradaAudiencia $model)
     {
         return $model->newQuery()->select($model->getTable().'.*');
     }
@@ -117,12 +107,10 @@ class AudienciaDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id'),
-            Column::make('fecha'),
-            Column::make('hora'),
-            Column::make('lugar'),
-            Column::make('nombre_caso')
-                ->title('Caso'),
+            Column::make('model_type'),
+            Column::make('model_id'),
+            Column::make('tipo_id'),
+            Column::make('audiencia_id'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -138,6 +126,6 @@ class AudienciaDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'audiencias_datatable_' . time();
+        return 'parte_involucrada_audiencias_datatable_' . time();
     }
 }

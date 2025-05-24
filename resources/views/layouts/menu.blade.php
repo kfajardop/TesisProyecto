@@ -229,3 +229,10 @@
         <p>Audiencias</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('parteInvolucradaAudiencias.index') }}" class="nav-link {{ Request::is('parteInvolucradaAudiencias*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Parte Involucrada Audiencias</p>
+    </a>
+</li>

@@ -49,7 +49,7 @@
             track-by="id"
             :preselect-first="false">
         </multiselect>
-        <input type="hidden" name="victimas" :value="JSON.stringify(participantes)">
+        <input type="hidden" name="participantes" :value="JSON.stringify(participantes)">
     </div>
 
 </div>

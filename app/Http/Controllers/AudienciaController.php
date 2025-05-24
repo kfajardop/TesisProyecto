@@ -7,7 +7,11 @@ use App\Http\Requests\CreateAudienciaRequest;
 use App\Http\Requests\UpdateAudienciaRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Audiencia;
+use App\Models\Caso;
 use App\Models\Cliente;
+use App\Models\ParteInvolucradaAudiencia;
+use App\Models\ParteInvolucradaCasos;
+use App\Models\ParteTipo;
 use App\Models\Persona;
 use Illuminate\Http\Request;
 
@@ -51,6 +55,8 @@ class AudienciaController extends AppBaseController
 
         /** @var Audiencia $audiencia */
         $audiencia = Audiencia::create($input);
+
+        $this->syncPersonas($audiencia, ParteTipo::PARTICIPANTE_EN_AUDIENCIA, json_decode($request->input('participantes'), true));
 
         flash()->success('Audiencia guardado.');
 
@@ -113,6 +119,8 @@ class AudienciaController extends AppBaseController
         $audiencia->fill($request->all());
         $audiencia->save();
 
+        $this->syncPersonas($audiencia, ParteTipo::PARTICIPANTE_EN_AUDIENCIA, json_decode($request->input('participantes'), true));
+
         flash()->success('Audiencia actualizado.');
 
         return redirect(route('audiencias.index'));
@@ -139,5 +147,35 @@ class AudienciaController extends AppBaseController
         flash()->success('Audiencia eliminado.');
 
         return redirect(route('audiencias.index'));
+    }
+
+    private function syncPersonas(Audiencia $caso, int $tipoParte, array $personas)
+    {
+        $nuevasClaves = collect($personas)->map(fn($p) => $p['model_type'] . '|' . $p['id'])->toArray();
+
+        $personasActuales = ParteInvolucradaAudiencia::where('audiencia_id', $caso->id)
+            ->where('tipo_id', $tipoParte)
+            ->get();
+
+        $clavesActuales = $personasActuales->map(fn($p) => $p->model_type . '|' . $p->model_id)->toArray();
+
+        foreach ($personasActuales as $persona) {
+            $clave = $persona->model_type . '|' . $persona->model_id;
+            if (!in_array($clave, $nuevasClaves)) {
+                $persona->delete();
+            }
+        }
+
+        foreach ($personas as $persona) {
+            $clave = $persona['model_type'] . '|' . $persona['id'];
+            if (!in_array($clave, $clavesActuales)) {
+                ParteInvolucradaAudiencia::create([
+                    'audiencia_id' => $caso->id,
+                    'model_type' => $persona['model_type'],
+                    'model_id' => $persona['id'],
+                    'tipo_id' => $tipoParte,
+                ]);
+            }
+        }
     }
 }

@@ -135,3 +135,4 @@ Route::resource('documentoPrivadoDetalles', App\Http\Controllers\DocumentoPrivad
 Route::resource('documentoActaDetalles', App\Http\Controllers\DocumentoActaDetalleController::class);
 
 Route::resource('audiencias', App\Http\Controllers\AudienciaController::class);
+Route::resource('parteInvolucradaAudiencias', App\Http\Controllers\ParteInvolucradaAudienciaController::class);

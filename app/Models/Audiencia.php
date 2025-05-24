@@ -45,8 +45,8 @@ class Audiencia extends Model
         return $this->belongsTo(\App\Models\Caso::class, 'caso_id');
     }
 
-    public function parteInvolucradaCasos(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function partesInvolucradas(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(\App\Models\ParteInvolucradaCaso::class, 'audiencias_has_partes_involucradas');
+        return $this->hasMany(\App\Models\ParteInvolucradaAudiencia::class, 'audiencia_id');
     }
 }
