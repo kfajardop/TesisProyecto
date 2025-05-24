@@ -134,5 +134,5 @@ Route::resource('bitacoraDocumentos', App\Http\Controllers\BitacoraDocumentoCont
 Route::resource('documentoPrivadoDetalles', App\Http\Controllers\DocumentoPrivadoDetalleController::class);
 Route::resource('documentoActaDetalles', App\Http\Controllers\DocumentoActaDetalleController::class);
 
-Route::resource('audiencias', App\Http\Controllers\AudienciaController::class);
+Route::resource('audiencias', App\Http\Controllers\AudienciaController::class)->name('index', 'audiencias.index');
 Route::resource('parteInvolucradaAudiencias', App\Http\Controllers\ParteInvolucradaAudienciaController::class);

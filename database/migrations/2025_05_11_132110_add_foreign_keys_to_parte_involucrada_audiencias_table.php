@@ -36,9 +36,9 @@ return new class extends Migration
      */
     public function down()
     {
-//        Schema::table('parte_involucrada_audiencias', function (Blueprint $table) {
-//            $table->dropForeign('fk_partes_involucradas_copy1_documentos2');
-//            $table->dropForeign('fk_partes_involucradas_partes_tipo12');
-//        });
+        Schema::table('parte_involucrada_audiencias', function (Blueprint $table) {
+            $table->dropForeign('fk_partes_involucradas_copy1_documentos2');
+            $table->dropForeign('fk_partes_involucradas_partes_tipo12');
+        });
     }
 };

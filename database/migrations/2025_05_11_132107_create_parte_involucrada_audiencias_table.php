@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-//        Schema::dropIfExists('parte_involucrada_audiencias');
+        Schema::dropIfExists('parte_involucrada_audiencias');
     }
 };
