@@ -54,11 +54,8 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;
                             </button>
                         </div>
-
                         <div class="modal-body">
-
                             <div class="form-row">
-
                                 <div class="form-group col-sm-6">
                                     <label for="tipo_id">Estado Actual:</label>
                                     <multiselect
