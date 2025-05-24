@@ -9,6 +9,7 @@
             placeholder="Selecciona un tipo de documento"
             label="nombre"
             :preselect-first="false"
+            {{ isset($documento) && $documento->tipo ? 'disabled' : '' }}
         >
         </multiselect>
         <input type="hidden" name="tipo_id" :value="documentoTipo ? documentoTipo.id : ''">

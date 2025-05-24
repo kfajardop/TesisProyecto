@@ -118,24 +118,22 @@ class DocumentoController extends AppBaseController
     /**
      * Update the specified Documento in storage.
      */
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
-        /** @var Documento $documento */
-        $documento = Documento::find($id);
-
-        if (empty($documento)) {
-            flash()->error('Documento no encontrado');
-
-            return redirect(route('documentos.index'));
+        if ($request->tipo_id == DocumentoTipo::PUBLICO) {
+            $this->actualizarDocumentoPublico($request, $id);
+        }
+        if ($request->tipo_id == DocumentoTipo::PRIVADO) {
+            $this->actualizarDocumentoPrivado($request, $id);
+        }
+        if ($request->tipo_id == DocumentoTipo::ACTA_NOTARIAL) {
+            $this->actualizarActaNotarial($request, $id);
         }
 
-        $documento->fill($request->all());
-        $documento->save();
-
         flash()->success('Documento actualizado.');
-
         return redirect(route('documentos.index'));
     }
+
 
     /**
      * Remove the specified Documento from storage.
@@ -144,18 +142,36 @@ class DocumentoController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Documento $documento */
-        $documento = Documento::find($id);
+        DB::beginTransaction();
 
-        if (empty($documento)) {
-            flash()->error('Documento no encontrado');
+        try {
+            /** @var Documento $documento */
+            $documento = Documento::findOrFail($id); // Usar findOrFail por si no existe
 
-            return redirect(route('documentos.index'));
+            // Eliminar relaciones
+            if ($documento->partesInvolucradas()->count() > 0) {
+                $documento->partesInvolucradas()->delete();
+            }
+
+            if ($documento->tipo_id == DocumentoTipo::PUBLICO) {
+                $documento->doctoPublicoDetalles()->delete();
+            }
+            if ($documento->tipo_id == DocumentoTipo::PRIVADO) {
+                $documento->doctoPrivadoDetalles()->delete();
+            }
+            if ($documento->tipo_id == DocumentoTipo::ACTA_NOTARIAL) {
+                $documento->doctoActaDetalles()->delete();
+            }
+
+            $documento->delete();
+
+            DB::commit();
+
+            flash()->success('Documento eliminado.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash()->error('Error al eliminar el documento: ' . $e->getMessage());
         }
-
-        $documento->delete();
-
-        flash()->success('Documento eliminado.');
 
         return redirect(route('documentos.index'));
     }
@@ -211,7 +227,7 @@ class DocumentoController extends AppBaseController
             $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
             $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
 
-            $documento->guardarEnBitacora('Documento creado', 'Se ha creado un nuevo documento público con ID: '.$documento->id);
+            $documento->guardarEnBitacora('Documento creado', $request->observaciones);
 
             DB::commit();
         } catch (\Exception $e) {
@@ -238,7 +254,7 @@ class DocumentoController extends AppBaseController
             $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
             $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
 
-            $documento->guardarEnBitacora('Documento creado', 'Se ha creado un nuevo documento privado con ID: '.$documento->id);
+            $documento->guardarEnBitacora('Documento creado', $request->observaciones);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -264,11 +280,106 @@ class DocumentoController extends AppBaseController
             $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
             $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
 
-            $documento->guardarEnBitacora('Documento creado', 'Se ha creado un nuevo acta notarial con ID: '.$documento->id);
+            $documento->guardarEnBitacora('Documento creado', $request->observaciones);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             flash()->error('Error al guardar el documento: '.$e->getMessage());
         }
     }
+
+    private function actualizarDocumentoPublico(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $documento = Documento::findOrFail($id);
+            $documento->update([
+                'estado_id' => $request->estado_id,
+            ]);
+
+            $detalle = $documento->doctoPublicoDetalles()->first();
+            if ($detalle) {
+                $detalle->update([
+                    'no_escritura' => $request->no_escritura,
+                    'fecha_escritura' => $request->fecha_documento,
+                    'escritura_id' => $request->tipo_escritura_id,
+                    'comentario' => $request->observaciones,
+                ]);
+            }
+
+            $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
+            $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
+
+            $documento->guardarEnBitacora('Documento actualizado', $request->observaciones);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash()->error('Error al actualizar el documento: '.$e->getMessage());
+        }
+    }
+
+    private function actualizarDocumentoPrivado(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $documento = Documento::findOrFail($id);
+            $documento->update([
+                'estado_id' => $request->estado_id,
+            ]);
+
+            $detalle = $documento->doctoPrivadoDetalles()->first();
+            if ($detalle) {
+                $detalle->update([
+                    'fecha' => $request->fecha_documento,
+                    'contrato_id' => $request->contrato_id,
+                    'comentario' => $request->observaciones,
+                ]);
+            }
+
+            $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
+            $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
+
+            $documento->guardarEnBitacora('Documento actualizado', $request->observaciones);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash()->error('Error al actualizar el documento: '.$e->getMessage());
+        }
+    }
+
+    private function actualizarActaNotarial(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $documento = Documento::findOrFail($id);
+            $documento->update([
+                'estado_id' => $request->estado_id,
+            ]);
+
+            $detalle = $documento->doctoActaDetalles()->first();
+            if ($detalle) {
+                $detalle->update([
+                    'notarial_id' => $request->notarial_id,
+                    'fecha' => $request->fecha_documento,
+                    'comentario' => $request->observaciones,
+                ]);
+            }
+
+            $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
+            $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
+
+            $documento->guardarEnBitacora('Documento actualizado', $request->observaciones);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash()->error('Error al actualizar el acta notarial: '.$e->getMessage());
+        }
+    }
+
 }
