@@ -48,6 +48,18 @@ class DocumentoDataTable extends DataTable
                     return $documento->doctoActaDetalles()->first()->fecha;
                 }
             })
+            ->editColumn('tipo_documento',function (Documento $documento){
+
+                if($documento->tipo_id == DocumentoTipo::PUBLICO){
+                    return $documento->doctoPublicoDetalles()->first()->escritura->nombre;
+                }
+                if($documento->tipo_id == DocumentoTipo::PRIVADO){
+                    return $documento->doctoPrivadoDetalles()->first()->contrato->nombre;
+                }
+                if($documento->tipo_id == DocumentoTipo::ACTA_NOTARIAL){
+                    return $documento->doctoActaDetalles()->first()->notarial->nombre;
+                }
+            })
             ->rawColumns(['action']);
     }
 
@@ -139,8 +151,16 @@ class DocumentoDataTable extends DataTable
                 ->printable(false)
                 ->orderable(false)
                 ->searchable(false),
+
             Column::make('fecha_documento')
                 ->title('Fecha')
+                ->exportable(false)
+                ->printable(false)
+                ->orderable(false)
+                ->searchable(false),
+
+            Column::make('tipo_documento')
+                ->title('Tipo')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)

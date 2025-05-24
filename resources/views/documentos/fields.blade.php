@@ -94,8 +94,11 @@
     </div>
 
     <div class="form-group col-sm-6">
-        {!! Form::label('fecha_escritura', 'Fecha Documento:') !!}
-        {!! Form::date('fecha_documento', null, ['class' => 'form-control', 'required']) !!}
+        {!! Form::label('fecha_documento', 'Fecha Documento:') !!}
+        <input type="date" class="form-control"
+               value="{{ isset($documento) && $documento->fecha_documento ? $documento->fecha_documento->format('Y-m-d') : '' }}"
+               name="fecha_documento">
+
     </div>
 
     <div class="form-group col-sm-6">
@@ -127,21 +130,21 @@
                 documentoTipo: @json($documento->tipo ?? null),
 
                 documentoPublicoEscrituras: @json(\App\Models\DoctoPublicoEscritura::all()),
-                documentoPublicoEscritura: null,
+                documentoPublicoEscritura: @json($documento?->doctoPublicoDetalles()?->first()?->escritura ?? null),
 
                 documentoPrivadoContratos: @json(\App\Models\DoctoPrivadoContrato::all()),
-                documentoPrivadoContrato: null,
+                documentoPrivadoContrato: @json($documento?->doctoPrivadoDetalles()?->first()?->contrato ?? null),
 
                 actaNotariales: @json(\App\Models\DoctoActaNotarial::class::all()),
-                actaNotarial: null,
+                actaNotarial: @json($documento?->doctoActaDetalles()?->first()?->notarial ?? null),
 
                 documentoEstados: @json(\App\Models\DocumentoEstado::all()),
                 documentoEstado: @json($documento->estado ?? null),
 
                 personas: @json($personas ?? null),
 
-                conparecientes: null,
-                intervinientes: null,
+                conparecientes: @json($documento->comparecientes() ?? null),
+                intervinientes: @json($documento->intervinientes() ?? null),
 
                 constDocumentoPublicoId: @json(\App\Models\DocumentoTipo::PUBLICO),
                 constDocumentoPrivadoId: @json(\App\Models\DocumentoTipo::PRIVADO),

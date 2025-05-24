@@ -48,7 +48,9 @@ class DocumentoController extends AppBaseController
 
         $personas = $clientes->concat($noClientes);
 
-        return view('documentos.create', compact('personas'));
+        $documento = new Documento();
+
+        return view('documentos.create', compact('personas', 'documento'));
     }
 
     /**
@@ -105,14 +107,18 @@ class DocumentoController extends AppBaseController
 
             return redirect(route('documentos.index'));
         }
+        $noClientes = Persona::all();
+        $clientes = Cliente::all();
 
-        return view('documentos.edit')->with('documento', $documento);
+        $personas = $clientes->concat($noClientes);
+
+        return view('documentos.edit', compact('documento', 'personas'));
     }
 
     /**
      * Update the specified Documento in storage.
      */
-    public function update($id, UpdateDocumentoRequest $request)
+    public function update($id, Request $request)
     {
         /** @var Documento $documento */
         $documento = Documento::find($id);

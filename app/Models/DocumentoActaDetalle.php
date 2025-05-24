@@ -42,7 +42,7 @@ class DocumentoActaDetalle extends Model
 
     public function notarial(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(\App\Models\DoctoActaNotariale::class, 'notarial_id');
+        return $this->belongsTo(\App\Models\DoctoActaNotarial::class, 'notarial_id');
     }
 
     public function documento(): \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -45,4 +45,9 @@ class ParteInvolucradaDocumento extends Model
     {
         return $this->belongsTo(\App\Models\ParteTipo::class, 'tipo_id');
     }
+
+    public function modelable()
+    {
+        return $this->morphTo('model', 'model_type', 'model_id');
+    }
 }

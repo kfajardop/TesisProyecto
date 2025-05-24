@@ -20,6 +20,9 @@ class Documento extends Model
         'usuario_id'
     ];
 
+    protected $appends = [
+        'fecha_documento'
+    ];
 
     public static $rules = [
         'tipo_id' => 'required',
@@ -87,5 +90,35 @@ class Documento extends Model
                 'titulo' => $titulo,
                 'descripcion' => $mensaje,
             ]);
+    }
+
+    public function comparecientes()
+    {
+        return $this->partesInvolucradas
+            ->where('tipo_id', ParteTipo::COMPARECIENTE)
+            ->map(fn($parte) => $parte->modelable)
+            ->values();
+    }
+
+    public function intervinientes()
+    {
+        return $this->partesInvolucradas
+            ->where('tipo_id', ParteTipo::INTERVINIENTE)
+            ->map(fn($parte) => $parte->modelable)
+            ->values();
+    }
+
+    public function getFechaDocumentoAttribute()
+    {
+        if ($this->doctoPublicoDetalles->count() > 0) {
+            return $this->doctoPublicoDetalles[0]->fecha_escritura;
+        } elseif ($this->doctoPrivadoDetalles->count() > 0) {
+            return $this->doctoPrivadoDetalles[0]->fecha;
+        } elseif ($this->doctoActaDetalles->count() > 0) {
+            return $this->doctoActaDetalles[0]->fecha;
+        }
+
+        return null;
+
     }
 }
