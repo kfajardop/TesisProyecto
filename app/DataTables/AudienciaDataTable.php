@@ -122,7 +122,8 @@ class AudienciaDataTable extends DataTable
             Column::make('hora'),
             Column::make('lugar'),
             Column::make('nombre_caso')
-                ->title('Caso'),
+                ->title('Caso')
+                ->orderable(false),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

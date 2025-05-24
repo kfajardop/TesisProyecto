@@ -2,14 +2,8 @@
 <!-- Fecha Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('fecha', 'Fecha:') !!}
-    {!! Form::date('fecha', null, ['class' => 'form-control','id'=>'fecha']) !!}
+    <input type="date" name="fecha" class="form-control" value="{{ isset($audiencia) && $audiencia->fecha ? $audiencia->fecha->format('Y-m-d') : '' }}">
 </div>
-
-@push('page_scripts')
-    <script type="text/javascript">
-        $('#fecha').datepicker()
-    </script>
-@endpush
 
 <!-- Hora Field -->
 <div class="form-group col-sm-6">
@@ -61,7 +55,7 @@
             el: '#fields',
             data: {
                 personas: @json($personas),
-                participantes: @json($audiencia->participantes ?? []),
+                participantes: @json($audiencia->participantes() ?? []),
 
                 casos: @json(\App\Models\Caso::all()),
                 caso: @json($audiencia->caso ?? null),

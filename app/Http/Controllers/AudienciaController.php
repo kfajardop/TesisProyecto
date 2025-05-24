@@ -14,6 +14,7 @@ use App\Models\ParteInvolucradaCasos;
 use App\Models\ParteTipo;
 use App\Models\Persona;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Collection;
 
 class AudienciaController extends AppBaseController
 {
@@ -43,7 +44,8 @@ class AudienciaController extends AppBaseController
         $clientes = Cliente::all();
 
         $personas = $clientes->concat($noClientes);
-        return view('audiencias.create', compact('personas'));
+        $audiencia = new Audiencia();
+        return view('audiencias.create', compact('personas', 'audiencia'));
     }
 
     /**
@@ -96,7 +98,6 @@ class AudienciaController extends AppBaseController
 
         $noClientes = Persona::all();
         $clientes = Cliente::all();
-
         $personas = $clientes->concat($noClientes);
 
         return view('audiencias.edit')->with(['audiencia' => $audiencia, 'personas' => $personas]);
@@ -105,7 +106,7 @@ class AudienciaController extends AppBaseController
     /**
      * Update the specified Audiencia in storage.
      */
-    public function update($id, UpdateAudienciaRequest $request)
+    public function update($id, Request $request)
     {
         /** @var Audiencia $audiencia */
         $audiencia = Audiencia::find($id);
@@ -141,6 +142,8 @@ class AudienciaController extends AppBaseController
 
             return redirect(route('audiencias.index'));
         }
+
+        $audiencia->partesInvolucradas()->delete();
 
         $audiencia->delete();
 

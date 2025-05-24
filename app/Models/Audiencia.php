@@ -49,4 +49,12 @@ class Audiencia extends Model
     {
         return $this->hasMany(\App\Models\ParteInvolucradaAudiencia::class, 'audiencia_id');
     }
+
+    public function participantes()
+    {
+        return $this->partesInvolucradas
+            ->where('tipo_id', ParteTipo::PARTICIPANTE_EN_AUDIENCIA)
+            ->map(fn($parte) => $parte->modelable)
+            ->values();
+    }
 }
