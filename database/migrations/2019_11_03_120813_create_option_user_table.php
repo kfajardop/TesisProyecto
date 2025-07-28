@@ -12,12 +12,11 @@ class CreateOptionUserTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('option_user', function(Blueprint $table)
-		{
-			$table->bigInteger('option_id')->unsigned()->index('fk_options_has_users_options1_idx');
-			$table->bigInteger('user_id')->unsigned()->index('fk_options_has_users_users1_idx');
-			$table->primary(['option_id','user_id']);
-		});
+        Schema::create('option_user', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedBigInteger('option_id');
+            $table->unsignedBigInteger('user_id');
+        });
 	}
 
 
