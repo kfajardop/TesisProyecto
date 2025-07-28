@@ -68,7 +68,8 @@
                     track-by="id"
                     :preselect-first="false">
                 </multiselect>
-                <input type="hidden" name="etapa_id" :value="CasoJucioEtapa ? CasoJucioEtapa.id : ''" v-if="CasoJucioEtapa">
+                <input type="hidden" name="etapa_id" :value="CasoJucioEtapa ? CasoJucioEtapa.id : ''"
+                       v-if="CasoJucioEtapa">
             </div>
         </div>
     </div>
@@ -100,7 +101,8 @@
                     track-by="id"
                     :preselect-first="false">
                 </multiselect>
-                <input type="hidden" name="delito_id" :value="CasoPenalDelito ? CasoPenalDelito.id : ''" v-if="CasoPenalDelito">
+                <input type="hidden" name="delito_id" :value="CasoPenalDelito ? CasoPenalDelito.id : ''"
+                       v-if="CasoPenalDelito">
             </div>
             <div class="form-group col-sm-6">
                 <label for="tipo_id">víctimas:</label>
@@ -140,7 +142,8 @@
                     track-by="id"
                     :preselect-first="false">
                 </multiselect>
-                <input type="hidden" name="etapa_id" :value="CasoPenalEtapa ? CasoPenalEtapa.id : ''" v-if="CasoPenalEtapa">
+                <input type="hidden" name="etapa_id" :value="CasoPenalEtapa ? CasoPenalEtapa.id : ''"
+                       v-if="CasoPenalEtapa">
             </div>
         </div>
     </div>
@@ -168,30 +171,31 @@
             el: '#fields',
             data: {
                 casoTipos: @json(\App\Models\CasoTipo::all()),
-                casoTipo: @json($caso->tipo ?? null),
+                casoTipo: @json(old('tipo_id') ? \App\Models\CasoTipo::find(old('tipo_id')) : ($caso->tipo ?? null)),
+
                 TiposJuicio: @json(\App\Models\CasoFamiliarJuicioTipo::all()),
-                TipoJuicio: @json($caso->familiarJuicioDetalles()->first()->tipoJuicio ?? null),
+                TipoJuicio: @json(old('tipo_id')? \App\Models\CasoFamiliarJuicioTipo::find(old('tipo_id')): ($caso->familiarJuicioDetalles()->first()->tipoJuicio ?? null)),
 
                 CasoJucioEtapas: @json(\App\Models\CasoFamiliarJuicioEtapa::all()),
-                CasoJucioEtapa: @json($caso?->familiarJuicioDetalles()->first()?->etapa ?? null),
+                CasoJucioEtapa: @json(old('etapa_id') ? \App\Models\CasoFamiliarJuicioEtapa::find(old('etapa_id')) : ($caso?->familiarJuicioDetalles()->first()?->etapa ?? null)),
 
                 CasoTipoFamiliar: @json(\App\Models\CasoTipo::FAMILIAR),
                 CasoTipoPenal: @json(\App\Models\CasoTipo::PENAL),
 
                 CasoPenalEtapas: @json(\App\Models\CasoPenalEtapa::all()),
-                CasoPenalEtapa: @json($caso?->penalDetalles()->first()?->etapa ?? null),
+                CasoPenalEtapa: @json(old('etapa_id') ? \App\Models\CasoPenalEtapa::find(old('etapa_id')) : ($caso?->penalDetalles()->first()?->etapa ?? null)),
 
                 CasoPenalDelitos: @json(\App\Models\CasoPenalDelito::all()),
-                CasoPenalDelito: @json($caso?->penalDetalles()->first()?->delito ?? null),
+                CasoPenalDelito: @json(old('delito_id') ? \App\Models\CasoPenalDelito::find(old('delito_id')) : ($caso?->penalDetalles()->first()?->delito ?? null)),
 
                 personas: @json($personas),
-                personasDemandantes: @json($caso->personasDemandantes() ?? []),
-                personasDemandadas: @json($caso->personasDemandadas() ?? []),
+                personasDemandantes: @json(old('personas_demandantes') ? json_decode(old('personas_demandantes'), true) : ($caso->personasDemandantes() ?? [])),
+                personasDemandadas: @json(old('personas_demandadas') ? json_decode(old('personas_demandadas'), true) : ($caso->personasDemandadas() ?? [])),
 
                 victimas: @json($caso->victimas() ?? []),
                 victimarios: @json($caso->victimarios() ?? []),
 
-                observaciones: null,
+                observaciones: @json(old('observaciones')),
                 puedeEditarElTipo: @json(!$caso->id ? false : true),
             },
             computed: {
