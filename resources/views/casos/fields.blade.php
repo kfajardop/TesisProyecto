@@ -154,6 +154,7 @@
             rows="3"
             placeholder="Observaciones"
             name="observaciones"
+            required
         >
         </Textarea>
         <input type="hidden" name="observaciones" :value="observaciones">
