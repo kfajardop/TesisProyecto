@@ -9,7 +9,8 @@
             placeholder="Selecciona un tipo de caso"
             label="nombre"
             :disabled="puedeEditarElTipo"
-            :preselect-first="false">
+            :preselect-first="false"
+        >
         </multiselect>
         <input type="hidden" name="tipo_id" :value="casoTipo ? casoTipo.id : ''">
     </div>
@@ -78,8 +79,11 @@
         <div class="form-row">
             <div class="form-group col-sm-6">
                 <label for="tipo_id">No. Causa:</label>
-                <input class="form-control" type="text" name="no_causa"
-                       value="{{ isset($caso) ? $caso->penalDetalles->first()?->no_causa : '' }}">
+                <input
+                    class="form-control"
+                    type="text"
+                    name="no_causa"
+                    value="{{ old('no_causa', isset($caso) ? $caso->penalDetalles->first()?->no_causa : '') }}">
 
             </div>
             <div class="form-group col-sm-6">
@@ -88,7 +92,7 @@
                     type="text"
                     class="form-control"
                     name="no_expediente"
-                    value="{{ isset($caso) ? $caso->penalDetalles->first()?->no_expediente : '' }}">
+                    value="{{ old('no_expediente', isset($caso) ? $caso->penalDetalles->first()?->no_expediente : '') }}">
             </div>
             <div class="form-group col-sm-6">
                 <label for="tipo_id">Delito:</label>
@@ -192,8 +196,16 @@
                 personasDemandantes: @json(old('personas_demandantes') ? json_decode(old('personas_demandantes'), true) : ($caso->personasDemandantes() ?? [])),
                 personasDemandadas: @json(old('personas_demandadas') ? json_decode(old('personas_demandadas'), true) : ($caso->personasDemandadas() ?? [])),
 
-                victimas: @json($caso->victimas() ?? []),
-                victimarios: @json($caso->victimarios() ?? []),
+                victimas: @json(
+    old('victimas')
+        ? json_decode(old('victimas'), true)
+        : ($caso->victimas() ?? [])
+),
+                victimarios: @json(
+    old('victimarios')
+        ? json_decode(old('victimarios'), true)
+        : ($caso->victimarios() ?? [])
+),
 
                 observaciones: @json(old('observaciones')),
                 puedeEditarElTipo: @json(!$caso->id ? false : true),

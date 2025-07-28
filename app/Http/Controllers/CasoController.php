@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\CasoDataTable;
 use App\DataTables\Scopes\CasoScope;
+use App\Http\Requests\CreateCasoRequest;
 use App\Models\Caso;
 use App\Models\CasoPenalEtapa;
 use App\Models\CasoTipo;
@@ -55,12 +56,13 @@ class CasoController extends AppBaseController
     /**
      * Store a newly created Caso in storage.
      */
-    public function store(Request $request)
+    public function store(CreateCasoRequest $request)
     {
-        $personasDemandantes = json_decode($request->input('personas_demandantes'), true) ?? [];
-        $personasDemandadas = json_decode($request->input('personas_demandadas'), true) ?? [];
 
-        $resultado = $this->validaTieneMismoTipo($personasDemandantes, $personasDemandadas);
+        $personasAcusadoras = $request->input('personas_demandantes') ?? $request->input('victimas');
+        $personasAcusadas = $request->input('personas_demandadas') ?? $request->input('victimarios');
+
+        $resultado = $this->validaTieneMismoTipo($personasAcusadoras, $personasAcusadas);
 
         if ($resultado['tieneMismoTipo']) {
             return back()->withErrors([
@@ -84,7 +86,7 @@ class CasoController extends AppBaseController
 
             $caso->guardarEnBitacora('Caso Familiar Creado, etapa: '.$detalle->etapa->nombre, $request->observaciones);
 
-            foreach ($personasDemandantes as $index => $personaDemandante) {
+            foreach ($personasAcusadoras as $index => $personaDemandante) {
                 ParteInvolucradaCasos::create([
                     'caso_id' => $caso->id,
                     'model_type' => $personaDemandante['model_type'],
@@ -93,7 +95,7 @@ class CasoController extends AppBaseController
                 ]);
             }
 
-            foreach ($personasDemandadas as $index => $personaDemandante) {
+            foreach ($personasAcusadas as $index => $personaDemandante) {
                 ParteInvolucradaCasos::create([
                     'caso_id' => $caso->id,
                     'model_type' => $personaDemandante['model_type'],
@@ -114,10 +116,7 @@ class CasoController extends AppBaseController
 
             $caso->guardarEnBitacora('Caso Penal Creado, etapa: '.$detalle->etapa->nombre, $request->observaciones);
 
-            $visctimas = json_decode($request->input('victimas'), true);
-            $victimarios = json_decode($request->input('victimarios'), true);
-
-            foreach ($visctimas as $index => $victima) {
+            foreach ($personasAcusadoras as $index => $victima) {
                 ParteInvolucradaCasos::create([
                     'caso_id' => $caso->id,
                     'model_type' => $victima['model_type'],
@@ -126,7 +125,7 @@ class CasoController extends AppBaseController
                 ]);
             }
 
-            foreach ($victimarios as $index => $victimario) {
+            foreach ($personasAcusadas as $index => $victimario) {
                 ParteInvolucradaCasos::create([
                     'caso_id' => $caso->id,
                     'model_type' => $victimario['model_type'],
@@ -355,4 +354,5 @@ class CasoController extends AppBaseController
             'personasDuplicadas' => ''
         ];
     }
+
 }
