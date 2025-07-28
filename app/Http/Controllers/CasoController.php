@@ -182,13 +182,20 @@ class CasoController extends AppBaseController
     /**
      * Update the specified Caso in storage.
      */
-    public function update(Request $request, $id)
+    public function update(CreateCasoRequest $request, $id)
     {
         $caso = Caso::findOrFail($id);
 
-//        $caso->update([
-//            'tipo_id' => $request->tipo_id,
-//        ]);
+        $personasAcusadoras = $request->input('personas_demandantes') ?? $request->input('victimas');
+        $personasAcusadas = $request->input('personas_demandadas') ?? $request->input('victimarios');
+
+        $resultado = $this->validaTieneMismoTipo($personasAcusadoras, $personasAcusadas);
+
+        if ($resultado['tieneMismoTipo']) {
+            return back()->withErrors([
+                'personas' => $resultado['message']
+            ])->withInput();
+        }
 
         if ($request->tipo_id == CasoTipo::FAMILIAR) {
 
@@ -204,9 +211,8 @@ class CasoController extends AppBaseController
 
             $caso->guardarEnBitacora('Caso Familiar Actualizado, etapa: '.$caso->familiarJuicioDetalles()->first()->etapa->nombre, $request->observaciones);
 
-            $this->syncPersonas($caso, ParteTipo::DEMANDANTE,
-                json_decode($request->input('personas_demandantes'), true));
-            $this->syncPersonas($caso, ParteTipo::DEMANDADO, json_decode($request->input('personas_demandadas'), true));
+            $this->syncPersonas($caso, ParteTipo::DEMANDANTE, $personasAcusadoras);
+            $this->syncPersonas($caso, ParteTipo::DEMANDADO, $personasAcusadas);
         }
 
         if ($request->tipo_id == CasoTipo::PENAL) {
@@ -222,8 +228,8 @@ class CasoController extends AppBaseController
 
             $caso->guardarEnBitacora('Caso Penal Actualizado, etapa: '.$caso->penalDetalles()->first()->etapa->nombre, $request->observaciones);
 
-            $this->syncPersonas($caso, ParteTipo::VICTIMA, json_decode($request->input('victimas'), true));
-            $this->syncPersonas($caso, ParteTipo::VICTIMARIO, json_decode($request->input('victimarios'), true));
+            $this->syncPersonas($caso, ParteTipo::VICTIMA, $personasAcusadoras);
+            $this->syncPersonas($caso, ParteTipo::VICTIMARIO, $personasAcusadas);
         }
 
         flash()->success('Caso actualizado.');
