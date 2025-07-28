@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\CasoDataTable;
 use App\DataTables\Scopes\CasoScope;
-use App\Http\Requests\CreateCasoRequest;
-use App\Http\Requests\UpdateCasoRequest;
-use App\Http\Controllers\AppBaseController;
 use App\Models\Caso;
-use App\Models\CasoFamiliarJuicioDetalle;
 use App\Models\CasoPenalEtapa;
 use App\Models\CasoTipo;
 use App\Models\Cliente;
@@ -61,6 +57,16 @@ class CasoController extends AppBaseController
      */
     public function store(Request $request)
     {
+        $personasDemandantes = json_decode($request->input('personas_demandantes'), true) ?? [];
+        $personasDemandadas = json_decode($request->input('personas_demandadas'), true) ?? [];
+
+        $resultado = $this->validaTieneMismoTipo($personasDemandantes, $personasDemandadas);
+
+        if ($resultado['tieneMismoTipo']) {
+            return back()->withErrors([
+                'personas' => $resultado['message']
+            ])->withInput();
+        }
 
         $caso = Caso::create([
             'tipo_id' => $request->tipo_id,
@@ -77,9 +83,6 @@ class CasoController extends AppBaseController
                 ]);
 
             $caso->guardarEnBitacora('Caso Familiar Creado, etapa: '.$detalle->etapa->nombre, $request->observaciones);
-
-            $personasDemandantes = json_decode($request->input('personas_demandantes'), true);
-            $personasDemandadas = json_decode($request->input('personas_demandadas'), true);
 
             foreach ($personasDemandantes as $index => $personaDemandante) {
                 ParteInvolucradaCasos::create([
@@ -315,5 +318,41 @@ class CasoController extends AppBaseController
         flash()->success('Caso actualizado.');
 
         return redirect(route('casos.index'));
+    }
+
+    public function validaTieneMismoTipo(array $demandantes, array $demandadas): array
+    {
+        $demandantesCollection = collect($demandantes);
+        $demandadasCollection = collect($demandadas);
+
+        $demandantesIds = $demandantesCollection->pluck('id');
+        $demandadasIds = $demandadasCollection->pluck('id');
+
+        $duplicados = $demandantesIds->intersect($demandadasIds);
+
+        if ($duplicados->isNotEmpty()) {
+            $nombresDuplicados = $duplicados->map(function ($id) use ($demandantesCollection, $demandadasCollection) {
+                // Busca en demandantes primero, luego en demandadas
+                $persona = $demandantesCollection->firstWhere('id', $id)
+                    ?? $demandadasCollection->firstWhere('id', $id);
+
+                // Devuelve nombre completo si existe, sino el ID
+                return $persona['nombre_completo']
+                    ?? "{$persona['nombre']} {$persona['apellido']}"
+                    ?? "ID {$id}";
+            })->unique()->implode(', ');
+
+            return [
+                'tieneMismoTipo' => true,
+                'message' => "Los siguientes demandantes y demandados son los mismos: {$nombresDuplicados}",
+                'personasDuplicadas' => $nombresDuplicados
+            ];
+        }
+
+        return [
+            'tieneMismoTipo' => false,
+            'message' => '',
+            'personasDuplicadas' => ''
+        ];
     }
 }
