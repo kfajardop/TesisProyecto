@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\CasoDataTable;
+use App\DataTables\Scopes\CasoScope;
 use App\Http\Requests\CreateCasoRequest;
 use App\Http\Requests\UpdateCasoRequest;
 use App\Http\Controllers\AppBaseController;
@@ -33,6 +34,9 @@ class CasoController extends AppBaseController
      */
     public function index(CasoDataTable $casoDataTable)
     {
+        $scope = new CasoScope();
+        $casoDataTable->addScope($scope);
+
         return $casoDataTable->render('casos.index');
     }
 

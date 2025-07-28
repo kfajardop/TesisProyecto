@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('segundo_nombre', 55)->nullable();
             $table->string('primer_apellido', 55);
             $table->string('segundo_apellido', 55)->nullable();
+            $table->string('dpi', 13)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
