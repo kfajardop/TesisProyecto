@@ -27,7 +27,7 @@
     <!-- Número de Escritura -->
     <div class="col-sm-6">
         {!! Form::label('no_escritura', 'No. Escritura:') !!}
-        <p>{{ $documento->no_escritura }}</p>
+        <p>{{ optional($documento->doctoPublicoDetalles->first())->no_escritura }}</p>
     </div>
 @endif
 
