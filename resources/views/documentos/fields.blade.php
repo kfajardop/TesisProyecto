@@ -32,7 +32,9 @@
 
     <div class="form-group col-sm-6" v-if="documentoTipo?.id === constDocumentoPublicoId">
         {!! Form::label('no_escritura', 'No. Escritura:') !!}
-        {!! Form::number('no_escritura', null, ['class' => 'form-control', 'required']) !!}
+{{--        {!! Form::number('no_escritura', null, ['class' => 'form-control', 'required', 'value' => $documento->id]) !!}--}}
+        <input type="number" value="{{ isset($documento) && $documento->doctoPublicoDetalles()->first() ? $documento->doctoPublicoDetalles()->first()->no_escritura : '' }}"
+               name="no_escritura" class="form-control" >
     </div>
 
     <div class="form-group col-sm-6" v-if="documentoTipo?.id === constDocumentoPrivadoId">
