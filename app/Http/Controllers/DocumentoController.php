@@ -60,7 +60,7 @@ class DocumentoController extends AppBaseController
     /**
      * Store a newly created Documento in storage.
      */
-    public function store(Request $request)
+    public function store(CreateDocumentoRequest $request)
     {
 
         if ($request->tipo_id == DocumentoTipo::PUBLICO) {

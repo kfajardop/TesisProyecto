@@ -121,7 +121,7 @@
 
     <div class="form-group col-sm-12">
         {!! Form::label('usuario_id', 'Observaciones:') !!}
-        {!! Form::textArea('observaciones', null, ['class' => 'form-control', 'required']) !!}
+        {!! Form::textArea('observaciones', null, ['class' => 'form-control', 'required', 'rows' => 3]) !!}
     </div>
 </div>
 
