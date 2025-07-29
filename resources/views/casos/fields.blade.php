@@ -40,7 +40,8 @@
                     placeholder="Selecciona una persona demandante"
                     label="nombre_completo"
                     track-by="id"
-                    :preselect-first="false">
+                    :preselect-first="false"
+                >
                 </multiselect>
                 <input type="hidden" name="personas_demandantes" :value="JSON.stringify(personasDemandantes)">
             </div>

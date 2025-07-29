@@ -72,8 +72,8 @@
             :options="personas"
             :multiple="true"
             placeholder="Selecciona un compadeciente"
+            track-by="id"
             label="nombre_completo"
-            :preselect-first="false"
         >
         </multiselect>
         <input type="hidden" name="comparecientes" :value="JSON.stringify(conparecientes)">
@@ -84,6 +84,7 @@
         {!! Form::label('intervinientes', 'Intervinientes:') !!}
         <multiselect
             v-model="intervinientes"
+            track-by="id"
             :options="personas"
             :multiple="true"
             placeholder="Selecciona un interviniente"
