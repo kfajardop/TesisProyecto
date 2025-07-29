@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\DocumentoDataTable;
+use App\DataTables\Scopes\DocumentoScope;
 use App\Http\Requests\CreateDocumentoRequest;
 use App\Http\Requests\UpdateDocumentoRequest;
 use App\Http\Controllers\AppBaseController;
@@ -34,6 +35,9 @@ class DocumentoController extends AppBaseController
      */
     public function index(DocumentoDataTable $documentoDataTable)
     {
+        $scope = new DocumentoScope();
+        $documentoDataTable->addScope($scope);
+
         return $documentoDataTable->render('documentos.index');
     }
 

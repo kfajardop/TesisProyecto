@@ -97,7 +97,7 @@ class DocumentoDataTable extends DataTable
                 ->dom('
                     <"row mb-2"
                     <"col-sm-12 col-md-6" B>
-                    <"col-sm-12 col-md-6" f>
+                    <"col-sm-12 col-md-6" >
                     >
                     rt
                     <"row"
