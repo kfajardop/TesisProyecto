@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\AudienciaDataTable;
+use App\DataTables\Scopes\AudienciaScope;
 use App\Http\Requests\CreateAudienciaRequest;
 use App\Http\Requests\UpdateAudienciaRequest;
 use App\Http\Controllers\AppBaseController;
@@ -31,7 +32,10 @@ class AudienciaController extends AppBaseController
      */
     public function index(AudienciaDataTable $audienciaDataTable)
     {
-    return $audienciaDataTable->render('audiencias.index');
+        $scope = new AudienciaScope();
+        $audienciaDataTable->addScope($scope);
+
+        return $audienciaDataTable->render('audiencias.index');
     }
 
 

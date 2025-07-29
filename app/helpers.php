@@ -395,3 +395,13 @@ function separaNombreCompleto($nombre_completo){
     }
 
 }
+
+function campoRangoFechas($valor){
+    list($fechaIni,$fechaFin) = explode(' - ',$valor);
+
+    $fechaIni = Carbon::parse(str_replace('/','-',$fechaIni))->startOfDay();
+    $fechaFin = Carbon::parse(str_replace('/','-',$fechaFin))->endOfDay();
+
+
+    return [$fechaIni,$fechaFin];
+}
