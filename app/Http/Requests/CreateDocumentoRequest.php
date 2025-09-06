@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Documento;
+use App\Models\DocumentoTipo;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateDocumentoRequest extends FormRequest
@@ -30,11 +31,16 @@ class CreateDocumentoRequest extends FormRequest
 
     public function rules()
     {
-        $rules = Documento::$rules;
+        $rules = [
+            'tipo_id' => 'required|exists:caso_tipos,id',
+            'observaciones' => 'nullable|string',
+        ];
 
-        switch ($this->input('tipo_documento')) {
+        $tipoDocumento = $this->input('tipo_id');
+
+        switch ($tipoDocumento) {
             // 🔹 Documentos Públicos
-            case 'Publico':
+            case DocumentoTipo::PUBLICO:
                 $rules = array_merge($rules, [
                     'tipo_escritura_id' => 'required|exists:tipos_escritura,id',
                     'no_escritura' => 'required|string|max:50',
@@ -48,7 +54,7 @@ class CreateDocumentoRequest extends FormRequest
                 break;
 
             // 🔹 Documentos Privados
-            case 'Privado':
+            case DocumentoTipo::PRIVADO:
                 $rules = array_merge($rules, [
                     'tipo_contrato_id' => 'required|exists:tipos_contrato,id',
                     'comparecientes' => 'required|array|min:1',
@@ -61,7 +67,7 @@ class CreateDocumentoRequest extends FormRequest
                 break;
 
             // 🔹 Acta Notarial
-            case 'Acta Notarial':
+            case DocumentoTipo::ACTA_NOTARIAL:
                 $rules = array_merge($rules, [
                     'tipo_acta_notarial_id' => 'required|exists:tipos_acta_notarial,id',
                     'comparecientes' => 'required|array|min:1',
@@ -81,6 +87,7 @@ class CreateDocumentoRequest extends FormRequest
     {
         return array_merge(Documento::$messages, [
             // Públicos
+            'tipo_id.required' => 'Debe seleccionar un tipo de documento.',
             'tipo_escritura_id.required' => 'Debe seleccionar el tipo de escritura.',
             'no_escritura.required' => 'Debe ingresar el número de escritura.',
 

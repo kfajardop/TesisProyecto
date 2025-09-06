@@ -1,7 +1,7 @@
 <!-- Fecha Field -->
 <div class="col-sm-6">
     {!! Form::label('fecha', 'Fecha:') !!}
-    <p>{{ $audiencia->fecha }}</p>
+    <p>{{ fechaLtn($audiencia->fecha) }}</p>
 </div>
 
 <!-- Hora Field -->
