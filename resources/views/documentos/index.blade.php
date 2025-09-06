@@ -187,7 +187,6 @@
     <script>
 
         function mostrarModalCambiarEstado(documento) {
-            console.log(documento)
             app.documento = documento;
             $('#modal-create-token').modal('show');
         }

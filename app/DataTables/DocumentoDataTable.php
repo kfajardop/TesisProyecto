@@ -39,13 +39,13 @@ class DocumentoDataTable extends DataTable
             ->editColumn('fecha_documento',function (Documento $documento){
 
                 if($documento->tipo_id == DocumentoTipo::PUBLICO){
-                    return $documento->doctoPublicoDetalles()->first()->fecha_escritura;
+                    return fechaLtn($documento->doctoPublicoDetalles()->first()->fecha_escritura);
                 }
                 if($documento->tipo_id == DocumentoTipo::PRIVADO){
-                    return $documento->doctoPrivadoDetalles()->first()->fecha;
+                    return fechaLtn($documento->doctoPrivadoDetalles()->first()->fecha);
                 }
                 if($documento->tipo_id == DocumentoTipo::ACTA_NOTARIAL){
-                    return $documento->doctoActaDetalles()->first()->fecha;
+                    return fechaLtn($documento->doctoActaDetalles()->first()->fecha);
                 }
             })
             ->editColumn('tipo_documento',function (Documento $documento){
