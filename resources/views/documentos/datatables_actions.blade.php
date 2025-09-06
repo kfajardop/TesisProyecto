@@ -14,7 +14,7 @@
 @can('Cambiar Estado Documentos')
     <a
         data-toggle="tooltip"
-        title="Cambiar Etapa"
+        title="Cambiar Estado"
         class='btn btn-sm btn-outline-warning'
         onclick="mostrarModalCambiarEstado({{ $documento }})"
     >

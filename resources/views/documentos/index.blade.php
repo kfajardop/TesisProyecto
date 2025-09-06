@@ -26,7 +26,7 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    <div class="content" id="modal-create-token">
+    <div class="content" id="app-documentos">
         <div class="container-fluid">
             <div class="clearfix"></div>
 
@@ -109,6 +109,8 @@
 
             </div>
         </div>
+
+        <!-- Modal: mantener id único para el modal -->
         <div class="modal fade" id="modal-create-token">
             <div class="modal-dialog modal-xl">
                 <form action="{{route('documentos.cambiar.estado')}}" method="post">
@@ -180,24 +182,26 @@
                 </form>
             </div>
         </div>
+        <!-- /Modal -->
     </div>
 @endsection
 
 @push('scripts')
     <script>
-
         function mostrarModalCambiarEstado(documento) {
             app.documento = documento;
             $('#modal-create-token').modal('show');
+            // Si usas Bootstrap 5 sin jQuery:
+            // const modal = new bootstrap.Modal(document.getElementById('modal-create-token'));
+            // modal.show();
         }
 
         const app = new Vue({
-            el: '#modal-create-token',
+            el: '#app-documentos',
             data: {
                 documento: null,
                 estadosDocumento: @json(\App\Models\DocumentoEstado::all()),
                 estadoDocumento: null,
-
 
                 nuevaEtapa: null,
                 filtroEstado: @json(
@@ -207,11 +211,8 @@
             ? \App\Models\DocumentoEstado::whereIn('id', request('estados_id'))->get()
             : [])
 ),
-
                 idCasoFamiliar: @json(\App\Models\CasoTipo::FAMILIAR),
                 idCasoPenal: @json(\App\Models\CasoTipo::PENAL),
-            },
-            mounted() {
             },
             computed: {
                 estadoActual() {

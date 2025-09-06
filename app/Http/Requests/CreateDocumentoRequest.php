@@ -42,7 +42,7 @@ class CreateDocumentoRequest extends FormRequest
             // 🔹 Documentos Públicos
             case DocumentoTipo::PUBLICO:
                 $rules = array_merge($rules, [
-                    'tipo_escritura_id' => 'required|exists:tipos_escritura,id',
+                    'tipo_escritura_id' => 'required|exists:docto_publico_escrituras,id',
                     'no_escritura' => 'required|string|max:50',
                     'comparecientes' => 'required|array|min:1',
                     'comparecientes.*.id' => 'required|distinct',

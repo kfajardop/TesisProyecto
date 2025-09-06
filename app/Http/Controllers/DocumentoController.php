@@ -62,6 +62,13 @@ class DocumentoController extends AppBaseController
      */
     public function store(CreateDocumentoRequest $request)
     {
+        $resultado = $this->validaTieneMismoTipo($request->input('comparecientes'), $request->input('intervinientes'));
+
+        if ($resultado['tieneMismoTipo']) {
+            return back()->withErrors([
+                'personas' => $resultado['message']
+            ])->withInput();
+        }
 
         if ($request->tipo_id == DocumentoTipo::PUBLICO) {
 
@@ -227,9 +234,8 @@ class DocumentoController extends AppBaseController
                 'comentario' => $request->observaciones,
             ]);
 
-
-            $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, json_decode($request->input('comparecientes'), true));
-            $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, json_decode($request->input('intervinientes'), true));
+            $this->syncPersonas($documento, ParteTipo::COMPARECIENTE, $request->input('comparecientes'));
+            $this->syncPersonas($documento, ParteTipo::INTERVINIENTE, $request->input('intervinientes'));
 
             $documento->guardarEnBitacora('Documento creado', $request->observaciones);
 
@@ -402,6 +408,42 @@ class DocumentoController extends AppBaseController
 
         flash()->success('Estado del documento actualizado.');
         return redirect()->back();
+    }
+
+    public function validaTieneMismoTipo(array $comparecientes, array $intervinientes): array
+    {
+        $comparecientesCollection = collect($comparecientes);
+        $intervinientesCollection = collect($intervinientes);
+
+        $demandantesIds = $comparecientesCollection->pluck('id');
+        $intervinientesIds = $intervinientesCollection->pluck('id');
+
+        $duplicados = $demandantesIds->intersect($intervinientesIds);
+
+        if ($duplicados->isNotEmpty()) {
+            $nombresDuplicados = $duplicados->map(function ($id) use ($comparecientesCollection, $intervinientesCollection) {
+                // Busca en demandantes primero, luego en demandadas
+                $persona = $comparecientesCollection->firstWhere('id', $id)
+                    ?? $intervinientesCollection->firstWhere('id', $id);
+
+                // Devuelve nombre completo si existe, sino el ID
+                return $persona['nombre_completo']
+                    ?? "{$persona['nombre']} {$persona['apellido']}"
+                    ?? "ID {$id}";
+            })->unique()->implode(', ');
+
+            return [
+                'tieneMismoTipo' => true,
+                'message' => "Los siguientes comparecientes e intervinientes son los mismos: {$nombresDuplicados}",
+                'personasDuplicadas' => $nombresDuplicados
+            ];
+        }
+
+        return [
+            'tieneMismoTipo' => false,
+            'message' => '',
+            'personasDuplicadas' => ''
+        ];
     }
 
 }
