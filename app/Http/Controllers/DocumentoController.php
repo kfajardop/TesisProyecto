@@ -401,10 +401,13 @@ class DocumentoController extends AppBaseController
             return redirect()->back();
         }
 
+        $estadoAntiguo = $documento->estado->nombre ?? 'Desconocido';
         $documento->estado_id = $request->nuevo_estado_id;
         $documento->save();
 
-        $documento->guardarEnBitacora('Cambio de estado Documento', $request->observaciones);
+        $documento->load('estado');
+
+        $documento->guardarEnBitacora('Cambio Estado: '. $estadoAntiguo. ' a '. $documento->estado->nombre , $request->observaciones);
 
         flash()->success('Estado del documento actualizado.');
         return redirect()->back();
