@@ -45,13 +45,21 @@
 
 
     <style>
-        /* Fondo a pantalla completa */
-        .auth-bg{
+        .auth-bg {
             position: fixed;
-            inset: 0;             /* top:0; right:0; bottom:0; left:0 */
+            inset: 0;
             background: url('https://i.pinimg.com/1200x/45/f4/e3/45f4e34df6aff86516d058862927d1e3.jpg') center/cover no-repeat;
             z-index: -2;
         }
+
+        .auth-bg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.55); /* capa blanca con opacidad */
+            z-index: -1;
+        }
+
 
         /* Overlay degradado suave (oscurece un poco para legibilidad) */
         .auth-bg .overlay{
