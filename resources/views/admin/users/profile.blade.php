@@ -25,12 +25,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{__('Profile')}}</h1>
+                    <h1>{{__('Mi Perfil')}}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Home</a></li>
-                        <li class="breadcrumb-item active">User Profile</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Inicio</a></li>
+                        <li class="breadcrumb-item active">Mi Perfil</li>
                     </ol>
                 </div>
             </div>
@@ -52,7 +52,8 @@
                             <div class="text-center box-img-profile" >
                                 <img class="profile-user-img img-fluid img-circle"
                                      src="{{Auth::user()->img}}"
-                                     alt="User profile picture">
+                                     alt="User profile picture"
+                                     style="width: 190px; height: 190px; object-fit: cover;">
 
                                 <!-- Modal -->
 
@@ -106,80 +107,27 @@
                             <h3 class="profile-username text-center">{{Auth::user()->name}}</h3>
 
                             <p class="text-muted text-center">
-                                <a class="text-center" href="{{ route('password.request') }}">
+                                <a class="text-center text-secondary" href="{{ route('password.request') }}">
                                     {{ __('Forgot Your Password?') }}
                                 </a>
                             </p>
 
-                            <ul class="list-group list-group-unbordered mb-3">
-                                <li class="list-group-item">
-                                    <b>Followers</b> <a class="float-right">1,322</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Following</b> <a class="float-right">543</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Friends</b> <a class="float-right">13,287</a>
-                                </li>
-                            </ul>
-
-                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
                         </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
 
-                    <!-- About Me Box -->
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">About Me</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <strong><i class="fas fa-book mr-1"></i> Education</strong>
 
-                            <p class="text-muted">
-                                B.S. in Computer Science from the University of Tennessee at Knoxville
-                            </p>
-
-                            <hr>
-
-                            <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
-
-                            <p class="text-muted">Malibu, California</p>
-
-                            <hr>
-
-                            <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
-
-                            <p class="text-muted">
-                                <span class="tag tag-danger">UI Design</span>
-                                <span class="tag tag-success">Coding</span>
-                                <span class="tag tag-info">Javascript</span>
-                                <span class="tag tag-warning">PHP</span>
-                                <span class="tag tag-primary">Node.js</span>
-                            </p>
-
-                            <hr>
-
-                            <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-
-                            <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
                 </div>
                 <!-- /.col -->
                 <div class="col-md-9">
                     <div class="card">
-                        <div class="card-header p-2">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">{{__('Settings')}}</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Activity</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-                            </ul>
-                        </div><!-- /.card-header -->
+                        <div class="card-header py-3 px-4">
+                            <h5 class="mb-0 fw-bold text-secondary">Editar Información Personal</h5>
+                        </div>
+
+
+                        <!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
 
@@ -205,18 +153,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
-                                            <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                            </div>
-                                        </div>
+
 {{--                                        <div class="form-group row">--}}
 {{--                                            <div class="offset-sm-2 col-sm-10">--}}
 {{--                                                <div class="checkbox">--}}
