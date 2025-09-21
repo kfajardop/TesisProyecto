@@ -8,248 +8,62 @@
 
     <div id="root">
 
-
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Bienvenido {{auth()->user()->name}}</h1>
-                    </div>
-                    <div class="col ">
-                        <button class="btn btn-outline-primary float-right" :class="{'btn-outline-success' : editando}" @click="editando=!editando">
-                            <i class="fa fa-edit" v-if="!editando"></i>
-                            <i class="fa fa-save" v-if="editando"></i>
-                            <span class="d-none d-sm-inline" v-if="!editando">
-                            {{__('Edit Shortcuts')}}
-                        </span>
-                            <span class="d-none d-sm-inline" v-if="editando">
-                            {{__('Finish edition')}}
-                        </span>
-                        </button>
-                    </div>
-                </div>
-            </div><!-- /.container-fluid -->
-        </section>
+                    <div class="col-12 col-lg-10 mx-auto">
 
+                        {{-- Tarjeta de bienvenida --}}
+                        <div class="card welcome-card mb-4">
+                            <div class="row g-0 align-items-center">
 
-        <!-- Main content -->
+                                <div class="col-md-9">
+                                    <div class="card-body p-4 p-md-5 text-center text-md-start">
 
+                                        <h2 class="fw-bold mb-2 text-dark">¡Bienvenido {{ auth()->user()->name }}!</h2>
 
-        <div class="content">
-            <div class="container-fluid ">
-
-
-
-                <div class="row px-2 sortable">
-
-                    <div class="col-6 col-lg-2 px-4 py-2 " v-for="shortcut in shortcuts">
-
-
-                        <div class="card text-center opciones-ordenar" :data-id="shortcut.id">
-
-                            <span class="badge bg-danger" v-if="editando">
-                                <button type="button" class="btn btn-outline-danger btn-sm rounded-circle" @click="removerAcceso(shortcut)">
-                                    <i class="fa fa-trash  text-white"></i>
-                                </button>
-                            </span>
-
-                            <a :href="shortcut.ruta_evaluada" >
-                                <div class="card-body p-1">
-
-
-                                    <span class="fa-stack fa-xl my-2" >
-                                      <i class="fa fa-circle fa-stack-2x " :class="shortcut.color"></i>
-                                      <i class="fa fa-stack-1x fa-inverse" :class="shortcut.icono_l"></i>
-                                    </span>
-
-                                    <p class="card-text mb-2" v-text="shortcut.nombre"></p>
+                                        <p class="mb-4">
+                                            Cada acción que realices aquí fortalecerá tu labor como
+                                            <span class="text-primary">defensor de la justicia</span>
+                                            y garante de los derechos de tus clientes.
+                                        </p>
+                                        <blockquote class="blockquote text-secondary fst-italic mb-0">
+                                            “El derecho se aprende estudiando, pero se ejerce pensando.”
+                                            <footer class="blockquote-footer mt-1">Eduardo Couture</footer>
+                                        </blockquote>
+                                    </div>
                                 </div>
-                            </a>
-                        </div>
 
-                    </div>
-
-                </div>
-
-                <div class="row px-2" v-show="editando">
-
-                    <div class="col-12">
-                        <hr>
-                        <br>
-                    </div>
-
-                    <div class="col-6 col-lg-2 px-4" v-for="option in opcionesSinAgregar">
-
-                        <div class="card text-center">
-                            <span class="badge bg-success " v-if="editando">
-                                <button type="button" class="btn btn-flat-warning btn-sm px-1" @click="agregarAcceso(option)">
-                                    <i class="fa fa-plus text-white"></i>
-                                </button>
-                            </span>
-                            <a :href="option.ruta_evaluada" >
-                                <div class="card-body p-1">
-
-
-                                    <span class="fa-stack fa-xl my-2" >
-                                      <i class="fa fa-circle fa-stack-2x " :class="option.color"></i>
-                                      <i class="fa fa-stack-1x fa-inverse" :class="option.icono_l"></i>
-                                    </span>
-
-                                    <p class="card-text mb-2" v-text="option.nombre"></p>
+                                <div class="col-md-2 d-flex justify-content-end align-items-center pe-md-4">
+                                    <img src="https://i.pinimg.com/736x/15/ee/a4/15eea4a00cd987de4a9814a92e57c677.jpg"
+                                         alt="Justicia"
+                                         class="img-fluid rounded-circle shadow"
+                                         style="max-width: 160px; height: 160px; object-fit: cover;">
                                 </div>
-                            </a>
+                            </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-        </div>
-
-
-
-
+        </section>
     </div>
-
-
-    <!-- Modal -->
-
 @endsection
 
-@push('scripts')
-    <script src="{{asset('app-assets/vendors/js/blockui/blockui.min.js')}}"></script>
-    <script>
-        const vmShortcuts = new Vue({
-            el: '#root',
-            created() {
-                this.getData();
-            },
-            data: {
-                user : @json($user),
-                shortcuts : [],
-                editando: false,
-            },
-            methods: {
-                async getData(){
-
-
-                    try {
-                        let res = await axios.get(route("api.users.shortcuts",this.user.id));
-
-                        this.shortcuts = res.data.data;
-
-                    }catch (e) {
-                        notifyErrorApi(e)
-                    }
-                },
-                async agregarAcceso(option){
-
-                    esperar();
-
-                    try {
-                        let res = await axios.post(route("api.users.add_shortcut",this.user.id), {'option' : option.id});
-
-                        await this.getData();
-
-                        iziTs(res.data.message);
-
-                        logI(res);
-
-                    }catch (e) {
-                        notifyErrorApi(e)
-                    }
-
-                    finEspera();
-                },
-                async removerAcceso(option){
-
-                    esperar();
-
-                    try {
-
-                        let res = await axios.post(route("api.users.remove_shortcut",this.user.id),{'option' : option.id});
-
-                        await this.getData();
-
-                        iziTs(res.data.message);
-
-                    }catch (e) {
-
-                        notifyErrorApi(e)
-
-                    }
-
-                    finEspera();
-                },
-                async actualizarOrden(orden){
-
-                        console.log(orden);
-                        esperar();
-
-                        try {
-
-                            let res = await axios.post(route("api.users.update_shortcut_order",this.user.id),{'orden' : orden});
-
-
-                            iziTs(res.data.message);
-
-                        }catch (e) {
-
-                            notifyErrorApi(e)
-
-                        }
-
-                        finEspera();
-                }
-            },
-            computed: {
-                opcionesSinAgregar(){
-                    return this.user.options.filter( (opcion) => {
-                        let esAcceso = this.shortcuts.find(shortcut => shortcut.id === opcion.id)
-
-                        if (!esAcceso && opcion.ruta!==''){
-                            return  opcion;
-                        }
-
-                    });
-                }
+@push('styles')
+        <style>
+            .welcome-card {
+                border: 1px solid #eef0f3;
+                border-left: 6px solid #0d6efd;
+                border-radius: 14px;
+                box-shadow: 0 10px 24px rgba(0,0,0,.06);
+                transition: transform .25s ease, box-shadow .25s ease;
+                background: #fff;
+            }
+            .welcome-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 16px 32px rgba(0,0,0,.08);
             }
 
-        });
-
-        $(function(){
-
-
-
-            $( ".sortable" ).sortable({
-                update: async function( event, ui ){
-
-                    var  orden=[];
-                    $(this).find('.opciones-ordenar').each(function () {
-                        orden.push($(this).data('id'));
-                    });
-
-                    await vmShortcuts.actualizarOrden(orden);
-                }
-            }).disableSelection();
-
-        });
-    </script>
-
-
+        </style>
 @endpush
-
-@push('css')
-    <style>
-        .card > .badge {
-            font-size: 10px;
-            font-weight: 400;
-            position: absolute;
-            right: -20px;
-            top: -20px;
-        }
-    </style>
-@endpush
-
