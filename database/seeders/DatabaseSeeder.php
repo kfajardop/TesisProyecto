@@ -51,6 +51,6 @@ class DatabaseSeeder extends Seeder
 
 
         //Seeders con datos de prueba
-        $this->call(PersonasTableSeeder::class);
+        //$this->call(PersonasTableSeeder::class);
     }
 }
