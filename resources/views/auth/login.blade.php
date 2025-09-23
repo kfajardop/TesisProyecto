@@ -13,9 +13,7 @@
                 @include('layouts.partials.request_errors')
 
                 <div class="login-logo text-dark text-uppercase text-bold">
-                    <img src="{{ asset('img/logobufete.png') }}"
-                         alt="Logo Bufete"
-                         style="height:40px; width:auto; margin-right:8px; vertical-align:middle;">
+
                     <a href="{{ route('home') }}">
                         <b style="color: black !important;">{{ config('app.name', 'Laravel') }}</b>
                     </a>
