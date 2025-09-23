@@ -17,59 +17,45 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
 
-
-
-        //Usuario admin
-        User::factory(1)->create([
+       // Usuario Developer
+        $dev = User::create([
             "username" => "dev",
-            "name" => "Developer",
-            "password" => bcrypt("admin")
-        ])->each(function (User $user){
-            $user->syncRoles([Role::DEVELOPER]);
-            $user->options()->sync(Option::pluck('id')->toArray());
-            $user->shortcuts()->sync([3,4,5,6]);
-        });
+            "name"     => "Developer",
+            "password" => bcrypt("admin"),
+        ]);
+        $dev->syncRoles(Role::DEVELOPER);
+        $dev->options()->sync(Option::pluck('id')->toArray());
+        $dev->shortcuts()->sync([3,4,5,6]);
 
-        User::factory(1)->create([
+        // Usuario Super Admin
+        $super = User::create([
             "username" => "Super",
-            "name" => "Super Admin",
-            "password" => bcrypt("123")
-        ])->each(function (User $user){
-            $user->syncRoles(Role::SUPERADMIN);
-            $user->options()->sync(Option::pluck('id')->toArray());
-            $user->shortcuts()->sync([3,4,5,6]);
+            "name"     => "Super Admin",
+            "password" => bcrypt("123"),
+        ]);
+        $super->syncRoles(Role::SUPERADMIN);
+        $super->options()->sync(Option::pluck('id')->toArray());
+        $super->shortcuts()->sync([3,4,5,6]);
 
-        });
-
-        User::factory(1)->create([
+        // Usuario Administrador
+        $admin = User::create([
             "username" => "Admin",
-            "name" => "Administrador",
-            "password" => bcrypt("123")
-        ])->each(function (User $user){
-            $user->syncRoles(Role::ADMIN);
-            $user->options()->sync(Option::pluck('id')->toArray());
-            $user->shortcuts()->sync([3,4,5,6]);
+            "name"     => "Administrador",
+            "password" => bcrypt("123"),
+        ]);
+        $admin->syncRoles(Role::ADMIN);
+        $admin->options()->sync(Option::pluck('id')->toArray());
+        $admin->shortcuts()->sync([3,4,5,6]);
 
-        });
-
-        User::factory(1)->create([
+        // Usuario Tester
+        $tester = User::create([
             "username" => "Tester",
-            "name" => "Tester",
-            "password" => bcrypt("123")
-        ])->each(function (User $user){
-            $user->syncRoles(Role::TESTER);
-            $user->options()->sync(Option::pluck('id')->toArray());
-            $user->shortcuts()->sync([3,4,5,6]);
-
-        });
-
-        User::factory(6)->create([
-            "password" => bcrypt("123")
-        ])->each(function (User $user){
-            $user->syncRoles(Role::USER);
-            $user->options()->sync(Option::pluck('id')->toArray());
-            $user->shortcuts()->sync([3,4,5,6]);
-
-        });
+            "name"     => "Tester",
+            "password" => bcrypt("123"),
+        ]);
+        $tester->syncRoles(Role::TESTER);
+        $tester->options()->sync(Option::pluck('id')->toArray());
+        $tester->shortcuts()->sync([3,4,5,6]);
     }
+
 }
