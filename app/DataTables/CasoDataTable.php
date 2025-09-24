@@ -140,7 +140,7 @@ class CasoDataTable extends DataTable
                 ->orderBy(1,'desc')
                 ->dom('
                     <"row mb-2"
-                    <"col-sm-12 col-md-6" B>
+                    <"col-sm-12 col-md-6" >
                     >
                     rt
                     <"row"
@@ -148,7 +148,7 @@ class CasoDataTable extends DataTable
                     <"col-sm-6 order-1 order-sm-2 text-right" l>
                     >
                 ')
-                ->buttons(
+                /*->buttons(
 
                     Button::make('reset')
                         ->addClass('')
@@ -172,7 +172,7 @@ class CasoDataTable extends DataTable
                                 ->addClass('dropdown-item')
                                 ->text('<i class="fa fa-file-excel"></i> <span class="d-none d-sm-inline"> Excel</span>'),
                         ]),
-                );
+                );*/;
     }
 
     /**
