@@ -95,15 +95,7 @@ class ClienteDataTable extends DataTable
                             Button::make('print')
                                 ->addClass('dropdown-item')
                                 ->text('<i class="fa fa-print"></i> <span class="d-none d-sm-inline"> Imprimir</span>'),
-                            Button::make('csv')
-                                ->addClass('dropdown-item')
-                                ->text('<i class="fa fa-file-csv"></i> <span class="d-none d-sm-inline"> Csv</span>'),
-                            Button::make('pdf')
-                                ->addClass('dropdown-item')
-                                ->text('<i class="fa fa-file-pdf"></i> <span class="d-none d-sm-inline"> Pdf</span>'),
-                            Button::make('excel')
-                                ->addClass('dropdown-item')
-                                ->text('<i class="fa fa-file-excel"></i> <span class="d-none d-sm-inline"> Excel</span>'),
+
                         ]),
                 );
     }
