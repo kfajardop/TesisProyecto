@@ -14,10 +14,10 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-right">
                         <li class="breadcrumb-item">
-                            <a class="btn btn-outline-success"
+                            <a class="btn btn-primary"
                                href="{{ route('personas.create') }}">
                                 <i class="fa fa-plus"></i>
-                                <span class="d-none d-sm-inline">Nuevo</span>
+                                <span class="d-none d-sm-inline">Nueva Persona</span>
                             </a>
                         </li>
                     </ol>
