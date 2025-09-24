@@ -1,12 +1,12 @@
 @can('Ver Documentos')
-    <a href="{{ route('documentos.show', $id) }}" data-toggle="tooltip" title="Ver" class='btn btn-sm btn-outline-secondary'>
+    <a href="{{ route('documentos.show', $id) }}" data-toggle="tooltip" title="Ver" class='btn btn-sm btn-outline-primary'>
         <i class="fa fa-eye"></i>
     </a>
     @endcan
 
 
 @can('Editar Documentos')
-    <a href="{{ route('documentos.edit', $id) }}" data-toggle="tooltip" title="Editar" class='btn btn-sm btn-outline-info'>
+    <a href="{{ route('documentos.edit', $id) }}" data-toggle="tooltip" title="Editar" class='btn btn-sm btn-outline-warning'>
         <i class="fa fa-edit"></i>
     </a>
 @endcan
@@ -15,7 +15,7 @@
     <a
         data-toggle="tooltip"
         title="Cambiar Estado"
-        class='btn btn-sm btn-outline-warning'
+        class='btn btn-sm btn-outline-info'
         onclick="mostrarModalCambiarEstado({{ $documento }})"
     >
         <i class="fas fa-exchange-alt"></i>
