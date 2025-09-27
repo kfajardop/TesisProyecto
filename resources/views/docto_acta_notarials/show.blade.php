@@ -10,7 +10,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-                        Docto Acta Notarial detalle
+                        Detalle de Tipo de Acta Notarial
                     </h1>
                 </div>
                 <div class="col ">

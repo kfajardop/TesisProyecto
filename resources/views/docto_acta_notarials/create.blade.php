@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Crear Docto Acta Notarial</h1>
+                    <h1>Crear Tipo de Acta Notarial</h1>
                 </div>
                 <div class="col ">
                     <a class="btn btn-outline-info float-right"
