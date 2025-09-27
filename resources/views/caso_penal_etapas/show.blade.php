@@ -10,7 +10,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-                        Caso Penal Etapa detalle
+                        Detalle de Etapa de Caso Penal
                     </h1>
                 </div>
                 <div class="col ">
