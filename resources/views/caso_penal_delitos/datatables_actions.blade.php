@@ -1,11 +1,11 @@
 @can('Ver Caso Penal Delitos')
-    <a href="{{ route('casoPenalDelitos.show', $id) }}" data-toggle="tooltip" title="Ver" class='btn btn-sm btn-outline-secondary'>
+    <a href="{{ route('casoPenalDelitos.show', $id) }}" data-toggle="tooltip" title="Ver" class='btn btn-sm btn-outline-primary'>
         <i class="fa fa-eye"></i>
     </a>
     @endcan
 
 @can('Editar Caso Penal Delitos')
-    <a href="{{ route('casoPenalDelitos.edit', $id) }}" data-toggle="tooltip" title="Editar" class='btn btn-sm btn-outline-info'>
+    <a href="{{ route('casoPenalDelitos.edit', $id) }}" data-toggle="tooltip" title="Editar" class='btn btn-sm btn-outline-warning'>
         <i class="fa fa-edit"></i>
     </a>
 @endcan
