@@ -1,11 +1,11 @@
 @can('Ver Caso Tipos')
-    <a href="{{ route('casoTipos.show', $id) }}" data-toggle="tooltip" title="Ver" class='btn btn-sm btn-outline-secondary'>
+    <a href="{{ route('casoTipos.show', $id) }}" data-toggle="tooltip" title="Ver" class='btn btn-sm btn-outline-primary'>
         <i class="fa fa-eye"></i>
     </a>
     @endcan
 
 @can('Editar Caso Tipos')
-    <a href="{{ route('casoTipos.edit', $id) }}" data-toggle="tooltip" title="Editar" class='btn btn-sm btn-outline-info'>
+    <a href="{{ route('casoTipos.edit', $id) }}" data-toggle="tooltip" title="Editar" class='btn btn-sm btn-outline-warning'>
         <i class="fa fa-edit"></i>
     </a>
 @endcan
