@@ -10,7 +10,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-                        Docto Publico Escritura detalle
+                        Detalle de Tipo de Escritura
                     </h1>
                 </div>
                 <div class="col ">
