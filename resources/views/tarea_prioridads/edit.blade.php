@@ -10,11 +10,11 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>
-                        Editar Tarea Prioridad
+                        Editar Prioridad de Tarea
                     </h1>
                 </div>
                 <div class="col ">
-                    <a class="btn btn-outline-secondary float-right"
+                    <a class="btn btn-outline-info float-right"
                        href="{{ route('tareaPrioridads.index') }}"
                     >
                         <i class="fa fa-arrow-left"></i>
