@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Documento Estados</h1>
+                    <h1>Estados de Documento Legales</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-right">
@@ -17,7 +17,7 @@
                             <a class="btn btn-outline-success"
                                href="{{ route('documentoEstados.create') }}">
                                 <i class="fa fa-plus"></i>
-                                <span class="d-none d-sm-inline">Nuevo</span>
+                                <span class="d-none d-sm-inline">Nuevo Estado</span>
                             </a>
                         </li>
                     </ol>
