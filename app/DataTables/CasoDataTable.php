@@ -183,6 +183,14 @@ class CasoDataTable extends DataTable
     protected function getColumns()
     {
         return [
+
+            Column::make('id')
+                ->title('ID')
+                ->exportable(false)
+                ->printable(false)
+                ->orderable(false)
+                ->searchable(false),
+
             Column::make('tipo.nombre')
                 ->title('Tipo')
                 ->exportable(false)
@@ -205,6 +213,7 @@ class CasoDataTable extends DataTable
                 ->searchable(false),
 
             Column::computed('action')
+                ->title('Acciones')
                 ->exportable(false)
                 ->printable(false)
                 ->width('20%')
